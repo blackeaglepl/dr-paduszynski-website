@@ -1,141 +1,228 @@
 ---
 /* @ts-nocheck */
-// Sekcja: Galeria gabinetu (karuzela + opis lokalizacji) - TEST ZMIANA
+// Sekcja: Galeria gabinetu (karuzela + opis lokalizacji)
 // Wymagania: 3 stany karuzeli z autoscrollem, przyciski nawigacji, tekst poniżej
-import gallery1 from '../assets/gallery1.jpg';
-import gallery2 from '../assets/gallery2.jpg';
-import gallery3 from '../assets/gallery3.jpg';
-import gallery4 from '../assets/gallery4.jpg';
-import gallery5 from '../assets/gallery5.jpg';
-import geopin from '../assets/geopin.svg';
-import arrow from '../assets/arrow.svg';
+import gallery1 from "../assets/gallery1.jpg";
+import gallery2 from "../assets/gallery2.jpg";
+import gallery3 from "../assets/gallery3.jpg";
+import gallery4 from "../assets/gallery4.jpg";
+import gallery5 from "../assets/gallery5.jpg";
+import geopin from "../assets/geopin.svg";
+import arrow from "../assets/arrow.svg";
 ---
 
 <!-- Nagłówek sekcji: owinięty w kontener dla pewnego wyśrodkowania -->
 <div class="container mx-auto px-4 md:px-6 max-w-6xl">
-  <h2 class="text-center font-heading transition-colors duration-150 hover:text-medical-primary text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight py-16 md:pt-2 pb-16" data-animate="fade-up" data-animate-delay="100">
-    <strong class="font-semibold">Gabinet</strong>  <span class="font-light">w jakim Cię przyjmę</span>
+  <h2
+    class="text-center font-heading transition-colors duration-150 hover:text-medical-primary text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight py-16 md:pt-2 pb-16"
+    data-animate="fade-up"
+    data-animate-delay="100"
+  >
+    <strong class="font-semibold">Gabinet</strong>
+    <span class="font-light">w jakim Cię przyjmę</span>
   </h2>
   <p class="sr-only">Prezentacja zdjęć gabinetu i lokalizacji.</p>
   <!-- koniec nagłówka -->
-  </div>
+</div>
 
-    <!-- Kontener sekcji (ogranicza szerokość karuzeli i opisu) -->
-    <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+<!-- Kontener sekcji (ogranicza szerokość karuzeli i opisu) -->
+<div class="container mx-auto px-4 md:px-6 max-w-6xl">
+  <!-- Karuzela zdjęć -->
+  <div
+    id="clinic-carousel"
+    class="relative mt-6 md:mt-10 select-none"
+    aria-roledescription="carousel"
+    tabindex="0"
+    data-animate="fade-up"
+    data-animate-delay="100"
+  >
+    <!-- Przyciski nawigacji -->
+    <button
+      type="button"
+      aria-label="Poprzednie zdjęcia"
+      data-action="prev"
+      class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+    >
+      <img
+        src={arrow.src}
+        alt="Poprzednie"
+        aria-hidden="true"
+        class="h-5 w-5 md:h-6 md:w-6 rotate-180"
+      />
+    </button>
+    <button
+      type="button"
+      aria-label="Następne zdjęcia"
+      data-action="next"
+      class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+    >
+      <img
+        src={arrow.src}
+        alt="Następne"
+        aria-hidden="true"
+        class="h-5 w-5 md:h-6 md:w-6"
+      />
+    </button>
 
-    <!-- Karuzela zdjęć -->
-    <div id="clinic-carousel" class="relative mt-6 md:mt-10 select-none" aria-roledescription="carousel" tabindex="0" data-animate="fade-up" data-animate-delay="100">
-      <!-- Przyciski nawigacji -->
-      <button type="button" aria-label="Poprzednie zdjęcia" data-action="prev"
-        class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt="Poprzednie" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180" />
-      </button>
-      <button type="button" aria-label="Następne zdjęcia" data-action="next"
-        class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt="Następne" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" />
-      </button>
-
-      <!-- Okno widoku -->
-      <div class="overflow-hidden rounded-3xl md:rounded-4xl">
-        <!-- Tor slajdów -->
-        <div class="flex transition-transform duration-500 ease-out will-change-transform" data-carousel-track>
-          <!-- Slajd 1 -->
-          <div class="w-full shrink-0">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-              <img src={gallery1.src} alt="Wnętrze gabinetu – łóżko do terapii" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-              <img src={gallery2.src} alt="Wnętrze gabinetu – jasne wnętrze" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-            </div>
+    <!-- Okno widoku -->
+    <div class="overflow-hidden rounded-3xl md:rounded-4xl">
+      <!-- Tor slajdów -->
+      <div
+        class="flex transition-transform duration-500 ease-out will-change-transform"
+        data-carousel-track
+      >
+        <!-- Slajd 1 -->
+        <div class="w-full shrink-0">
+          <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+            <img
+              src={gallery1.src}
+              alt="Wnętrze gabinetu – łóżko do terapii"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
+            <img
+              src={gallery2.src}
+              alt="Wnętrze gabinetu – jasne wnętrze"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
           </div>
-          <!-- Slajd 2 -->
-          <div class="w-full shrink-0">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-              <img src={gallery3.src} alt="Gabinet – detale wyposażenia" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-              <img src={gallery4.src} alt="Gabinet – widok na stół terapeutyczny" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-            </div>
+        </div>
+        <!-- Slajd 2 -->
+        <div class="w-full shrink-0">
+          <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+            <img
+              src={gallery3.src}
+              alt="Gabinet – detale wyposażenia"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
+            <img
+              src={gallery4.src}
+              alt="Gabinet – widok na stół terapeutyczny"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
           </div>
-          <!-- Slajd 3 -->
-          <div class="w-full shrink-0">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-              <img src={gallery5.src} alt="Gabinet – jasne, przestronne wnętrze" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-              <img src={gallery1.src} alt="Gabinet – dodatkowa perspektywa" loading="lazy" class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm" />
-            </div>
+        </div>
+        <!-- Slajd 3 -->
+        <div class="w-full shrink-0">
+          <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+            <img
+              src={gallery5.src}
+              alt="Gabinet – jasne, przestronne wnętrze"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
+            <img
+              src={gallery1.src}
+              alt="Gabinet – dodatkowa perspektywa"
+              loading="lazy"
+              class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
+            />
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Sekcja opisu lokalizacji -->
-    <div class="mt-16 md:mt-20 grid md:grid-cols-3 gap-8 md:gap-12 items-start" data-animate="fade-up" data-animate-delay="150">
-      <div class="md:col-span-1">
-        <div class="flex items-center gap-3">
-          <img src={geopin.src} alt="Lokalizacja: Kraków" class="h-6 w-6" />
-          <span class="font-heading text-medical-text text-base md:text-lg">Kraków</span>
-        </div>
-        <div class="mt-3 font-heading text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight">ul. Jugowicka 35/5</div>
-      </div>
-      <div class="md:col-span-2">
-        <p class="text-medical-text-light text-body-mobile md:text-body-desktop">
-          Mój gabinet mieści się w Krakowie przy ul. Jugowickiej 35/5. Bliskość Zakopianki oraz obwodnicy zapewnia wygodny dojazd z niemal każdej części Krakowa, a także z pobliskich miejscowości, takich jak Myślenice, Libertów, Mogilany czy Skawina. Jeśli szukasz gabinetu osteopatii w południowej części Krakowa – właśnie go znalazłeś.
-        </p>
-      </div>
-    </div>
   </div>
 
-  <!-- Skrypt karuzeli: auto-scroll, przyciski, pauza po najechaniu -->
-  <script>
-    const carouselRoot = document.getElementById('clinic-carousel') as HTMLElement | null;
-    if (carouselRoot) {
-      const track = carouselRoot.querySelector<HTMLElement>('[data-carousel-track]');
-      const prevBtn = carouselRoot.querySelector<HTMLButtonElement>('[data-action="prev"]');
-      const nextBtn = carouselRoot.querySelector<HTMLButtonElement>('[data-action="next"]');
-      const totalSlides: number = track?.children?.length ?? 0;
+  <!-- Sekcja opisu lokalizacji -->
+  <div
+    class="mt-16 md:mt-20 grid md:grid-cols-3 gap-8 md:gap-12 items-start"
+    data-animate="fade-up"
+    data-animate-delay="150"
+  >
+    <div class="md:col-span-1">
+      <div class="flex items-center gap-3">
+        <img src={geopin.src} alt="Lokalizacja: Kraków" class="h-6 w-6" />
+        <span class="font-heading text-medical-text text-base md:text-lg"
+          >Kraków</span
+        >
+      </div>
+      <div
+        class="mt-3 font-heading text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight"
+      >
+        ul. Jugowicka 35/5
+      </div>
+    </div>
+    <div class="md:col-span-2">
+      <p class="text-medical-text-light text-body-mobile md:text-body-desktop">
+        Mój gabinet mieści się w Krakowie przy ul. Jugowickiej 35/5. Bliskość
+        Zakopianki oraz obwodnicy zapewnia wygodny dojazd z niemal każdej części
+        Krakowa, a także z pobliskich miejscowości, takich jak Myślenice,
+        Libertów, Mogilany czy Skawina. Jeśli szukasz gabinetu osteopatii w
+        południowej części Krakowa – właśnie go znalazłeś.
+      </p>
+    </div>
+  </div>
+</div>
 
-      let currentIndex = 0;
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let autoScrollId: number = 0;
+<!-- Skrypt karuzeli: auto-scroll, przyciski, pauza po najechaniu -->
+<script>
+  const carouselRoot = document.getElementById(
+    "clinic-carousel",
+  ) as HTMLElement | null;
+  if (carouselRoot) {
+    const track = carouselRoot.querySelector<HTMLElement>(
+      "[data-carousel-track]",
+    );
+    const prevBtn = carouselRoot.querySelector<HTMLButtonElement>(
+      '[data-action="prev"]',
+    );
+    const nextBtn = carouselRoot.querySelector<HTMLButtonElement>(
+      '[data-action="next"]',
+    );
+    const totalSlides: number = track?.children?.length ?? 0;
 
-      const update = (instant: boolean = false) => {
-        if (!track) return;
-        track.style.transitionDuration = instant || prefersReducedMotion ? '0ms' : '500ms';
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      };
+    let currentIndex = 0;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    let autoScrollId: number = 0;
 
-      const goTo = (nextIndex: number) => {
-        currentIndex = (nextIndex + totalSlides) % totalSlides;
-        update();
-      };
+    const update = (instant: boolean = false) => {
+      if (!track) return;
+      track.style.transitionDuration =
+        instant || prefersReducedMotion ? "0ms" : "500ms";
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    };
 
-      const start = () => {
-        if (prefersReducedMotion) return;
-        stop();
-        autoScrollId = window.setInterval(() => goTo(currentIndex + 1), 5000) as unknown as number;
-      };
+    const goTo = (nextIndex: number) => {
+      currentIndex = (nextIndex + totalSlides) % totalSlides;
+      update();
+    };
 
-      const stop = () => {
-        if (autoScrollId) {
-          window.clearInterval(autoScrollId);
-          autoScrollId = 0;
-        }
-      };
+    const start = () => {
+      if (prefersReducedMotion) return;
+      stop();
+      autoScrollId = window.setInterval(
+        () => goTo(currentIndex + 1),
+        5000,
+      ) as unknown as number;
+    };
 
-      // Zdarzenia
-      prevBtn?.addEventListener('click', () => goTo(currentIndex - 1));
-      nextBtn?.addEventListener('click', () => goTo(currentIndex + 1));
+    const stop = () => {
+      if (autoScrollId) {
+        window.clearInterval(autoScrollId);
+        autoScrollId = 0;
+      }
+    };
 
-      carouselRoot.addEventListener('mouseenter', stop);
-      carouselRoot.addEventListener('mouseleave', start);
+    // Zdarzenia
+    prevBtn?.addEventListener("click", () => goTo(currentIndex - 1));
+    nextBtn?.addEventListener("click", () => goTo(currentIndex + 1));
 
-      // Dostępność: strzałki z klawiatury przy focusie na sekcji
-      carouselRoot.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
-        if (e.key === 'ArrowRight') goTo(currentIndex + 1);
-      });
+    carouselRoot.addEventListener("mouseenter", stop);
+    carouselRoot.addEventListener("mouseleave", start);
 
-      // Inicjalizacja
-      update(true);
-      start();
-    }
-  </script>
-</section>
+    // Dostępność: strzałki z klawiatury przy focusie na sekcji
+    carouselRoot.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") goTo(currentIndex - 1);
+      if (e.key === "ArrowRight") goTo(currentIndex + 1);
+    });
 
-
+    // Inicjalizacja
+    update(true);
+    start();
+  }
+</script>
