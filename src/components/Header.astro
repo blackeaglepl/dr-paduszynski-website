@@ -2,6 +2,7 @@
 import { getLocaleFromUrl } from "../utils/i18n";
 import { getTranslations, getLocalizedPath, type Locale } from "../utils/i18n";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
+import HamburgerMenu from "./HamburgerMenu.astro";
 import logo from '../assets/logo_osteopatia.svg';
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
@@ -27,18 +28,8 @@ const t = getTranslations(currentLocale);
       </div>
     </nav>
 
-    <div class="md:hidden">
-      <nav class="flex items-center gap-4 font-heading text-sm">
-        <a href={getLocalizedPath("/", currentLocale)} class="text-medical-text hover:text-medical-primary">{t.navigation.about}</a>
-        <a href={getLocalizedPath("/cennik/", currentLocale)} class="text-medical-text hover:text-medical-primary">{t.navigation.pricing}</a>
-        {currentLocale === 'pl' && (
-          <a href={getLocalizedPath("/blog/", currentLocale)} class="text-medical-text hover:text-medical-primary">{t.navigation.blog}</a>
-        )}
-        <a href={getLocalizedPath("/kontakt/", currentLocale)} class="text-medical-text hover:text-medical-primary">{t.navigation.contact}</a>
-        <!-- Przełącznik języka dla mobile -->
-        <LanguageSwitcher />
-      </nav>
-    </div>
+    <!-- Menu hamburger dla mobile -->
+    <HamburgerMenu />
   </div>
 </header>
 

@@ -22,6 +22,22 @@ module.exports = {
     'ease-out',
     'will-change-transform',
     'will-change-opacity',
+    // Klasy dla menu hamburger
+    'hamburger-button',
+    'hamburger-line',
+    'mobile-menu',
+    'mobile-menu-backdrop',
+    'mobile-menu-panel',
+    'mobile-nav-link',
+    'menu-open',
+    'show',
+    'active',
+    'md:hidden',
+    'fixed',
+    'inset-0',
+    'z-50',
+    'translate-x-full',
+    'translate-x-0',
   ],
   theme: {
     extend: {
