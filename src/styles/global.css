@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Medical Website Global Styles */
+:root {
+  --medical-primary: #4ecdc4;
+  --medical-light: #a8e6cf;
+  --medical-bg: #e8f8f5;
+  --medical-white: #ffffff;
+  --medical-cream: #fffaf5;
+  --medical-text: #243648;
+  --medical-text-light: #7f8c8d;
+}
+
+/* Glassmorphism card for testimonials and similar UI */
+.glass-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 44px 22px rgba(255, 255, 255, 0.22);
+  position: relative;
+  overflow: hidden;
+  transition: background 400ms ease-in-out, box-shadow 400ms ease-in-out, border-color 400ms ease-in-out, backdrop-filter 400ms ease-in-out;
+  background-clip: padding-box;
+  isolation: isolate;
+  will-change: background, box-shadow, backdrop-filter;
+  transform: translateZ(0);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+/* Hover efekt: delikatnie mniej przezroczyste i odrobinę ciemniejsze tło */
+.glass-card:hover {
+  background: linear-gradient(0deg, rgba(3, 40, 34, 0.16), rgba(3, 40, 34, 0.16)), rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 10px 36px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 44px 22px rgba(255, 255, 255, 0.24);
+}
+
+/* Fallback dla przeglądarek bez backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+/* Custom scrollbar shown only on hover for testimonial content */
+.testimonial-scroll {
+  scrollbar-width: none; /* Firefox: hide by default */
+}
+
+.glass-card:hover .testimonial-scroll {
+  scrollbar-width: thin; /* Firefox: show on hover */
+  scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.12);
+}
+
+/* WebKit-based browsers */
+.testimonial-scroll::-webkit-scrollbar {
+  width: 0px;
+}
+
+.glass-card:hover .testimonial-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.glass-card:hover .testimonial-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+.glass-card:hover .testimonial-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 9999px;
+}
+
+/* Base Typography */
+html {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--medical-text);
+  background-color: var(--medical-white);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Headings use medical heading font */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  color: var(--medical-text);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+/* Mobile-first typography */
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+small {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Desktop typography */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  small {
+    font-size: 16px;
+  }
+}
+
+/* Links */
+a {
+  color: var(--medical-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--medical-text);
+}
+
+/* Accessibility */
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--medical-primary);
+  outline-offset: 2px;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Medical component styles */
+.medical-card {
+  background: var(--medical-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--medical-bg);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.medical-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.medical-section {
+  padding: 4rem 0;
+}
+
+@media (min-width: 768px) {
+  .medical-section {
+    padding: 6rem 0;
+  }
+}
+
+/* Container */
+.medical-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .medical-container {
+    padding: 0 1.5rem;
+  }
+}

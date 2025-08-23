@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE_AUTHOR, SITE_IMAGE } from '../../consts';
+import tlo3 from '../../assets/tlo3.jpg';
+import MainLayout from '../../layouts/MainLayout.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import SchemaMarkup from '../../components/SchemaMarkup.astro';
+import PreFooterLogoSection from '../../components/PreFooterLogoSection.astro';
+
+// Pobierz wszystkie artykuły (bez draft)
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+
+// Sortuj artykuły po dacie (najnowsze pierwsze)
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Wyróżnione artykuły
+const featuredPosts = posts.filter(post => post.data.featured);
+const regularPosts = posts.filter(post => !post.data.featured);
+
+// Unikalne kategorie dla filtra
+const allCategories: Array<'porady' | 'aktualnosci'> = ['porady', 'aktualnosci'];
+const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
+  'porady': 'Porady',
+  'aktualnosci': 'Aktualności'
+};
+---
+
+<MainLayout 
+  title="Blog o Osteopatii - Dr Jarema Paduszyński Kraków" 
+  description="Artykuły o osteopatii, fizjoterapii i zdrowiu kręgosłupa. Dowiedz się więcej o metodach leczenia i profilaktyce problemów zdrowotnych od osteopaty z Krakowa."
+  keywords="blog osteopatia, artykuły fizjoterapia, zdrowie kręgosłupa, osteopata blog, terapia manualna artykuły"
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="website"
+  hideHeader={true}
+>
+  <!-- Hero Section -->
+  <HeroSection
+    title="Blog o osteopatii"
+    supportingText="Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś"
+    ratingStars={5}
+    ratingText="150+ pozytywnych opinii Pacjentów"
+    secondaryCtaLabel="Oceń wizytę"
+    secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
+    ctaLabel="Zapisz się"
+    ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+    bgImageSrc={tlo3.src}
+  />
+
+  <!-- Main Blog Content -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4 md:px-6 max-w-7xl">
+      
+      
+
+      <!-- Category Filter -->
+      <div class="mb-12">
+        <h3 class="text-h3-mobile md:text-h3-desktop font-heading font-semibold text-medical-text mb-6 text-center">
+          Kategorie
+        </h3>
+        <div class="flex flex-wrap justify-center gap-3">
+          <button 
+            class="category-filter active px-4 py-2 bg-medical-primary text-white font-heading font-medium rounded-full hover:bg-medical-light transition-colors duration-200"
+            data-category="all"
+          >
+            Wszystkie
+          </button>
+          {allCategories.map((category) => (
+            <button 
+              class="category-filter px-4 py-2 bg-medical-bg text-medical-text font-heading font-medium rounded-full hover:bg-medical-primary hover:text-white transition-colors duration-200"
+              data-category={category}
+            >
+              {categoryLabels[category] || category}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- All Articles -->
+      <div>
+        <h2 class="text-h2-mobile md:text-h2-desktop font-heading font-semibold text-medical-text mb-8 text-center">
+          Wszystkie artykuły
+        </h2>
+        <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post) => (
+            <div class="article-card" data-category={post.data.category}>
+              <BlogCard post={post} />
+            </div>
+          ))}
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-12">
+          <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+            Nie znaleziono artykułów w tej kategorii.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schema Markup dla Blog -->
+  <SchemaMarkup 
+    schemaType="custom" 
+    customSchema={{
+      blog: {
+        "@type": "Blog",
+        "name": "Blog o Osteopatii - Dr Jarema Paduszyński",
+        "description": "Artykuły edukacyjne o osteopatii, fizjoterapii i zdrowiu kręgosłupa",
+        "url": Astro.url.href,
+        "author": {
+          "@type": "Person", 
+          "name": "Dr Jarema Paduszyński"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Gabinet Osteopatii Dr Jarema Paduszyński"
+        }
+      }
+    }}
+  />
+  
+  <!-- Pre-Footer Logo Section -->
+  <PreFooterLogoSection />
+</MainLayout>
+
+<!-- Category Filter JavaScript -->
+<script is:inline>
+  // Dodajemy console.log dla debugowania
+  console.log('Blog filter script loaded');
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing filters');
+    
+    const filterButtons = document.querySelectorAll('.category-filter');
+    const articles = document.querySelectorAll('.article-card');
+    const noResults = document.getElementById('no-results');
+    
+    console.log('Found buttons:', filterButtons.length);
+    console.log('Found articles:', articles.length);
+
+    filterButtons.forEach((button, index) => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const category = this.dataset.category;
+        console.log('Clicked category:', category);
+        
+        // Update active state
+        filterButtons.forEach(btn => {
+          btn.classList.remove('active', 'bg-medical-primary', 'text-white');
+          btn.classList.add('bg-medical-bg', 'text-medical-text');
+        });
+        
+        this.classList.add('active', 'bg-medical-primary', 'text-white');
+        this.classList.remove('bg-medical-bg', 'text-medical-text');
+        
+        // Filter articles
+        let visibleCount = 0;
+        articles.forEach(article => {
+          const articleCategory = article.dataset.category;
+          console.log('Article category:', articleCategory, 'Filter:', category);
+          
+          if (category === 'all' || articleCategory === category) {
+            article.style.display = 'block';
+            visibleCount++;
+          } else {
+            article.style.display = 'none';
+          }
+        });
+        
+        console.log('Visible articles:', visibleCount);
+        
+        // Show/hide no results message
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

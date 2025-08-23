@@ -45,6 +45,9 @@ pids
 .serena/
 .windsurfrules
 
+# Original nested project
+dr-paduszynski-website/
+
 # Temporary files
 *.tmp
 *.temp

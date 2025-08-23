@@ -1,0 +1,157 @@
+---
+// Komponent łączący dane kontaktowe z widgetem ZnanyLekarz w dwóch kolumnach
+---
+
+<!-- Preload krytycznego skryptu dla lepszej wydajności -->
+<link rel="preload" href="//platform.docplanner.com/js/widget.js" as="script" crossorigin>
+
+<!-- Sekcja kontaktowa z danymi gabinetu i widgetem ZnanyLekarz -->
+<section id="kontakt" aria-label="Umów wizytę" class="py-22 md:pt-32 md:pb-8 bg-medical-white">
+  <div class="container mx-auto px-4 md:px-22 max-w-6xl">
+    <div class="text-center mb-12">
+     
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-stretch">
+      <!-- Informacje kontaktowe -->
+      <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg p-6 h-full flex flex-col">
+        <h3 class="text-h3-mobile md:text-h3-desktop font-heading font-semibold text-medical-text mb-6 transition-colors duration-200 hover:text-medical-primary">
+           Kontakt
+        </h3>
+        
+        <div class="flex-1 flex items-center">
+          <div class="space-y-4 w-full">
+          <div class="grid grid-cols-[1.25rem_1fr] gap-3 items-start">
+            <div class="w-5 h-5 mt-1 text-medical-primary">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text font-medium">
+                Klinika Osteopatii dr Jarema Paduszyński
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                ul. Jugowicka 35/5<br>
+                30-443 Kraków, Poland
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                Gabinet znajuje się na I piętrze. Bezpłatny parking dla Klientów. 
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-[1.25rem_1fr] gap-3 items-start">
+            <div class="w-5 h-5 mt-1 text-medical-primary">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text font-medium">
+                Umów wizytę
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                Przez portal ZnanyLekarz<br>
+                lub telefonicznie
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light"> 
+                +48 667 762 227
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-[1.25rem_1fr] gap-3 items-start">
+            <div class="w-5 h-5 mt-1 text-medical-primary">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text font-medium">
+                Godziny przyjęć
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                Poniedziałek - Piątek: 10:00 - 18:00<br>
+                Czwartek: zamknięte<br>
+                Sobota: 9:00 - 15:00<br>
+                Niedziela: zamknięte
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-medical-bg mt-auto">
+          <a 
+            href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-full transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none w-full inline-block text-center"
+          >
+            Jak dojechać
+          </a>
+        </div>
+      </div>
+
+      <!-- Widget ZnanyLekarz (bez nagłówka i opisu) -->
+      <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg p-4 md:p-6 h-full flex flex-col">
+        <!-- Placeholder, aby zachować wysokość przed załadowaniem -->
+        <div class="flex-1 min-h-[451px] w-full flex items-center">
+          <!-- ZnanyLekarz anchor, przekształcany przez skrypt widgetu -->
+          <a
+            id="zl-url-contact"
+            class="zl-url block w-full"
+            href="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+            rel="nofollow"
+            data-zlw-doctor="jarema-paduszynski"
+            data-zlw-type="big_with_calendar"
+            data-zlw-opinion="false"
+            data-zlw-hide-branding="true"
+            data-zlw-saas-only="false"
+            data-zlw-a11y-title="Widget umówienia wizyty lekarskiej"
+            aria-label="Widget umówienia wizyty ZnanyLekarz"
+          >
+            Jarema Paduszyński - ZnanyLekarz.pl
+          </a>
+        </div>
+        <div class="mt-6 pt-4 border-t border-medical-bg">
+          <a 
+            href="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold py-3 px-6 rounded-full transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none shadow-sm w-full inline-block text-center"
+          >
+            Umów wizytę online
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Natychmiastowe ładowanie skryptu widgetu ZnanyLekarz -->
+  <script>
+    const WIDGET_SCRIPT_ID = 'zl-widget-s';
+    const WIDGET_SCRIPT_SRC = '//platform.docplanner.com/js/widget.js';
+
+    function injectZnanyLekarzScript() {
+      if (document.getElementById(WIDGET_SCRIPT_ID)) return;
+      const script = document.createElement('script');
+      script.id = WIDGET_SCRIPT_ID;
+      script.src = WIDGET_SCRIPT_SRC;
+      const firstScript = document.getElementsByTagName('script')[0];
+      if (firstScript && firstScript.parentNode) {
+        firstScript.parentNode.insertBefore(script, firstScript);
+      } else {
+        const target = document.head || document.body || document.documentElement;
+        target && target.appendChild(script);
+      }
+    }
+
+    // Załaduj widget natychmiast po załadowaniu DOM
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectZnanyLekarzScript);
+    } else {
+      injectZnanyLekarzScript();
+    }
+  </script>
+</section>

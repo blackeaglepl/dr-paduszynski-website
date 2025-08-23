@@ -1,0 +1,85 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+  keywords?: string;
+  author?: string;
+  canonical?: string;
+  robots?: string;
+}
+
+const { 
+  title = 'Dr Jarema Paduszyński – Osteopata Kraków | Profesjonalna Terapia Manualna',
+  description = 'Gabinet osteopatii w Krakowie. Dr Jarema Paduszyński - 15+ lat doświadczenia. Profesjonalna terapia manualna, fizjoterapia i osteopatia. Umów wizytę online.',
+  image = '/og-image.jpg',
+  type = 'website',
+  keywords = 'osteopata Kraków, fizjoterapeuta Kraków, terapia manualna, osteopatia, gabinet osteopatii, Dr Paduszyński, fizjoterapia',
+  author = 'Dr Jarema Paduszyński',
+  canonical = Astro.url.href,
+  robots = 'index, follow'
+} = Astro.props as Props;
+
+// Generuj URL dla obrazka
+const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
+---
+
+<!-- Basic Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={author} />
+<meta name="robots" content={robots} />
+<meta name="language" content="pl" />
+<meta name="revisit-after" content="7 days" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<!-- Title -->
+<title>{title}</title>
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content="Dr Jarema Paduszyński - Osteopata w Krakowie" />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content="Dr Jarema Paduszyński - Osteopata" />
+<meta property="og:locale" content="pl_PL" />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content="Dr Jarema Paduszyński - Osteopata w Krakowie" />
+
+<!-- Medical Business Specific Meta Tags -->
+<meta name="geo.region" content="PL-MA" />
+<meta name="geo.placename" content="Kraków" />
+<meta name="geo.position" content="50.0647;19.9450" />
+<meta name="ICBM" content="50.0647, 19.9450" />
+
+<!-- Medical/Healthcare specific -->
+<meta name="medical.specialty" content="Osteopathy, Physical Therapy" />
+<meta name="healthcare.provider" content="Dr Jarema Paduszyński" />
+
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+
+<!-- Preconnect for Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+

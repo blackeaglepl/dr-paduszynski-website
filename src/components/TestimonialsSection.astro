@@ -1,0 +1,308 @@
+---
+/* @ts-nocheck */
+// Sekcja: Opinie pacjentów (ciemna sekcja + karuzela z auto-rotacją)
+import arrow from '../assets/arrow.svg';
+
+type Testimonial = {
+  name: string;
+  initials: string;
+  content: string;
+  date: string;
+  service: string;
+};
+
+const testimonials: Testimonial[] = [
+  {
+    name: 'Rodzice niemowlęcia',
+    initials: 'RN',
+    content:
+      'Pan doktor Jarema pomógł naszemu synkowi (niemowlakowi). Na każdej wizycie otrzymywaliśmy szczegółowe wyjaśnienia dotyczące problemów oraz zakresu działań. Wizyty przebiegały w przyjaznej atmosferze dla naszego maleństwa. Efekty pracy Pana Doktora są widoczne gołym okiem. Szczerze polecam.',
+    date: '25 lutego 2025',
+    service: 'osteopatia pediatryczna',
+  },
+  {
+    name: 'Pacjentka',
+    initials: 'P',
+    content:
+      'Miałam przyjemność skorzystać z usług Pana Jaremy i jestem pod ogromnym wrażeniem jego profesjonalizmu oraz wiedzy. Już po pierwszej wizycie zauważyłam znaczną poprawę – szumy w uchu oraz bóle głowy ustąpiły. Odbyłam także terapię wisceralną. Podejście niezwykle empatyczne – czułam się w pełni zaopiekowana. Gorąco polecam.',
+    date: '22 lutego 2025',
+    service: 'terapia wisceralna',
+  },
+  {
+    name: 'Gabriela',
+    initials: 'G',
+    content:
+      'Jestem bardzo wdzięczna za wizytę u Doktora Jaremy. Doktor bardzo profesjonalnie podszedł do wizyt, poświęcił należytą ilość czasu, żeby przeanalizować mój problem, dociec jego przyczyny i go wyleczyć. Terapia stawów skroniowo-żuchwowych została wykonana bardzo dokładnie przy holistycznym podejściu, doktor posiada obszerną wiedzę i praktyczne umiejętności leczenia. Po 2 wizytach wychodzę z wielką ulgą po bólu i dawką wiedzy jak o to jakże cenne zdrowie na codzień dbać i takim bólom zapobiegać ;). Są wykwalifikowani i empatyczni lekarze na tym świecie, którym warto zaufać i doktor Jarema do takich należy. Zdecydowanie polecam każdemu, serdecznie dziękuję za pomoc!',
+    date: '28 grudnia 2024',
+    service: 'terapia stawów skroniowo-żuchwowych',
+  },
+  {
+    name: 'Agnieszka',
+    initials: 'A',
+    content:
+      'Serdecznie polecam Pana Doktora. Z dużym zaangażowaniem podchodzi do pacjenta, wszystko szczegółowo wyjaśnia. Po wizycie ból minął.',
+    date: '18 lutego 2025',
+    service: 'wizyta fizjoterapeutyczna',
+  },
+  {
+    name: 'Anna',
+    initials: 'A',
+    content:
+      'Pan Jarema to bardzo empatyczny człowiek z ogromnym doświadczeniem i świetnym podejściem do dzieci. Wszystko nam objaśnił i odpowiadał na każde pytanie. Córeczka była zachwycona. Bardzo polecam.',
+    date: '19 listopada 2024',
+    service: 'osteopatia pediatryczna',
+  },
+  {
+    name: 'Małgorzata',
+    initials: 'M',
+    content:
+      'Gorąco polecam – trzy wizyty wystarczyły, aby bóle, z którymi borykałam się od lat i po wielu konsultacjach, ustąpiły.',
+    date: '23 października 2024',
+    service: 'konsultacja osteopatyczna',
+  },
+  {
+    name: 'Monika',
+    initials: 'M',
+    content:
+      'Bardzo empatyczny specjalista. Polecam dla dzieci – problem został szczegółowo omówiony, bez pośpiechu, w spokojnej atmosferze.',
+    date: '2 grudnia 2024',
+    service: 'osteopatia pediatryczna',
+  },
+  {
+    name: 'Jerzy',
+    initials: 'J',
+    content:
+      'Bardzo dobre, zaangażowane podejście. Ulga już po pierwszej wizycie. Dziękuję.',
+    date: '3 grudnia 2024',
+    service: 'konsultacja osteopatyczna',
+  },
+  {
+    name: 'Agata D.',
+    initials: 'AD',
+    content:
+      'Pan Doktor to wspaniały lekarz, który nie raz uratował mój kręgosłup. Po wielu nieudanych konsultacjach dopiero Pan Dr Jarema pomógł mi i mojej starszej mamie. Dziękuję i polecam z całego serca!',
+    date: '2024/2025',
+    service: 'terapia manualna kręgosłupa',
+  },
+];
+
+// Grupujemy po 3, aby na desktopie wyświetlać 3 opinie naraz
+const slides: Testimonial[][] = [];
+for (let i = 0; i < testimonials.length; i += 3) {
+  slides.push(testimonials.slice(i, i + 3));
+}
+---
+
+<section id="opinie" class="relative py-16 md:py-24 overflow-hidden">
+  <!-- Ciemnozielony gradient tła spójny z identyfikacją (fallback, gdy Vanta się nie załaduje) -->
+  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-[#0f2d26] via-[#0b241e] to-[#071a15]"></div>
+  <!-- Warstwa na efekt Vanta.js (ładowana leniwie) -->
+  <div id="testimonials-vanta" aria-hidden="true" class="absolute inset-0 -z-10"></div>
+
+  <div class="relative container mx-auto px-4 md:px-6 max-w-7xl">
+    <!-- Eyebrow + Nagłówek minimalistyczny -->
+  
+    <h2 class="font-heading text-h1-mobile md:text-h1-desktop text-medical-white tracking-tight text-center">
+      <span class="font-light">Co mówią</span> <span class="font-semibold">pacjenci</span>
+    </h2>
+
+    <!-- Karuzela z opiniami -->
+    <div id="testimonials-carousel" class="relative mt-8 md:mt-10 select-none" aria-roledescription="carousel" tabindex="0">
+      <!-- Przyciski nawigacji -->
+      <button type="button" aria-label="Poprzednie opinie" data-action="prev" class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
+        <img src={arrow.src} alt="Poprzednie" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180 invert" />
+      </button>
+      <button type="button" aria-label="Następne opinie" data-action="next" class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
+        <img src={arrow.src} alt="Następne" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 invert" />
+      </button>
+
+      <!-- Okno widoku -->
+      <div class="overflow-x-hidden overflow-y-visible pt-8 md:pt-10 pb-10 md:pb-12">
+        <!-- Tor slajdów -->
+        <div class="flex transition-transform duration-500 ease-out will-change-transform" data-carousel-track>
+          {slides.map((group) => (
+            <div class="w-full shrink-0 flex-none">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-stretch gap-y-12 lg:gap-y-16 xl:gap-y-20 gap-x-14 lg:gap-x-20 xl:gap-x-24 px-2 sm:px-4 md:px-8 lg:px-10">
+                {group.map((t) => (
+                  <figure class="glass-card p-6 md:p-8 text-medical-white flex flex-col h-[320px] md:h-[420px] lg:h-[460px]">
+                    <div class="testimonial-scroll flex-1 min-h-0 overflow-y-auto pr-2">
+                      <blockquote class="text-body-mobile md:text-body-desktop leading-relaxed text-white/90">{t.content}</blockquote>
+                    </div>
+                    <figcaption class="mt-6 shrink-0 flex items-center gap-3">
+                      <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-medical-primary text-white font-heading text-sm">{t.initials}</span>
+                      <div class="text-small-mobile md:text-small-desktop">
+                        <div class="font-heading font-semibold text-white">{t.name}</div>
+                        <div class="text-white/70">{t.service} • {t.date}</div>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skrypt karuzeli: auto-rotacja, klawiatura, gesty, pauza po hover -->
+  <script>
+    const root = document.getElementById('testimonials-carousel') as HTMLElement | null;
+    if (root) {
+      const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+      const prevBtn = root.querySelector<HTMLButtonElement>('[data-action="prev"]');
+      const nextBtn = root.querySelector<HTMLButtonElement>('[data-action="next"]');
+      const totalSlides: number = track?.children?.length ?? 0;
+
+      let currentIndex = 0;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let timer: number = 0;
+
+      const update = (instant: boolean = false) => {
+        if (!track) return;
+        track.style.transitionDuration = instant || prefersReducedMotion ? '0ms' : '500ms';
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      };
+
+      const goTo = (index: number) => {
+        currentIndex = (index + totalSlides) % totalSlides;
+        update();
+      };
+
+      const start = () => {
+        if (prefersReducedMotion) return;
+        stop();
+        timer = window.setInterval(() => goTo(currentIndex + 1), 7000) as unknown as number;
+      };
+
+      const stop = () => {
+        if (timer) {
+          window.clearInterval(timer);
+          timer = 0;
+        }
+      };
+
+      prevBtn?.addEventListener('click', () => goTo(currentIndex - 1));
+      nextBtn?.addEventListener('click', () => goTo(currentIndex + 1));
+
+      root.addEventListener('mouseenter', stop);
+      root.addEventListener('mouseleave', start);
+      root.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
+        if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+      });
+
+      // Gesty dotykowe
+      let startX = 0;
+      let isSwiping = false;
+      const onTouchStart = (e: TouchEvent) => {
+        if (!e.touches || e.touches.length === 0) return;
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+        stop();
+      };
+      const onTouchMove = (e: TouchEvent) => {
+        if (!isSwiping || !track) return;
+        const deltaX = e.touches[0].clientX - startX;
+        track.style.transitionDuration = '0ms';
+        track.style.transform = `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`;
+      };
+      const onTouchEnd = (e: TouchEvent) => {
+        if (!isSwiping) return;
+        const endX = (e.changedTouches && e.changedTouches[0]?.clientX) || startX;
+        const delta = endX - startX;
+        const threshold = 40;
+        if (delta > threshold) {
+          goTo(currentIndex - 1);
+        } else if (delta < -threshold) {
+          goTo(currentIndex + 1);
+        } else {
+          update();
+        }
+        isSwiping = false;
+        start();
+      };
+      root.addEventListener('touchstart', onTouchStart, { passive: true });
+      root.addEventListener('touchmove', onTouchMove, { passive: true });
+      root.addEventListener('touchend', onTouchEnd);
+
+      // Inicjalizacja
+      update(true);
+      start();
+    }
+  </script>
+
+  <!-- Leniwe ładowanie Vanta.js Waves jako tła testowego -->
+  <script>
+    const vantaTarget = document.getElementById('testimonials-vanta') as HTMLElement | null;
+    if (vantaTarget) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let vantaInstance: any = null;
+
+      const loadScript = (src: string) =>
+        new Promise<void>((resolve, reject) => {
+          if (document.querySelector(`script[src="${src}"]`)) return resolve();
+          const s = document.createElement('script');
+          s.src = src;
+          s.async = true;
+          s.defer = true;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error(`Failed to load ${src}`));
+          document.head.appendChild(s);
+        });
+
+      const initVanta = async () => {
+        try {
+          // three r134 zgodnie z przykładem + Vanta Waves
+          await loadScript('https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js');
+          await loadScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js');
+          // @ts-ignore
+          if (window?.VANTA && !vantaInstance) {
+            // @ts-ignore
+            vantaInstance = window.VANTA.WAVES({
+              el: vantaTarget,
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.0,
+              minWidth: 200.0,
+              scale: 1.0,
+              scaleMobile: 1.0,
+              // Ciemna zieleń spójna z identyfikacją
+              color: 0x0e3b33,
+              shininess: 22.0,
+              waveHeight: 6.5,
+              waveSpeed: 1.0,
+              zoom: 1.02,
+            });
+          }
+        } catch (e) {
+          // w razie błędu pozostaje gradient fallback
+        }
+      };
+
+      if (!prefersReducedMotion) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            const isVisible = entries.some((e) => e.isIntersecting);
+            if (isVisible) {
+              initVanta();
+              io.disconnect();
+            }
+          },
+          { rootMargin: '200px' }
+        );
+        io.observe(vantaTarget);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && vantaInstance?.destroy) {
+          vantaInstance.destroy();
+          vantaInstance = null;
+        }
+      });
+    }
+  </script>
+</section>
+
+

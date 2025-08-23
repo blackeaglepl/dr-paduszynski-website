@@ -1,0 +1,153 @@
+---
+// Prosta mapa Google z oznaczeniem lokalizacji gabinetu
+---
+
+<!-- Sekcja z mapą lokalizacji gabinetu -->
+<section id="dojazd" class="py-12jes md:py-12">
+  <div class="container mx-auto px-4 md:px-6 max-w-7xl">
+    <div class="text-center mb-12">
+      <h2 class="text-h2-mobile md:text-h2-desktop font-heading font-semibold text-medical-text mb-4">
+        Lokalizacja gabinetu
+      </h2>
+      <p class="text-body-mobile md:text-body-desktop text-medical-text-light max-w-2xl mx-auto">
+        Znajdź nas w centrum Krakowa. Gabinet znajduje się przy ulicy Jugowickiej 35.
+      </p>
+    </div>
+
+    <!-- Kontener mapy -->
+    <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg overflow-hidden">
+      <div 
+        id="simple-map-container" 
+        class="relative w-full"
+        style="height: 500px; min-height: 400px;"
+      >
+        <!-- Extended Component Library Store Locator -->
+        <gmpx-store-locator map-id="DEMO_MAP_ID"></gmpx-store-locator>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Stylizacja komponentu zgodna z design system medycznym */
+  #simple-map-container {
+    /* Dostosowanie kolorów Extended Component Library do medical design system */
+    --gmpx-color-surface: #ffffff;
+    --gmpx-color-on-surface: #243648;
+    --gmpx-color-on-surface-variant: #7F8C8D;
+    --gmpx-color-primary: #4ECDC4;
+    --gmpx-color-outline: #E8F8F5;
+    --gmpx-fixed-panel-width-row-layout: 28.5em;
+    --gmpx-fixed-panel-height-column-layout: 65%;
+    --gmpx-font-family-base: "Inter", sans-serif;
+    --gmpx-font-family-headings: "Quicksand", sans-serif;
+    --gmpx-font-size-base: 0.875rem;
+    --gmpx-hours-color-open: #4ECDC4;
+    --gmpx-hours-color-closed: #d50000;
+    --gmpx-rating-color: #4ECDC4;
+    --gmpx-rating-color-empty: #E8F8F5;
+  }
+  
+  /* Ukryj niektóre elementy Extended Component Library dla czystszego wyglądu */
+  gmpx-store-locator {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  // Konfiguracja dla Google Maps Extended Component Library
+  const LOCATOR_CONFIGURATION = {
+    "locations": [
+      {
+        "title": "Klinika Osteopatii dr Jarema Paduszyński",
+        "address1": "Jugowicka 35",
+        "address2": "30-443 Kraków, Poland", 
+        "coords": {"lat": 50.0076785, "lng": 19.9339658},
+        "placeId": "ChIJZVgsOg1dFkcR4viGJU2z410"
+      }
+    ],
+    "mapOptions": {
+      "center": {"lat": 50.0076785, "lng": 19.9339658},
+      "fullscreenControl": true,
+      "mapTypeControl": false,
+      "streetViewControl": false,
+      "zoom": 15,
+      "zoomControl": true,
+      "maxZoom": 18,
+      "mapId": ""
+    },
+    "mapsApiKey": "AIzaSyCe2p_6Ixj_o8ak9mbCVUlIDcX-EdF5l-M",
+    "capabilities": {
+      "input": false,
+      "autocomplete": false,
+      "directions": false,
+      "distanceMatrix": false,
+      "details": false,
+      "actions": false
+    }
+  };
+
+  // Inicjalizuj Extended Component Library Store Locator
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Załaduj Extended Component Library
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js';
+      document.head.appendChild(script);
+
+      // Załaduj API Loader
+      const apiLoader = document.createElement('gmpx-api-loader');
+      apiLoader.setAttribute('key', LOCATOR_CONFIGURATION.mapsApiKey);
+      apiLoader.setAttribute('solution-channel', 'GMP_QB_locatorplus_v11_c');
+      document.body.appendChild(apiLoader);
+
+      // Czekaj na załadowanie komponentów
+      await customElements.whenDefined('gmpx-store-locator');
+      
+      // Pobierz element store-locator i skonfiguruj go, jeśli dostępny
+      const locator = document.querySelector('gmpx-store-locator');
+      if (locator && typeof (locator as any).configureFromQuickBuilder === 'function') {
+        // Wywołanie metody konfiguracyjnej (typowanie przez any, bo TS nie zna tej metody)
+        (locator as any).configureFromQuickBuilder(LOCATOR_CONFIGURATION);
+        console.log('Store Locator został poprawnie zainicjalizowany');
+      } else {
+        console.warn('Nie znaleziono komponentu gmpx-store-locator lub brak metody configureFromQuickBuilder');
+      }
+    } catch (error) {
+      console.warn('Error loading Extended Component Library, falling back to simple message:', error);
+      
+      // Fallback do prostego komunikatu z linkiem
+      const mapContainer = document.querySelector('#simple-map-container');
+      if (mapContainer) {
+        mapContainer.innerHTML = `
+          <div class="flex items-center justify-center h-full bg-medical-bg">
+            <div class="text-center p-6">
+              <div class="mb-4">
+                <svg class="w-16 h-16 mx-auto text-medical-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+              </div>
+              <h3 class="text-h3-mobile md:text-h3-desktop font-heading font-semibold text-medical-text mb-2">
+                Klinika Osteopatii dr Jarema Paduszyński
+              </h3>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light mb-4">
+                ul. Jugowicka 35, 30-443 Kraków
+              </p>
+              <a href="https://maps.google.com/maps?q=Jugowicka+35,+Kraków" 
+                 target="_blank" 
+                 class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none shadow-sm inline-flex items-center">
+                Otwórz w Google Maps
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        `;
+      }
+    }
+  });
+</script>

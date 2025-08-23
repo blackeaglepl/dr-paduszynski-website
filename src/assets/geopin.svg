@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Warstwa_2" data-name="Warstwa 2" xmlns="http://www.w3.org/2000/svg" width="42" height="54" viewBox="0 0 42 54">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4ecdc4;
+      }
+    </style>
+  </defs>
+  <g id="Warstwa_1-2" data-name="Warstwa 1">
+    <g id="pin">
+      <path class="cls-1" d="M21,0C9.402,0,0,9.402,0,21c0,17,21,33,21,33,0,0,21-16,21-33C42,9.402,32.598,0,21,0ZM21,31c-5.523,0-10-4.477-10-10s4.477-10,10-10,10,4.477,10,10-4.477,10-10,10Z"/>
+    </g>
+  </g>
+</svg>

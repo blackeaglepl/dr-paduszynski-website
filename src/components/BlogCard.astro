@@ -1,0 +1,94 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import FormattedDate from './FormattedDate.astro';
+
+export interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, heroImage, category, tags, readingTime } = post.data;
+
+// Mapowanie kategorii na kolory i polskie nazwy
+const categoryConfig = {
+  'porady': { color: 'medical-primary', label: 'Porady' },
+  'aktualnosci': { color: 'medical-light', label: 'Aktualności' }
+};
+
+const categoryInfo = categoryConfig[category] || categoryConfig['porady'];
+---
+
+<article class="bg-medical-white rounded-lg shadow-sm border border-medical-bg hover:shadow-md transition-all duration-300 group overflow-hidden">
+  <!-- Hero Image -->
+  {heroImage && (
+    <div class="relative overflow-hidden aspect-video">
+      <Image
+        src={heroImage}
+        alt={`Miniaturka artykułu: ${title}`}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+        widths={[400, 600]}
+        sizes="(max-width: 768px) 400px, 600px"
+      />
+      <!-- Category Badge -->
+      <div class={`absolute top-3 left-3 px-3 py-1 bg-${categoryInfo.color} text-white text-small-mobile font-heading font-medium rounded-full`}>
+        {categoryInfo.label}
+      </div>
+    </div>
+  )}
+
+  <!-- Content -->
+  <div class="p-6">
+    <!-- Meta Info -->
+    <div class="flex items-center gap-4 text-medical-text-light text-small-mobile mb-3">
+      <FormattedDate date={pubDate} />
+      {readingTime && (
+        <span class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          {readingTime} min czytania
+        </span>
+      )}
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-h3-mobile md:text-h3-desktop font-heading font-semibold text-medical-text mb-3 group-hover:text-medical-primary transition-colors duration-200 line-clamp-2">
+      <a href={`/blog/${post.slug}/`} class="block">
+        {title}
+      </a>
+    </h3>
+
+    <!-- Description -->
+    <p class="text-body-mobile md:text-body-desktop text-medical-text-light mb-4 line-clamp-3">
+      {description}
+    </p>
+
+    <!-- Tags -->
+    {tags && tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.slice(0, 3).map((tag) => (
+          <span class="px-2 py-1 bg-medical-bg text-medical-text text-small-mobile rounded-md">
+            #{tag}
+          </span>
+        ))}
+        {tags.length > 3 && (
+          <span class="text-medical-text-light text-small-mobile">+{tags.length - 3} więcej</span>
+        )}
+      </div>
+    )}
+
+    <!-- Read More Link -->
+    <a 
+      href={`/blog/${post.slug}/`} 
+      class="inline-flex items-center gap-2 text-medical-primary hover:text-medical-light font-heading font-medium text-body-mobile transition-colors duration-200"
+      aria-label={`Czytaj więcej: ${title}`}
+    >
+      Czytaj więcej
+      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </a>
+  </div>
+</article>

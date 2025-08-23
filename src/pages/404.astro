@@ -1,0 +1,61 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+import { getLocaleFromUrl, locales, type Locale, getLocalizedPath } from "../utils/i18n";
+
+const locale = getLocaleFromUrl(Astro.url) as Locale;
+const pageTitle = locale === 'en'
+  ? 'Page not found (404) | Dr Jarema Paduszyński'
+  : 'Strona nie została znaleziona (404) | Dr Jarema Paduszyński';
+const pageDescription = locale === 'en'
+  ? 'We could not find the page you were looking for. Check the address or return to the homepage.'
+  : 'Niestety, nie znaleźliśmy takiej strony. Sprawdź adres lub wróć na stronę główną i skorzystaj z nawigacji.';
+
+const headingText = locale === 'en' ? 'Page not found' : 'Strona nie została znaleziona';
+const paragraphText = locale === 'en'
+  ? 'The address may be incorrect or the page has been moved. Use the buttons below to continue.'
+  : 'Być może adres został wpisany niepoprawnie lub strona została przeniesiona. Skorzystaj z przycisków poniżej, aby kontynuować.';
+
+const homeLabel = locale === 'en' ? 'Back to homepage' : 'Wróć na stronę główną';
+const pricingLabel = locale === 'en' ? 'See pricing' : 'Sprawdź cennik';
+const contactLabel = locale === 'en' ? 'Contact' : 'Skontaktuj się';
+
+const homeHref = getLocalizedPath('/', locale);
+const pricingHref = getLocalizedPath('/cennik', locale);
+const contactHref = getLocalizedPath('/kontakt', locale);
+---
+
+<!doctype html>
+<html lang={(locales[getLocaleFromUrl(Astro.url) as Locale]) ? getLocaleFromUrl(Astro.url) : 'pl'}>
+  <head>
+    <BaseHead title={pageTitle} description={pageDescription} type="error" robots="noindex, nofollow, noarchive, nosnippet" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <!-- Sekcja 404 -->
+      <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg p-8 md:p-12 text-center">
+            <p class="text-medical-primary font-heading font-semibold tracking-widest mb-4" data-animate>
+              404
+            </p>
+            <h1 class="font-heading text-medical-text text-3xl md:text-5xl font-semibold mb-4" data-animate>{headingText}</h1>
+            <p class="text-medical-text-light text-base md:text-lg max-w-2xl mx-auto mb-8" data-animate data-animate-delay="100">{paragraphText}</p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-animate data-animate-delay="150">
+              <a href={homeHref} class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none shadow-sm">{homeLabel}</a>
+              <a href={pricingHref} class="bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none">{pricingLabel}</a>
+              <a href={contactHref} class="bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none">{contactLabel}</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+

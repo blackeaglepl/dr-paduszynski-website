@@ -1,0 +1,105 @@
+---
+// Footer component - minimalistyczna stopka zgodna z wymaganiami
+---
+
+<footer class="bg-white border-t border-medical-light/20">
+  <!-- Cienki pasek akcentowy u góry -->
+  <div class="h-0.5 bg-medical-primary/80"></div>
+
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl py-8 md:py-10">
+    <!-- Pre-footer: krótka informacja + CTA -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 py-4 md:py-5 border-b border-medical-light/20">
+      <p class="text-medical-text-light text-sm md:text-base text-center md:text-left">
+        Sprawdź dostepny grafik i umów się na wizytę. Zapraszam!
+      </p>
+      <div class="flex items-center gap-3">
+        <a
+          href="https://www.znanylekarz.pl/jarema-paduszynski/fizjoterapeuta-osteopata/krakow"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none"
+          aria-label="Zapisz się — otwiera w nowej karcie"
+        >
+          Zapisz się
+        </a>
+        <a
+          href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none"
+          aria-label="Jak dojechać — otwiera Mapy Google w nowej karcie"
+        >
+          Jak dojechać
+        </a>
+      </div>
+    </div>
+
+    <!-- Główna treść stopki -->
+    <div class="grid md:grid-cols-3 gap-8 md:gap-10 py-10">
+      <!-- Brand / krótki opis -->
+      <div class="min-w-0">
+        <a href="/" class="font-heading font-semibold text-medical-text text-lg">
+          dr Jarema Paduszyński
+        </a>
+          <p class="text-medical-text-light text-sm mt-2">Osteopata, fizjoterapeuta – skuteczna terapia  <br> bólu
+            i dysfunkcji narządów ruchu.</p>
+      </div>
+
+      <!-- Mapa strony -->
+      <div class="min-w-0">
+        <h3 class="font-heading font-semibold text-medical-text mb-4">Na skróty</h3>
+        <nav class="space-y-2 md:space-y-8">
+          <a href="/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">O mnie</a>
+          <a href="/cennik/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Cennik</a>
+          {Astro.url.pathname.startsWith('/en') ? null : (
+            <a href="/blog/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Blog</a>
+          )}
+          <a href="/kontakt/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Kontakt</a>
+        </nav>
+      </div>
+
+      <!-- Dane kontaktowe -->
+      <div class="min-w-0">
+        <h3 class="font-heading font-semibold text-medical-text mb-4">Kontakt</h3>
+        <div class="space-y-2 md:space-y-3 text-medical-text-light">
+          <p class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-medical-primary" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            <a href="mailto:kontakt@paduszynski-osteopata.pl" class="hover:text-medical-primary transition-colors duration-200 break-words">kontakt@paduszynski-osteopata.pl</a>
+          </p>
+          <p class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-medical-primary" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>ul. Jugowicka 35/5 30-443 Kraków</span>
+          </p>
+          <p class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-medical-primary" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+            </svg>
+            <a href="tel:+48667762227" class="hover:text-medical-primary transition-colors duration-200">+48 667 762 227</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dolny pasek -->
+    <div class="border-t border-medical-light/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-medical-text-light text-sm text-center md:text-left">
+        &copy; {new Date().getFullYear()} dr Jarema Paduszyński. Wszelkie prawa zastrzeżone.
+      </p>
+      <div class="flex items-center gap-6 text-sm">
+        {Astro.url.pathname.startsWith('/en') ? (
+          <a href="/en/privacy-policy/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">Privacy Policy</a>
+        ) : (
+          <a href="/polityka-prywatnosci/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">Polityka prywatności</a>
+        )}
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+

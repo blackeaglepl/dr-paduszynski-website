@@ -1,0 +1,177 @@
+---
+// Komponent HeroSection
+// Krótki opis: Sekcja hero z tłem (obraz/kolor), opcjonalnym paskiem nawigacji na overlay,
+// nagłówkiem, blokiem opinii/oceny oraz przyciskiem CTA.
+// Użycie: <HeroSection title="..." subtitle="..." ctaLabel="..." ctaHref="#" />
+import logo from '../assets/logo_osteopatia.svg';
+import { getLocaleFromUrl, getTranslations, getLocalizedPath, type Locale } from '../utils/i18n';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+// Definicja propsów komponentu
+export interface HeroProps {
+  title: string;
+  subtitle?: string;
+  supportingText?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryCtaLabel?: string; // drugi przycisk CTA
+  secondaryCtaHref?: string; // link dla drugiego przycisku
+  ratingStars?: number; // 0-5
+  ratingText?: string;
+  bgImageSrc?: string; // opcjonalny obraz tła
+  withOverlayNav?: boolean; // włącz/wyłącz nawigację na overlay
+  languageLabel?: string; // etykieta języka (prawy znacznik)
+  // Slajdy do dynamicznego nagłówka (opcjonalnie). Jeśli podane >= 2, nagłówek będzie rotował.
+  slides?: { title: string; subtitle?: string }[];
+  // Interwał zmiany slajdu w ms (domyślnie ~5s)
+  slideIntervalMs?: number;
+  // Dodatkowy, ciemniejszy gradient od dołu — używany w widoku szczegółowym bloga
+  extraBottomGradient?: boolean;
+}
+
+// Domyślne wartości propsów (zapewniają bezpieczne renderowanie)
+const {
+  title,
+  subtitle = '',
+  supportingText = '',
+  ctaLabel = '',
+  ctaHref = '#',
+  secondaryCtaLabel = '',
+  secondaryCtaHref = '#',
+  ratingStars = 5,
+  ratingText = '',
+  bgImageSrc,
+  withOverlayNav = true,
+  languageLabel = 'PL',
+  slides = [],
+  slideIntervalMs = 5000,
+  extraBottomGradient = false,
+} = Astro.props as HeroProps;
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+---
+
+<!-- Sekcja HERO: kontener zewnętrzny -->
+<section class="pt-4 md:pt-6 pb-0">
+  <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-8">
+    <div class="relative rounded-6xl overflow-hidden" style="min-height: 70vh;">
+      <!-- Tło: obraz (jeśli podano) lub semantyczny kolor medyczny jako fallback -->
+      {bgImageSrc ? (
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style={`background-image: url(${bgImageSrc})`}></div>
+      ) : (
+        <div class="absolute inset-0 bg-medical-bg"></div>
+      )}
+      <!-- Gradient overlay dla poprawy kontrastu tekstu na tle -->
+      <div class="absolute inset-0 bg-gradient-to-r from-medical-text/60 via-medical-text/30 to-transparent z-[1]"></div>
+      {extraBottomGradient && (
+        <div class="absolute inset-0 bg-gradient-to-t from-medical-text/80 via-medical-text/40 to-transparent z-[1]"></div>
+      )}
+
+      <div class="relative z-10 px-6 md:px-10 lg:px-16 pt-12 md:pt-16 pb-0 min-h-[70vh] flex flex-col">
+        <!-- Overlay: pasek nawigacji na górze hero -->
+        {withOverlayNav && (
+          <div class="relative">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <img src={logo.src} alt="Dr Jarema Paduszyński Osteopata" class="h-12 md:h-20 lg:h-22 rounded-none" />
+              </div>
+              <div class="hidden md:flex items-center gap-4">
+                <nav class="flex items-center justify-center gap-10 lg:gap-12 h-12 px-8 lg:px-10 bg-medical-cream/30 backdrop-blur-md rounded-full font-heading ring-1 ring-white/20 shadow-sm">
+                  <a href={getLocalizedPath('/', currentLocale)} class="text-white text-sm md:text-base font-semibold transition-colors duration-200 hover:text-medical-primary focus:text-medical-primary">{t.navigation.about}</a>
+                  <a href={getLocalizedPath('/cennik', currentLocale)} class="text-white text-sm md:text-base font-semibold transition-colors duration-200 hover:text-medical-primary focus:text-medical-primary">{t.navigation.pricing}</a>
+                  {currentLocale === 'pl' && (
+                    <a href={getLocalizedPath('/blog', currentLocale)} class="text-white text-sm md:text-base font-semibold transition-colors duration-200 hover:text-medical-primary focus:text-medical-primary">{t.navigation.blog}</a>
+                  )}
+                  <a href={getLocalizedPath('/kontakt', currentLocale)} class="text-white text-sm md:text-base font-semibold transition-colors duration-200 hover:text-medical-primary focus:text-medical-primary">{t.navigation.contact}</a>
+                </nav>
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
+        )}
+        <div class="mt-auto relative min-h-[220px]">
+          <!-- Blok nagłówka: tytuł + opcjonalny podtytuł -->
+          <div class="md:absolute md:bottom-24 md:left-0 max-w-3xl">
+            <h1 id="hero-dynamic-h1" data-slides={slides && slides.length > 1 ? JSON.stringify(slides) : undefined} class="text-h1-mobile md:text-h1-desktop font-heading font-normal text-white leading-tight tracking-tight transition-opacity duration-700 will-change-[opacity]">
+              {title}
+              {subtitle && (<><br /><strong class="font-semibold">{subtitle}</strong></>)}
+            </h1>
+          </div>
+
+          <!-- Blok opinii/oceny i tekstu pomocniczego -->
+          {(ratingText || supportingText) && (
+            <div class="md:absolute md:bottom-40 md:right-0 flex items-start gap-6 justify-end text-right">
+              <div>
+                {ratingStars > 0 && (
+                  <div class="flex items-center gap-1.5 mb-2 justify-end">
+                    {Array.from({ length: Math.min(5, Math.max(0, ratingStars)) }).map(() => (
+                      <span class="text-white text-[22px]">★</span>
+                    ))}
+                  </div>
+                )}
+                {ratingText && (<p class="text-white text-sm">{ratingText}</p>)}
+                {supportingText && (
+                  <p class="text-white/80 text-xs mt-1 max-w-xs">{supportingText}</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- Blok CTA: przyciski akcji -->
+          {(ctaLabel || secondaryCtaLabel) && (
+            <div class="md:absolute md:bottom-12 md:right-0">
+              <div class="flex items-center gap-4">
+                {secondaryCtaLabel && (
+                  <a href={secondaryCtaHref} target="_blank" rel="noopener noreferrer" class="bg-medical-cream/30 backdrop-blur-md hover:bg-medical-cream/40 text-white font-heading font-semibold inline-flex items-center justify-center py-3.5 md:py-4 px-8 md:px-10 rounded-full text-sm md:text-base transition-all duration-300 ring-1 ring-white/20 hover:ring-white/30">
+                    {secondaryCtaLabel}
+                  </a>
+                )}
+                {ctaLabel && (
+                  <a href={ctaHref} class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold inline-flex items-center justify-center py-3.5 md:py-4 px-8 md:px-10 rounded-full text-sm md:text-base transition-colors duration-300">
+                    {ctaLabel}
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{slides && slides.length > 1 && (
+  <script type="module" define:vars={{ slideIntervalMs }}>
+    // Dynamiczna rotacja nagłówka H1 z płynnym przejściem
+    const h1 = document.getElementById('hero-dynamic-h1');
+    const slidesData = h1 && h1.dataset && h1.dataset.slides ? JSON.parse(h1.dataset.slides) : [];
+    const intervalMs = slideIntervalMs;
+    
+    if (h1 && Array.isArray(slidesData) && slidesData.length > 1) {
+      let currentIndex = 0;
+      const buildHTML = (s) => `${s.title}${s.subtitle ? '<br /><strong class="font-semibold">' + s.subtitle + '</strong>' : ''}`;
+      
+      // Pierwsza zmiana po 2 sekundach
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % slidesData.length;
+        h1.classList.add('opacity-0');
+        setTimeout(() => {
+          h1.innerHTML = buildHTML(slidesData[currentIndex]);
+          h1.classList.remove('opacity-0');
+        }, 350);
+      }, 2000);
+      
+      // Kolejne zmiany co intervalMs
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % slidesData.length;
+        h1.classList.add('opacity-0');
+        setTimeout(() => {
+          h1.innerHTML = buildHTML(slidesData[currentIndex]);
+          h1.classList.remove('opacity-0');
+        }, 350);
+      }, Math.max(3000, Number(intervalMs) || 5000));
+    }
+  </script>
+)}

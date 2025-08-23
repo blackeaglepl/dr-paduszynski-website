@@ -1,0 +1,32 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import tlo1 from '../../assets/tlo1.jpg';
+import MainLayout from '../../layouts/MainLayout.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import TreatmentSelector from '../../components/TreatmentSelector.astro';
+import StatsSection from '../../components/StatsSection.astro';
+import TherapistAndOsteopathySection from '../../components/TherapistAndOsteopathySection.astro';
+import ClinicGallerySection from '../../components/ClinicGallerySection.astro';
+import SpecializationsSection from '../../components/SpecializationsSection.astro';
+import CertificatesSection from '../../components/CertificatesSection.astro';
+---
+<MainLayout title={SITE_TITLE + " - English"} description={SITE_DESCRIPTION} hideHeader={true}>
+  <HeroSection
+    title="I'm glad you found me."
+    subtitle="I'm here to help you"
+    supportingText="Book an appointment and take care of your health today"
+    ratingStars={5}
+    ratingText="150+ positive patient reviews"
+    secondaryCtaLabel="Rate visit"
+    secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
+    ctaLabel="Book now"
+    ctaHref="#contact"
+    bgImageSrc={tlo1.src}
+  />
+  <StatsSection />
+  <TherapistAndOsteopathySection />
+  <ClinicGallerySection />
+  <TreatmentSelector />
+  <SpecializationsSection />
+  <CertificatesSection />
+</MainLayout>

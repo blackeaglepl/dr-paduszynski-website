@@ -1,0 +1,40 @@
+---
+// Komponent sekcji „Specjalizacje 2” — identyczny layout jak SpecializationsSection, 3 kolumny
+---
+
+<section class="py-20 md:pt-8 pb-22">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <!-- Nagłówek sekcji -->
+    <h2
+      class="font-semibold  font-heading transition-colors duration-150 hover:text-medical-primary text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight text-center mb-2 md:mb-3"
+      data-animate="fade-up"
+      data-animate-delay="100"
+    >
+      Moje specjalizacje 
+    </h2>
+
+    <!-- Siatka kolumn z pionowymi separatorami (desktop) -->
+    <div
+      class="mt-2 md:mt-3 pt-12 md:pt-16 grid gap-8 md:gap-12 lg:gap-16 place-items-center md:place-items-stretch md:grid-cols-3 md:divide-x-2 md:divide-medical-text/30"
+      aria-label="Lista specjalizacji 2"
+    >
+      <!-- Kolumna 1 -->
+      <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
+        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia stomatologiczna</li>
+      </ul>
+
+      <!-- Kolumna 2 -->
+      <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
+        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia twarzowo-szczękowa</li>
+      </ul>
+
+      <!-- Kolumna 3 -->
+      <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
+        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia uroginekologiczna</li>
+      </ul>
+    </div>
+  </div>
+  
+</section>
+
+

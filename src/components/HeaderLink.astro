@@ -1,0 +1,23 @@
+---
+// Komponent linku używany w przykładzie MDX
+export interface HeaderLinkProps {
+  href?: string;
+  rel?: string;
+  target?: string;
+  class?: string;
+  // dopuszczamy dodatkowe atrybuty jako proste stringi
+  [key: string]: string | undefined;
+}
+
+const { href = '#', class: userClass = '', ...rest }: HeaderLinkProps = Astro.props;
+
+const baseClass = `inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none`;
+---
+
+<a href={href} class={`${baseClass} ${userClass}`} {...rest}>
+  <slot />
+  <span class="sr-only">link</span>
+  
+</a>
+
+

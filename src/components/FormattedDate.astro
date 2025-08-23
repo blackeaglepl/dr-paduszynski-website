@@ -1,0 +1,15 @@
+---
+export interface Props {
+  date: Date | string | number;
+  dateStyle?: Intl.DateTimeFormatOptions['dateStyle'];
+}
+
+const { date, dateStyle = 'long' } = Astro.props as Props;
+const parsedDate = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
+const formatted = new Intl.DateTimeFormat('pl-PL', { dateStyle }).format(parsedDate);
+---
+
+<time datetime={parsedDate.toISOString()}>{formatted}</time>
+
+
+

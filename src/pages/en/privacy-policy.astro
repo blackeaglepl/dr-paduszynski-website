@@ -1,0 +1,99 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { SITE_AUTHOR, SITE_IMAGE } from '../../consts';
+
+const today = new Date().toISOString().slice(0, 10);
+
+// JSON-LD: minimal WebPage + Organization + Person
+const webpageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Privacy Policy – Dr Jarema Paduszyński Osteopath Kraków',
+  url: Astro.url.href,
+  description:
+    'Simple privacy policy: no marketing cookies or analytics. Data processed only to respond and schedule appointments.',
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Dr Jarema Paduszyński – Osteopath',
+    url: new URL('/en/', Astro.url).href,
+  },
+};
+
+const { organizationSchema } = await import('../../schemas/organization');
+const { drPaduszynskiSchema } = await import('../../schemas/person');
+
+const customSchema = {
+  webpage: webpageSchema,
+  organization: organizationSchema,
+  person: drPaduszynskiSchema,
+};
+---
+
+<MainLayout 
+  title="Privacy Policy – Dr Jarema Paduszyński Osteopath Kraków"
+  description="Simple privacy policy: no marketing cookies or analytics. Data processed only for contact and appointment scheduling."
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="article"
+  schemaType="custom"
+  customSchema={customSchema}
+  hideHeader={true}
+>
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+      <h1 class="font-heading text-medical-text text-2xl md:text-4xl font-semibold">Privacy Policy</h1>
+      <p class="text-medical-text-light mt-3">Last updated: {today}</p>
+
+      <div class="prose-medical max-w-none mt-8">
+        <p>I care about your privacy. This website does not use cookies or analytics for marketing purposes. I only process data necessary to respond to your inquiry and schedule an appointment.</p>
+
+        <h2>Data Controller</h2>
+        <p>
+          The data controller is <strong>Dr Jarema Paduszyński</strong>, ul. Jugowicka 35/5, 30-443 Kraków, Poland, e-mail: 
+          <a href="mailto:kontakt@paduszynski-osteopata.pl">kontakt@paduszynski-osteopata.pl</a>, phone: 
+          <a href="tel:+48667762227">+48 667 762 227</a>.
+        </p>
+
+        <h2>Scope and Purposes of Processing</h2>
+        <ul>
+          <li>Responding to your inquiry and scheduling an appointment (legal basis: Article 6(1)(b) GDPR – steps prior to providing healthcare services).</li>
+          <li>Compliance with legal obligations (Article 6(1)(c) GDPR), including health regulations – performed outside of this website.</li>
+        </ul>
+        <p>No health data is collected via this website. Medical records are kept only in the clinic in accordance with applicable law.</p>
+
+        <h2>No cookies or marketing analytics</h2>
+        <p>This site does not use its own cookies for marketing purposes and does not employ user-tracking analytics tools.</p>
+
+        <h2>Third-party services</h2>
+        <p>A booking widget from <strong>ZnanyLekarz</strong> may be embedded. When interacting with the widget or visiting ZnanyLekarz, the operator of that processing is an external provider (ZnanyLekarz sp. z o.o.) and their privacy policy applies.</p>
+        <p>The website is hosted by third-party infrastructure providers. Such entities may act as processors under relevant agreements.</p>
+
+        <h2>Retention</h2>
+        <p>Data related to your inquiry is stored for the time needed to respond and schedule an appointment and for the period required by law (e.g., limitation periods). Data processed solely for contact is deleted after the correspondence ends.</p>
+
+        <h2>Your rights</h2>
+        <ul>
+          <li>access,</li>
+          <li>rectification,</li>
+          <li>erasure,</li>
+          <li>restriction of processing,</li>
+          <li>data portability (where technically feasible),</li>
+          <li>objection (where processing is based on legitimate interests).</li>
+        </ul>
+        <p>You can also lodge a complaint with your local data protection authority. In Poland: the President of the Personal Data Protection Office (ul. Stawki 2, 00-193 Warsaw).</p>
+
+        <h2>Voluntary provision of data</h2>
+        <p>Providing data is voluntary but necessary to respond or schedule an appointment.</p>
+
+        <h2>Security</h2>
+        <p>Appropriate technical and organizational measures are applied to protect data against unauthorized access, disclosure, or loss.</p>
+
+        <h2>Changes</h2>
+        <p>This policy may be updated to reflect actual processing activities. The current version is published on this page.</p>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+

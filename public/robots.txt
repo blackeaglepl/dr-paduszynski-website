@@ -1,0 +1,10 @@
+# robots.txt dla osteopatia-paduszynski.pl
+# Pozwala na indeksację wszystkich stron i wskazuje lokalizację sitemap
+
+User-agent: *
+Allow: /
+
+Sitemap: https://osteopatia-paduszynski.pl/sitemap-index.xml
+Sitemap: https://osteopatia-paduszynski.pl/sitemap.xml
+
+

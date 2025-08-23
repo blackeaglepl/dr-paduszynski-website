@@ -1,0 +1,80 @@
+---
+/* @ts-nocheck */
+// Sekcja: O terapeucie + Czym jest osteopatia
+// Wzorowana na załączonej makiecie: dwa bloki jeden po drugim, duże odstępy.
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
+import portret1 from '../assets/portret1.jpg';
+import gallery4 from '../assets/gallery4.jpg';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia dla tego komponentu
+const translations = {
+  pl: {
+    doctor: {
+      name: "Dr Jarema Paduszyński",
+      description: "Posiadam wieloletnie doświadczenie w zakresie praktyki fizjoterapetycznej i osteopatycznej. Prowadzę także działalność dydaktyczno-naukową, zdobyłem tytul doktora z dziedziny fizjoterapii. Specjalizuję się w leczeniu zaburzeń funkcjonalnych całego ciała w ujęciu osteopatycznym."
+    },
+    osteopathy: {
+      title: "Osteopatia",
+      description: "Osteopatia koncentruje się na całościowym podejściu do organizmu, szukając pierwotnych przyczyn dolegliwości. Poprzez precyzyjne techniki manualne wspiera naturalne mechanizmy regulacji i regeneracji. Terapia jest bezpieczna i dostosowana do indywidualnych potrzeb Pacjenta.",
+      imageAlt: "Terapia manualna – osteopatia"
+    }
+  },
+  en: {
+    doctor: {
+      name: "Dr Jarema Paduszyński",
+      description: "I have many years of experience in physiotherapy and osteopathic practice. I also conduct educational and scientific activities, and have obtained a PhD in physiotherapy. I specialize in treating functional disorders of the whole body from an osteopathic perspective."
+    },
+    osteopathy: {
+      title: "Osteopathy",
+      description: "Osteopathy focuses on a holistic approach to the body, looking for the root causes of ailments. Through precise manual techniques, it supports natural regulatory and regenerative mechanisms. The therapy is safe and tailored to the individual needs of the patient.",
+      imageAlt: "Manual therapy – osteopathy"
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
+---
+
+<section class="py-16 md:py-36">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <!-- Blok: O terapeucie -->
+    <!-- Zwiększone zdjęcie terapeuty, zachowany owalny kształt -->
+    <div class="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start" data-animate="fade-up">
+      <img 
+        src={portret1.src} 
+        alt={content.doctor.name} 
+        class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0" 
+      />
+      <div class="md:pl-6 lg:pl-12">
+        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-400 hover:text-medical-primary">
+          <span class="font-light">dr</span> Jarema <strong class="font-semibold">Paduszyński</strong>
+        </h2>
+        <p class="mt-3 text-medical-text-light text-body-mobile md:text-body-desktop max-w-2xl">
+          {content.doctor.description}
+        </p>
+      </div>
+    </div>
+
+    <!-- Odstęp między blokami -->
+    <div class="h-22 md:h-40"></div>
+
+    <!-- Blok: Osteopatia (obraz po lewej, tekst po prawej) -->
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center" data-animate="fade-up" data-animate-delay="200">
+      <div>
+        <img src={gallery4.src} alt={content.osteopathy.imageAlt} class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm" />
+      </div>
+      <div>
+        <h3 class="font-heading text-h3-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-200 hover:text-medical-primary">{content.osteopathy.title}</h3>
+        <p class="mt-4 text-medical-text-light text-body-mobile md:text-body-desktop">
+          {content.osteopathy.description}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

@@ -1,0 +1,57 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_KEYWORDS, SITE_AUTHOR, SITE_IMAGE } from '../consts';
+import tlo1 from '../assets/tlo1.jpg';
+import MainLayout from '../layouts/MainLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import TreatmentSelector from '../components/TreatmentSelector.astro';
+import StatsSection from '../components/StatsSection.astro';
+import TherapistAndOsteopathySection from '../components/TherapistAndOsteopathySection.astro';
+import BenefitsSection from '../components/BenefitsSection.astro';
+import ClinicGallerySection from '../components/ClinicGallerySection.astro';
+import SpecializationsSection from '../components/SpecializationsSection.astro';
+import SpecializationsSection2 from '../components/SpecializationsSection2.astro';
+import CertificatesSection from '../components/CertificatesSection.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
+import ZnanyLekarzWidget from '../components/ZnanyLekarzWidget.astro';
+import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
+
+---
+<MainLayout 
+  title={SITE_TITLE} 
+  description={SITE_DESCRIPTION} 
+  keywords={SITE_KEYWORDS}
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="website"
+  hideHeader={true} 
+  schemaType="home"
+>
+  <HeroSection
+    title="Klinika Osteopatii"
+    subtitle="Dr Jarema Paduszyński"
+    slides={[
+      { title: 'Klinika Osteopatii', subtitle: 'Dr Jarema Paduszyński' },
+      { title: 'Cieszę się że do mnie trafiłeś.', subtitle: 'Jestem tu po to aby Ci pomóc' },
+    ]}
+    supportingText="Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś"
+    ratingStars={5}
+    ratingText="150+ pozytywnych opinii Pacjentów"
+    secondaryCtaLabel="Oceń wizytę"
+    secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
+    ctaLabel="Zapisz się"
+    ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+    bgImageSrc={tlo1.src}
+  />
+  <StatsSection />
+  <TherapistAndOsteopathySection />
+  <BenefitsSection />
+  <ClinicGallerySection />
+  <TreatmentSelector />
+  <SpecializationsSection />
+  <SpecializationsSection2 />
+  <CertificatesSection />
+  <TestimonialsSection />
+  <PreFooterLogoSection />
+
+
+</MainLayout>

@@ -1,0 +1,29 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import tlo1 from '../../assets/tlo1.jpg';
+---
+
+<MainLayout title="Pricing - Dr Jarema Paduszyński" description="Treatment pricing" hideHeader={true}>
+  <HeroSection
+    title="Pricing"
+    supportingText="Book an appointment and take care of your health today"
+    ratingStars={5}
+    ratingText="150+ positive patient reviews"
+    secondaryCtaLabel="Rate visit"
+    secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
+    ctaLabel="Book now"
+    ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+    bgImageSrc={tlo1.src}
+  />
+  <main class="py-16 md:py-24">
+    <div class="container mx-auto px-4 md:px-6 max-w-4xl">
+      <h1 class="font-heading text-h1-mobile md:text-h1-desktop text-medical-text text-center mb-8">
+        Pricing
+      </h1>
+      <p class="text-center text-medical-text-light">
+        English version coming soon...
+      </p>
+    </div>
+  </main>
+</MainLayout>

@@ -1,0 +1,101 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { SITE_AUTHOR, SITE_IMAGE } from '../consts';
+
+const today = new Date().toISOString().slice(0, 10);
+
+// JSON-LD: minimalny WebPage + Organization + Person
+const webpageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Polityka prywatności – Dr Jarema Paduszyński Osteopata Kraków',
+  url: Astro.url.href,
+  description:
+    'Prosta polityka prywatności: brak cookies i analityki marketingowej. Dane przetwarzane wyłącznie w celu kontaktu i umówienia wizyty.',
+  inLanguage: 'pl-PL',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Dr Jarema Paduszyński – Osteopata',
+    url: new URL('/', Astro.url).href,
+  },
+};
+
+const { organizationSchema } = await import('../schemas/organization');
+const { drPaduszynskiSchema } = await import('../schemas/person');
+
+const customSchema = {
+  webpage: webpageSchema,
+  organization: organizationSchema,
+  person: drPaduszynskiSchema,
+};
+---
+
+<MainLayout 
+  title="Polityka prywatności – Dr Jarema Paduszyński Osteopata Kraków"
+  description="Prosta polityka prywatności: brak cookies i analityki marketingowej. Dane przetwarzane wyłącznie w celu kontaktu i umówienia wizyty."
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="article"
+  schemaType="custom"
+  customSchema={customSchema}
+  hideHeader={true}
+>
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+      <h1 class="font-heading text-medical-text text-2xl md:text-4xl font-semibold">Polityka prywatności</h1>
+      <p class="text-medical-text-light mt-3">Aktualizacja: {today}</p>
+
+      <div class="prose-medical max-w-none mt-8">
+        <p>Ta strona nie wykorzystuje cookies ani narzędzi analitycznych do celów marketingowych. Przetwarzam jedynie dane niezbędne do kontaktu i obsługi rezerwacji wizyty.</p>
+
+        <h2>Administrator danych</h2>
+        <p>
+          Administratorem danych jest <strong>Dr Jarema Paduszyński</strong>, ul. Jugowicka 35/5, 30-443 Kraków, e-mail: 
+          <a href="mailto:kontakt@paduszynski-osteopata.pl">kontakt@paduszynski-osteopata.pl</a>, tel.: 
+          <a href="tel:+48667762227">+48 667 762 227</a>.
+        </p>
+
+        <h2>Zakres i cele przetwarzania</h2>
+        <ul>
+          <li>Odpowiedź na zapytanie lub umówienie wizyty (podstawa: art. 6 ust. 1 lit. b RODO – działania przed zawarciem umowy/świadczeniem usługi).</li>
+          <li>Spełnienie obowiązków prawnych (art. 6 ust. 1 lit. c RODO), w tym wynikających z przepisów ochrony zdrowia – wyłącznie poza stroną internetową.</li>
+        </ul>
+        <p>Przez stronę internetową nie zbieram informacji o stanie zdrowia. Dane medyczne są gromadzone wyłącznie w gabinecie zgodnie z przepisami prawa.</p>
+
+        <h2>Brak cookies i analityki marketingowej</h2>
+        <p>Strona nie stosuje własnych plików cookies do celów marketingowych ani narzędzi analitycznych śledzących zachowania Użytkowników.</p>
+
+        <h2>Usługi zewnętrzne</h2>
+        <p>Na stronie może być osadzony widget rezerwacyjny <strong>ZnanyLekarz</strong>. Po przejściu do serwisu ZnanyLekarz lub interakcji z widgetem, operatorem danych w tym zakresie jest podmiot zewnętrzny (ZnanyLekarz sp. z o.o.), a zastosowanie ma jego polityka prywatności.</p>
+        <p>Strona jest utrzymywana u zewnętrznego dostawcy hostingu i usług IT (np. infrastruktura serwerowa). Podmioty te mogą działać jako podmioty przetwarzające na podstawie stosownych umów.</p>
+
+        <h2>Okres przechowywania</h2>
+        <p>Dane związane z zapytaniem przechowuję przez czas niezbędny do udzielenia odpowiedzi i realizacji wizyty oraz przez okres wynikający z przepisów.</p>
+
+        <h2>Prawa osoby, której dane dotyczą</h2>
+        <ul>
+          <li>dostęp do danych,</li>
+          <li>sprostowanie danych,</li>
+          <li>usunięcie danych („prawo do bycia zapomnianym”),</li>
+          <li>ograniczenie przetwarzania,</li>
+          <li>przenoszenie danych (w zakresie technicznie możliwym),</li>
+          <li>sprzeciw wobec przetwarzania (gdy podstawą jest prawnie uzasadniony interes).</li>
+        </ul>
+     
+
+        <h2>Dobrowolność podania danych</h2>
+        <p>Podanie danych jest dobrowolne, ale niezbędne do udzielenia odpowiedzi lub umówienia wizyty.</p>
+
+        <h2>Bezpieczeństwo</h2>
+        <p>Stosuję środki techniczne i organizacyjne odpowiednie do ryzyka, aby chronić dane przed nieuprawnionym dostępem, ujawnieniem lub utratą.</p>
+
+        <h2>Zmiany polityki</h2>
+        <p>Zastrzegam możliwość aktualizacji treści, aby była zgodna z rzeczywistymi procesami przetwarzania. Wersja obowiązująca jest publikowana na tej stronie.</p>
+
+        <hr />
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+

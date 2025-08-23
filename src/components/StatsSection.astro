@@ -1,0 +1,110 @@
+---
+/* @ts-nocheck */
+// Komponent: Sekcja statystyk zaufania
+// Pokazuje 4 kolumny z wartością (pogrubioną) oraz opisem (lżejszym tekstem)
+
+export interface StatItem {
+  value: string;
+  label: string;
+}
+
+export interface StatsProps {
+  stats?: StatItem[];
+}
+
+const {
+  stats = [
+    { value: '27+', label: 'lat doświadczenia' },
+    { value: '1000+', label: 'wyleczonych pacjentów' },
+    { value: '10 000+', label: 'godzin poświęconych pacjentom' },
+    { value: '50+', label: 'certyfikatów i szkoleń' },
+  ],
+}: StatsProps = Astro.props;
+---
+
+<section class="mt-12 md:mt-24">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <div class="bg-medical-white rounded-3xl md:rounded-4xl border border-medical-bg/60 shadow-sm">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-medical-bg/60">
+        {stats.map((item) => {
+          const numericTarget = Number(String(item.value).replace(/\D/g, '')) || 0;
+          const suffix = String(item.value).replace(/[0-9\s]/g, '');
+          const srOnlyText = `${item.value} ${item.label}`;
+          return (
+            <div class="py-6 md:py-10 px-6 text-center group js-stat">
+              <div class="font-heading font-bold text-medical-text text-2xl md:text-3xl tracking-tight transition-colors duration-200 group-hover:text-medical-primary opacity-0 translate-y-1 transition-all group-[.is-visible]:opacity-100 group-[.is-visible]:translate-y-0">
+                <span class="js-countup" data-target={numericTarget} data-suffix={suffix} aria-hidden="true">0</span>
+                <span class="sr-only">{srOnlyText}</span>
+              </div>
+              <div class="text-medical-text-light text-sm md:text-base mt-1 font-light opacity-0 translate-y-1 transition-all group-[.is-visible]:opacity-100 group-[.is-visible]:translate-y-0">
+                {item.label}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Lekka animacja count-up + wejście przy przecięciu viewportu
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const numberFormatter = new Intl.NumberFormat('pl-PL');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const stat = entry.target;
+        if (!entry.isIntersecting) return;
+        if (stat.getAttribute('data-animated') === 'true') return;
+
+        const countSpan = stat.querySelector('.js-countup');
+        if (!countSpan) return;
+
+        const target = Number(countSpan.getAttribute('data-target')) || 0;
+        const suffix = countSpan.getAttribute('data-suffix') || '';
+
+        const finalize = () => {
+          countSpan.textContent = `${numberFormatter.format(target)}${suffix}`;
+          stat.setAttribute('data-animated', 'true');
+          observer.unobserve(stat);
+        };
+
+        if (prefersReducedMotion) {
+          finalize();
+          return;
+        }
+
+        const durationMs = 2500;
+        const start = performance.now();
+
+        // pokaż element od razu po wejściu w viewport, aby licznik był widoczny podczas animacji
+        stat.classList.add('is-visible');
+
+        const step = () => {
+          const elapsed = performance.now() - start;
+          const progress = Math.min(1, elapsed / durationMs);
+          // mocniejsze ease-out (quint) dla wyraźnego zwolnienia końcówki animacji
+          const eased = 1 - Math.pow(1 - progress, 5);
+          const current = Math.round(target * eased);
+          countSpan.textContent = `${numberFormatter.format(current)}${suffix}`;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            finalize();
+          }
+        };
+
+        // Start animacji
+        requestAnimationFrame(step);
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  document.querySelectorAll('.js-stat').forEach((el) => observer.observe(el));
+</script>
+
+

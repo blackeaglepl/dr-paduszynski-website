@@ -1,0 +1,101 @@
+---
+// Komponent: Widget ZnanyLekarz (lazy loaded)
+// Wymagania: 300x451px minimum, lazy loading, a11y, brak zewnętrznych bibliotek UI
+---
+
+<!-- Sekcja kontakt/umów wizytę z widgetem ZnanyLekarz -->
+<section id="kontakt" aria-label="Umów wizytę" class="py-16 md:py-24">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <!-- Nagłówek sekcji -->
+    <h2 class="font-heading text-medical-text text-h2-mobile md:text-h2-desktop mb-6">
+      Umów wizytę
+    </h2>
+    <p class="text-medical-text-light text-body-mobile md:text-body-desktop mb-8">
+      Skorzystaj z portalu Znany Lekarz, aby szybko zarezerwować termin wizyty.
+    </p>
+
+    <!-- Karta z widgetem (minimum 300x451) -->
+    <div
+      class="bg-medical-white rounded-xl shadow-sm border border-medical-bg p-4 md:p-6"
+    >
+      <!-- Placeholder, aby zachować wysokość przed załadowaniem -->
+      <div class="min-h-[451px]">
+        <!-- ZnanyLekarz anchor, przekształcany przez skrypt widgetu -->
+        <a
+          id="zl-url"
+          class="zl-url"
+          href="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+          rel="nofollow"
+          data-zlw-doctor="jarema-paduszynski"
+          data-zlw-type="big_with_calendar"
+          data-zlw-opinion="false"
+          data-zlw-hide-branding="true"
+          data-zlw-saas-only="false"
+          data-zlw-a11y-title="Widget umówienia wizyty lekarskiej"
+          aria-label="Widget umówienia wizyty ZnanyLekarz"
+        >
+          Jarema Paduszyński - ZnanyLekarz.pl
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lazy loading skryptu widgetu za pomocą IntersectionObserver -->
+  <script>
+    const WIDGET_SCRIPT_ID = 'zl-widget-s';
+    const WIDGET_SCRIPT_SRC = '//platform.docplanner.com/js/widget.js';
+
+    function injectZnanyLekarzScript() {
+      if (document.getElementById(WIDGET_SCRIPT_ID)) return;
+      const script = document.createElement('script');
+      script.id = WIDGET_SCRIPT_ID;
+      script.src = WIDGET_SCRIPT_SRC;
+      const firstScript = document.getElementsByTagName('script')[0];
+      if (firstScript && firstScript.parentNode) {
+        firstScript.parentNode.insertBefore(script, firstScript);
+      } else {
+        const target = document.head || document.body || document.documentElement;
+        target && target.appendChild(script);
+      }
+    }
+
+    // Jeśli sekcja jest już w viewport (np. po nawigacji z #kontakt), doładuj od razu
+    function lazyLoadWidgetWhenVisible() {
+      const sectionEl = document.getElementById('kontakt');
+      if (!sectionEl) return;
+
+      // Guard: jeśli skrypt jest już obecny, nic nie rób
+      if (document.getElementById(WIDGET_SCRIPT_ID)) return;
+
+      // Jeśli IntersectionObserver niedostępny, załaduj od razu
+      if (!('IntersectionObserver' in window)) {
+        injectZnanyLekarzScript();
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              injectZnanyLekarzScript();
+              obs.disconnect();
+              break;
+            }
+          }
+        },
+        { root: null, rootMargin: '0px', threshold: 0.2 }
+      );
+
+      observer.observe(sectionEl);
+    }
+
+    // Inicjalizacja po załadowaniu DOM
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', lazyLoadWidgetWhenVisible);
+    } else {
+      lazyLoadWidgetWhenVisible();
+    }
+  </script>
+</section>
+
+

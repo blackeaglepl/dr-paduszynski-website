@@ -1,0 +1,80 @@
+---
+// Komponent Schema Markup dla JSON-LD
+// Automatycznie wstrzykuje odpowiednie schema na podstawie typu strony
+
+interface Props {
+  schemaType: 'home' | 'pricing' | 'contact' | 'blog' | 'custom';
+  customSchema?: any;
+}
+
+const { schemaType, customSchema } = Astro.props;
+
+// Importy schema
+import { 
+  generateHomePageSchema,
+  generatePricingPageSchema, 
+  generateContactPageSchema
+} from '../schemas/index';
+
+let schemaData: any = {};
+
+// Wybór odpowiedniego schema na podstawie typu strony
+switch (schemaType) {
+  case 'home':
+    schemaData = generateHomePageSchema();
+    break;
+  case 'pricing':
+    schemaData = generatePricingPageSchema();
+    break;
+  case 'contact':
+    schemaData = generateContactPageSchema();
+    break;
+  case 'custom':
+    schemaData = customSchema || {};
+    break;
+  default:
+    // Domyślne schema dla pozostałych stron
+    schemaData = {
+      organization: (await import('../schemas/organization')).organizationSchema,
+      person: (await import('../schemas/person')).drPaduszynskiSchema
+    };
+}
+
+// Funkcja do bezpiecznego stringifikowania JSON
+function safeStringify(obj: any): string {
+  try {
+    return JSON.stringify(obj, null, 0);
+  } catch (error) {
+    console.error('Błąd podczas serializacji schema markup:', error);
+    return '{}';
+  }
+}
+---
+
+<!-- JSON-LD Schema Markup -->
+{Object.entries(schemaData).map(([key, schema]) => (
+  <script type="application/ld+json" set:html={safeStringify(schema)} />
+))}
+
+<!-- Dodatkowe meta tagi dla SEO medycznego -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="author" content="Dr Jarema Paduszyński" />
+<meta name="geo.region" content="PL-MA" />
+<meta name="geo.placename" content="Kraków" />
+<meta name="geo.position" content="50.00768529121014;19.93402742451952" />
+<meta name="ICBM" content="50.00768529121014, 19.93402742451952" />
+
+<!-- Medical specific meta tags -->
+<meta name="medical.specialty" content="Osteopatia, Fizjoterapia" />
+<meta name="medical.condition" content="Bóle kręgosłupa, Dysfunkcje stawów, Napięcia mięśniowe" />
+<meta name="medical.treatment" content="Osteopatia, Terapia manualna, Fizjoterapia" />
+
+<!-- Local business meta tags -->
+<meta name="business.hours" content="Mo 10:00-13:00,14:00-18:00, Tu 14:00-18:00, We 10:00-13:00,14:00-18:00, Fr 09:00-13:00,14:00-17:00" />
+<meta name="business.payment" content="Gotówka, Karta płatnicza, Przelew" />
+<meta name="business.price_range" content="100-300 PLN" />
+
+<!-- Trust signals -->
+<meta name="trustpilot.verification" content="verified" />
+<meta name="medical.license" content="verified" />
+<meta name="insurance.accepted" content="consultation available" />

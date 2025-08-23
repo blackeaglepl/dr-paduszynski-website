@@ -1,0 +1,301 @@
+---
+/* @ts-nocheck */
+// Komponent: Interaktywny wybór zabiegu z listą (karuzela po prawej) i szczegółami po lewej
+// Wymagania: 3 przyciski po prawej przewijane jak karuzela, logo w lewym górnym rogu, stałe tło,
+// półprzezroczysty kontener z rozmyciem (backdrop-filter: blur(30px)) i zaokrągleniem 56px.
+
+import logo from '../assets/logo_osteopatia.svg';
+import placeholderBg from '../assets/tlo1.jpg';
+import { servicesList as defaultServices } from '../utils/services';
+
+export interface ServiceItem {
+  name: string;
+  price: string;
+  description: string;
+}
+
+export interface TreatmentSelectorProps {
+  services?: ServiceItem[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  bgImageSrc?: string;
+}
+
+const {
+  services = defaultServices,
+  ctaLabel = 'Zapisz się',
+  ctaHref = 'https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow',
+  bgImageSrc,
+}: TreatmentSelectorProps = Astro.props;
+// Pre-serializacja danych dla skryptu przeglądarkowego
+const servicesClient = services;
+---
+
+<!-- Sekcja kontenera z tłem (obraz stały) -->
+<section class="py-10 md:pt-16 md:pb-28" data-animate="fade-up">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <div class="relative overflow-hidden rounded-[72px]" style="min-height: 680px;">
+      <!-- Tło: stały obraz -->
+      <div
+        class="absolute inset-0 bg-cover bg-center"
+        style={`background-image: url(${bgImageSrc ?? placeholderBg.src});`}
+        aria-hidden="true"
+      ></div>
+
+      <!-- Półprzezroczysty, rozmyty panel główny -->
+      <div
+        class="absolute inset-4 md:inset-6 lg:inset-8 rounded-[56px] bg-black/10 backdrop-blur-[30px]"
+        style="backdrop-filter: blur(30px);"
+      >
+        <!-- Delikatny wewnętrzny gradient dla efektu szkła jak w makiecie -->
+        <div class="pointer-events-none absolute inset-0 rounded-[56px] opacity-90 bg-[radial-gradient(120%_120%_at_12%_10%,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.10)_38%,rgba(0,0,0,0.18)_100%)]"></div>
+        <!-- Wnętrze panelu -->
+        <div class="relative z-10 grid md:grid-cols-5 gap-6 md:gap-10 p-6 md:p-10 lg:p-12 h-full">
+          <!-- Lewa kolumna: logo + tytuł + opis + cena + CTA -->
+          <div class="md:col-span-3 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
+            <div class="flex items-center gap-3 mb-6">
+              <img src={logo.src} alt="Logo Dr Jarema Paduszyński Osteopata" class="h-10 md:h-12" />
+            </div>
+
+            <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-white tracking-tight js-title">
+              {services[0]?.name || 'Zabieg'}
+            </h2>
+            <p class="mt-5 text-white/85 text-body-mobile md:text-body-desktop max-w-full md:max-w-sm lg:max-w-xs flex-1 md:leading-relaxed js-description">
+              {services[0]?.description}
+            </p>
+
+            <!-- Dolna sekcja z ceną i CTA - przesunięta niżej na desktopie -->
+            <div class="mt-8 md:mt-auto md:pt-10 lg:pt-12 flex items-end gap-6">
+              <div class="text-white font-heading text-2xl md:text-4xl js-price">{services[0]?.price}</div>
+              <a
+                href={ctaHref}
+                class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold inline-flex items-center justify-center py-3.5 md:py-4 px-8 md:px-10 rounded-full text-sm md:text-base transition-colors duration-300 shadow-sm"
+              >
+                {ctaLabel}
+              </a>
+            </div>
+          </div>
+
+          <!-- Prawa kolumna: karuzela 3 przycisków wyboru -->
+          <div class="md:col-span-2 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
+            <div id="service-carousel" class="relative w-full flex-1" aria-roledescription="carousel">
+              <!-- Tor slajdów (każdy zawiera 3 przyciski) - stała wysokość -->
+              <div class="overflow-hidden h-[220px] md:h-[300px]">
+                <div class="transition-transform duration-500 ease-out will-change-transform js-track h-full">
+                  <!-- Karuzela zestawów zabiegów -->
+                  {(() => {
+                    const slideSize = 3;
+                    const slides = [];
+                    for (let i = 0; i < services.length; i += slideSize) {
+                      slides.push(services.slice(i, i + slideSize));
+                    }
+                    
+                    return slides.map((slide, slideIdx) => (
+                      <div 
+                        class={`treatment-slide ${slideIdx === 0 ? 'active' : 'hidden'} h-full`}
+                        data-slide-index={slideIdx}
+                      >
+                        <div class="p-1 h-full flex flex-col justify-start">
+                          <div class="flex flex-col gap-3 md:gap-5">
+                            {slide.map((service, idx) => (
+                              <button
+                                type="button" 
+                                class={`w-full text-left rounded-[20px] md:rounded-[24px] px-4 md:px-7 h-14 md:h-20 bg-white/10 hover:bg-white/15 text-white transition-colors duration-200 ring-1 ring-white/15 focus:outline-none focus:ring-2 focus:ring-medical-primary/60 treatment-btn ${slideIdx === 0 && idx === 0 ? 'bg-medical-primary' : ''}`}
+                                data-service-name={service.name}
+                                data-service-price={service.price}
+                                data-service-description={service.description}
+                                data-service-index={slideIdx * slideSize + idx}
+                              >
+                                <div class="flex items-center justify-between gap-2 md:gap-4">
+                                  <div class="font-heading text-white/95 text-sm md:text-lg leading-tight">{service.name}</div>
+                                </div>
+                              </button>
+                            ))}
+                            
+                            <!-- Invisible placeholder buttons to maintain consistent height -->
+                            {slide.length < 3 && Array.from({length: 3 - slide.length}, (_, idx) => (
+                              <div class="w-full h-14 md:h-20 opacity-0 pointer-events-none" aria-hidden="true"></div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ));
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            <!-- Nawigacja kropkami - przesunięta niżej na desktopie -->
+            <div class="mt-8 md:mt-auto md:pt-8 md:pb-2 flex items-center justify-center gap-3 js-dots h-12" aria-label="Wybór zestawu zabiegów">
+              {Math.ceil(services.length / 3) > 1 && 
+                Array.from({length: Math.ceil(services.length / 3)}, (_, i) => (
+                  <button
+                    type="button"
+                    class={`h-2.5 w-2.5 rounded-full outline-none ring-0 hover:scale-110 transition-all duration-200 dot-btn ${i === 0 ? 'bg-medical-primary' : 'bg-white/40'}`}
+                    data-slide-target={i}
+                    aria-label={`Przejdź do zestawu ${i + 1}`}
+                  ></button>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dane dla klienta w formacie JSON -->
+  <script type="application/json" id="services-data">{JSON.stringify(servicesClient)}</script>
+
+  <!-- Skrypt: obsługa karuzeli i kliknięć na przyciski -->
+  <script>
+    // @ts-nocheck
+    document.addEventListener('DOMContentLoaded', () => {
+      const titleEl = document.querySelector('.js-title');
+      const descriptionEl = document.querySelector('.js-description');
+      const priceEl = document.querySelector('.js-price');
+      
+      if (!titleEl || !descriptionEl || !priceEl) {
+        console.warn('Nie znaleziono elementów do aktualizacji');
+        return;
+      }
+
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.treatment-slide');
+      const dots = document.querySelectorAll('.dot-btn');
+      
+      // Funkcja przełączania slajdów
+      /** @param {number} slideIndex */
+      const goToSlide = (slideIndex) => {
+        // Ukryj wszystkie slajdy
+        slides.forEach(slide => {
+          slide.classList.add('hidden');
+          slide.classList.remove('active');
+        });
+        
+        // Pokaż wybrany slajd
+        const targetSlide = slides[slideIndex];
+        if (targetSlide) {
+          targetSlide.classList.remove('hidden');
+          targetSlide.classList.add('active');
+        }
+        
+        // Zaktualizuj kropki
+        dots.forEach((dot, i) => {
+          if (i === slideIndex) {
+            dot.classList.add('bg-medical-primary');
+            dot.classList.remove('bg-white/40');
+          } else {
+            dot.classList.remove('bg-medical-primary');
+            dot.classList.add('bg-white/40');
+          }
+        });
+        
+        currentSlide = slideIndex;
+        
+        // Automatycznie wybierz pierwszy przycisk w nowym slajdzie
+        /** @type {HTMLButtonElement | null} */
+        const firstButton = targetSlide?.querySelector('.treatment-btn');
+        firstButton?.click();
+      };
+
+      // Autoodtwarzanie (autoplay) z pauzą na hover
+      const carouselRoot = document.querySelector('#service-carousel');
+      let autoplayTimerId = null;
+      const AUTOPLAY_INTERVAL_MS = 6000;
+      const hasMultipleSlides = slides.length > 1;
+
+      const stopAutoplay = () => {
+        if (autoplayTimerId) {
+          clearInterval(autoplayTimerId);
+          autoplayTimerId = null;
+        }
+      };
+
+      const startAutoplay = () => {
+        if (!hasMultipleSlides) return;
+        stopAutoplay();
+        autoplayTimerId = setInterval(() => {
+          const nextSlide = (currentSlide + 1) % slides.length;
+          goToSlide(nextSlide);
+        }, AUTOPLAY_INTERVAL_MS);
+      };
+
+      if (carouselRoot && hasMultipleSlides) {
+        carouselRoot.addEventListener('mouseenter', stopAutoplay);
+        carouselRoot.addEventListener('mouseleave', startAutoplay);
+      }
+
+      // Obsługa kliknięć na kropki
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const slideTarget = parseInt(dot.getAttribute('data-slide-target') || '0');
+          goToSlide(slideTarget);
+          // Restart autoplay, o ile nie trzymamy kursora nad karuzelą
+          if (!carouselRoot || !carouselRoot.matches(':hover')) {
+            startAutoplay();
+          }
+        });
+      });
+
+      // Obsługa kliknięć na przyciski zabiegów  
+      const updateTreatmentButtons = () => {
+        const treatmentButtons = document.querySelectorAll('.treatment-btn');
+        
+        treatmentButtons.forEach(button => {
+          // Usuń poprzednie event listenery (jeśli istnieją)
+          button.replaceWith(button.cloneNode(true));
+        });
+        
+        // Dodaj nowe event listenery
+        document.querySelectorAll('.treatment-btn').forEach(button => {
+          button.addEventListener('click', () => {
+            // Usuń active z wszystkich przycisków w aktualnym slajdzie
+            const currentSlideEl = document.querySelector('.treatment-slide.active');
+            if (currentSlideEl) {
+              currentSlideEl.querySelectorAll('.treatment-btn').forEach(btn => {
+                btn.classList.remove('bg-medical-primary');
+                btn.classList.add('bg-white/10');
+              });
+            }
+            
+            // Dodaj active do klikniętego
+            button.classList.add('bg-medical-primary');
+            button.classList.remove('bg-white/10');
+            
+            // Aktualizuj treść
+            const name = button.getAttribute('data-service-name');
+            const price = button.getAttribute('data-service-price');
+            const description = button.getAttribute('data-service-description');
+            
+            if (name && price && description) {
+              titleEl.textContent = name;
+              descriptionEl.textContent = description;
+              priceEl.textContent = price;
+            }
+
+            // Restart autoplay po interakcji, jeśli nie ma hover
+            if (!carouselRoot || !carouselRoot.matches(':hover')) {
+              startAutoplay();
+            }
+          });
+        });
+      };
+      
+      // Inicjalizacja
+      updateTreatmentButtons();
+      
+      // Automatyczne kliknięcie pierwszego przycisku
+      /** @type {HTMLButtonElement | null} */
+      const firstButton = document.querySelector('.treatment-btn');
+      firstButton?.click();
+
+      // Start autoplay po inicjalizacji (jeśli jest więcej niż jeden slajd i brak hover)
+      if (!carouselRoot || !carouselRoot.matches(':hover')) {
+        startAutoplay();
+      }
+    });
+  </script>
+</section>
+
+
