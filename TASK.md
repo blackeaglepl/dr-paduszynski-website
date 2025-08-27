@@ -38,6 +38,10 @@
 - [x] **[2025-08-20]** Dodano komponent `GoogleMaps.astro` na stronę kontakt z integracją Google Maps API, responsywnym layoutem i obsługą błędów
 - [x] **[2025-08-20]** Przerobiono stronę kontakt: utworzono `ContactAndWidget.astro` (dane kontaktowe + widget ZnanyLekarz w dwóch kolumnach) i `LocationMap.astro` (mapa na dole pełnej szerokości)
 
+- [x] **[2025-08-27]** `TreatmentSelector.astro` (mobile): zwiększono min. wysokość sekcji i wysokość toru karuzeli, aby 3 przyciski zawsze mieściły się w panelu (bez zmian na desktopie)
+
+- [x] **[2025-08-27]** Zwiększono odstęp nad sekcją „Certyfikaty i referencje” na desktopie: w `src/components/SpecializationsSection2.astro` zmieniono `md:pb-24` → `md:pb-32 lg:pb-36`.
+
 ## 🟡 W trakcie
 - [ ] [2025-08-12] Dodanie mocniejszego ease-out (quint) do animacji licznika w `StatsSection.astro`
 - [ ] [2025-08-12] Dopracowanie typowania/lint dla plików `.astro` (fałszywe błędy `class` vs `className` w narzędziu lintera)

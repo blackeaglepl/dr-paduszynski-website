@@ -34,7 +34,7 @@ const servicesClient = services;
 <!-- Sekcja kontenera z tłem (obraz stały) -->
 <section class="py-10 md:pt-16 md:pb-28" data-animate="fade-up">
   <div class="container mx-auto px-4 md:px-6 max-w-6xl">
-    <div class="relative overflow-hidden rounded-[72px]" style="min-height: 680px;">
+    <div class="relative overflow-hidden rounded-[72px] min-h-[760px] md:min-h-[680px]">
       <!-- Tło: stały obraz -->
       <div
         class="absolute inset-0 bg-cover bg-center"
@@ -80,7 +80,7 @@ const servicesClient = services;
           <div class="md:col-span-2 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
             <div id="service-carousel" class="relative w-full flex-1" aria-roledescription="carousel">
               <!-- Tor slajdów (każdy zawiera 3 przyciski) - stała wysokość -->
-              <div class="overflow-hidden h-[220px] md:h-[300px]">
+              <div class="overflow-hidden h-[252px] md:h-[300px]">
                 <div class="transition-transform duration-500 ease-out will-change-transform js-track h-full">
                   <!-- Karuzela zestawów zabiegów -->
                   {(() => {
@@ -158,7 +158,7 @@ const servicesClient = services;
               aria-label={`Przejdź do zestawu ${i + 1}`}
             >
               <div 
-                class={`h-full bg-medical-primary rounded-full transition-all duration-700 ease-in-out ${i === 0 ? 'w-full' : 'w-0'}`}
+                class={`js-progress-fill h-full bg-medical-primary rounded-full ${i === 0 ? 'w-full' : 'w-0'}`}
               ></div>
             </button>
           ))}
@@ -221,8 +221,10 @@ const servicesClient = services;
         progressBars.forEach((bar, i) => {
           const progressFill = bar.querySelector('div');
           if (progressFill) {
-            // Resetuj wszystkie klasy animacji
+            // Reset wszystkich stanów i animacji
             progressFill.classList.remove('progress-animated', 'progress-paused', 'w-full', 'w-0');
+            progressFill.style.animation = 'none';
+            progressFill.style.width = '0%';
             
             if (i === slideIndex) {
               // Aktywny pasek - dodaj tło i przygotuj do animacji
@@ -231,7 +233,6 @@ const servicesClient = services;
               // Wewnętrzny div będzie animowany przez CSS keyframes, nie przez Tailwind
             } else {
               // Nieaktywny pasek - ustaw szerokość na 0 przez CSS
-              progressFill.style.width = '0%';
               bar.classList.remove('bg-medical-primary/50', 'border-medical-primary', 'shadow-sm');
               bar.classList.add('bg-medical-primary/15', 'border-medical-primary/25');
             }
@@ -257,11 +258,14 @@ const servicesClient = services;
         if (activeBar) {
           const progressFill = activeBar.querySelector('div');
           if (progressFill) {
-            // Usuń klasy Tailwind które blokują animację CSS
-            progressFill.classList.remove('progress-animated', 'w-full', 'w-0');
-            progressFill.offsetHeight; // Trigger reflow
-            // Uruchom animację CSS
-            progressFill.classList.add('progress-animated');
+            // Twardy reset i start animacji inline (niezależny od klas Tailwind)
+            progressFill.classList.remove('progress-animated', 'progress-paused', 'w-full', 'w-0');
+            progressFill.style.transition = 'none';
+            progressFill.style.animation = 'none';
+            progressFill.style.width = '0%';
+            progressFill.offsetHeight; // reflow
+            progressFill.style.animation = `progressFillRealTime ${AUTOPLAY_INTERVAL_MS}ms linear forwards`;
+            progressFill.style.animationPlayState = 'running';
           }
         }
       };
@@ -270,9 +274,7 @@ const servicesClient = services;
         const activeBar = progressBars[currentSlide];
         if (activeBar) {
           const progressFill = activeBar.querySelector('div');
-          if (progressFill && progressFill.classList.contains('progress-animated')) {
-            progressFill.classList.add('progress-paused');
-          }
+          if (progressFill) progressFill.style.animationPlayState = 'paused';
         }
       };
 
@@ -280,9 +282,7 @@ const servicesClient = services;
         const activeBar = progressBars[currentSlide];
         if (activeBar) {
           const progressFill = activeBar.querySelector('div');
-          if (progressFill && progressFill.classList.contains('progress-animated')) {
-            progressFill.classList.remove('progress-paused');
-          }
+          if (progressFill) progressFill.style.animationPlayState = 'running';
         }
       };
 
@@ -426,11 +426,7 @@ const servicesClient = services;
       }
     }
 
-    .progress-animated {
-      animation: progressFillRealTime 6s linear forwards;
-      /* Wyłącz Tailwind transition podczas animacji keyframes */
-      transition: none !important;
-    }
+    .progress-animated { animation: progressFillRealTime 6s linear forwards; }
 
     .progress-paused {
       animation-play-state: paused;

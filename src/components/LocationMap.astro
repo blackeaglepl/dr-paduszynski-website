@@ -155,11 +155,11 @@ const googleMapsApiKey = import.meta.env.GOOGLE_MAPS_API_KEY;
           // Poczekaj na załadowanie komponentów
           await customElements.whenDefined('gmpx-store-locator');
           
-          // Pobierz element store-locator i skonfiguruj go bez błędu TS
+          // Pobierz element store-locator i skonfiguruj go
           const locator = document.querySelector('gmpx-store-locator');
-          if (locator && typeof (locator as any).configureFromQuickBuilder === 'function') {
-            // Wywołaj metodę konfiguracyjną z typem any (brak TS error)
-            (locator as any).configureFromQuickBuilder(GOOGLE_MAPS_CONFIG);
+          if (locator && typeof locator.configureFromQuickBuilder === 'function') {
+            // Wywołaj metodę konfiguracyjną
+            locator.configureFromQuickBuilder(GOOGLE_MAPS_CONFIG);
 
             // Ukryj loading po załadowaniu
             setTimeout(() => {
