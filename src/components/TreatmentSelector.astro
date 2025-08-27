@@ -57,7 +57,7 @@ const servicesClient = services;
               <img src={logo.src} alt="Logo Dr Jarema Paduszyński Osteopata" class="h-10 md:h-12" />
             </div>
 
-            <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-white tracking-tight js-title">
+            <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-white tracking-tight js-title text-center md:text-left">
               {services[0]?.name || 'Zabieg'}
             </h2>
             <p class="mt-5 text-white/85 text-body-mobile md:text-body-desktop max-w-full md:max-w-sm lg:max-w-xs flex-1 md:leading-relaxed js-description">
@@ -125,23 +125,46 @@ const servicesClient = services;
               </div>
             </div>
 
-            <!-- Nawigacja kropkami - przesunięta niżej na desktopie -->
-            <div class="mt-8 md:mt-auto md:pt-8 md:pb-2 flex items-center justify-center gap-3 js-dots h-12" aria-label="Wybór zestawu zabiegów">
-              {Math.ceil(services.length / 3) > 1 && 
-                Array.from({length: Math.ceil(services.length / 3)}, (_, i) => (
-                  <button
-                    type="button"
-                    class={`h-2.5 w-2.5 rounded-full outline-none ring-0 hover:scale-110 transition-all duration-200 dot-btn ${i === 0 ? 'bg-medical-primary' : 'bg-white/40'}`}
-                    data-slide-target={i}
-                    aria-label={`Przejdź do zestawu ${i + 1}`}
-                  ></button>
-                ))
-              }
+            <!-- Nawigacja - tylko kropki desktop wewnątrz panelu -->
+            <div class="mt-8 md:mt-auto md:pt-8 md:pb-2 h-12" aria-label="Wybór zestawu zabiegów">
+              {Math.ceil(services.length / 3) > 1 && (
+                <!-- Kropki - od 768px wzwyż -->
+                <div class="hidden md:flex items-center justify-center gap-3 js-dots">
+                  {Array.from({length: Math.ceil(services.length / 3)}, (_, i) => (
+                    <button
+                      type="button"
+                      class={`h-2.5 w-2.5 rounded-full outline-none ring-0 hover:scale-110 transition-all duration-200 dot-btn ${i === 0 ? 'bg-medical-primary' : 'bg-white/40'}`}
+                      data-slide-target={i}
+                      aria-label={`Przejdź do zestawu ${i + 1}`}
+                    ></button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- Paski postępu - poza ramką tła, tylko mobile -->
+    {Math.ceil(services.length / 3) > 1 && (
+      <div class="js-progress-bars-container mt-4">
+        <div class="flex gap-2 items-center justify-center js-progress-bars px-6">
+          {Array.from({length: Math.ceil(services.length / 3)}, (_, i) => (
+            <button
+              type="button"
+              class={`flex-1 max-w-12 h-2.5 hover:bg-medical-primary/40 rounded-full overflow-hidden transition-all duration-300 progress-btn border py-1 ${i === 0 ? 'bg-medical-primary/50 border-medical-primary shadow-sm' : 'bg-medical-primary/15 border-medical-primary/25'}`}
+              data-slide-target={i}
+              aria-label={`Przejdź do zestawu ${i + 1}`}
+            >
+              <div 
+                class={`h-full bg-medical-primary rounded-full transition-all duration-700 ease-in-out ${i === 0 ? 'w-full' : 'w-0'}`}
+              ></div>
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
   </div>
 
   <!-- Dane dla klienta w formacie JSON -->
@@ -163,6 +186,9 @@ const servicesClient = services;
       let currentSlide = 0;
       const slides = document.querySelectorAll('.treatment-slide');
       const dots = document.querySelectorAll('.dot-btn');
+      const progressBars = document.querySelectorAll('.progress-btn');
+      
+      console.log('TreatmentSelector init:', { slides: slides.length, dots: dots.length, progressBars: progressBars.length });
       
       // Funkcja przełączania slajdów
       /** @param {number} slideIndex */
@@ -180,7 +206,7 @@ const servicesClient = services;
           targetSlide.classList.add('active');
         }
         
-        // Zaktualizuj kropki
+        // Zaktualizuj kropki (desktop)
         dots.forEach((dot, i) => {
           if (i === slideIndex) {
             dot.classList.add('bg-medical-primary');
@@ -188,6 +214,27 @@ const servicesClient = services;
           } else {
             dot.classList.remove('bg-medical-primary');
             dot.classList.add('bg-white/40');
+          }
+        });
+        
+        // Zaktualizuj paski postępu (mobile)
+        progressBars.forEach((bar, i) => {
+          const progressFill = bar.querySelector('div');
+          if (progressFill) {
+            // Resetuj wszystkie klasy animacji
+            progressFill.classList.remove('progress-animated', 'progress-paused', 'w-full', 'w-0');
+            
+            if (i === slideIndex) {
+              // Aktywny pasek - dodaj tło i przygotuj do animacji
+              bar.classList.add('bg-medical-primary/50', 'border-medical-primary', 'shadow-sm');
+              bar.classList.remove('bg-medical-primary/15', 'border-medical-primary/25');
+              // Wewnętrzny div będzie animowany przez CSS keyframes, nie przez Tailwind
+            } else {
+              // Nieaktywny pasek - ustaw szerokość na 0 przez CSS
+              progressFill.style.width = '0%';
+              bar.classList.remove('bg-medical-primary/50', 'border-medical-primary', 'shadow-sm');
+              bar.classList.add('bg-medical-primary/15', 'border-medical-primary/25');
+            }
           }
         });
         
@@ -199,39 +246,94 @@ const servicesClient = services;
         firstButton?.click();
       };
 
-      // Autoodtwarzanie (autoplay) z pauzą na hover
+      // Autoodtwarzanie (autoplay) z pauzą na hover i progresywną animacją paska
       const carouselRoot = document.querySelector('#service-carousel');
       let autoplayTimerId = null;
       const AUTOPLAY_INTERVAL_MS = 6000;
       const hasMultipleSlides = slides.length > 1;
+
+      const startProgressAnimation = () => {
+        const activeBar = progressBars[currentSlide];
+        if (activeBar) {
+          const progressFill = activeBar.querySelector('div');
+          if (progressFill) {
+            // Usuń klasy Tailwind które blokują animację CSS
+            progressFill.classList.remove('progress-animated', 'w-full', 'w-0');
+            progressFill.offsetHeight; // Trigger reflow
+            // Uruchom animację CSS
+            progressFill.classList.add('progress-animated');
+          }
+        }
+      };
+
+      const pauseProgressAnimation = () => {
+        const activeBar = progressBars[currentSlide];
+        if (activeBar) {
+          const progressFill = activeBar.querySelector('div');
+          if (progressFill && progressFill.classList.contains('progress-animated')) {
+            progressFill.classList.add('progress-paused');
+          }
+        }
+      };
+
+      const resumeProgressAnimation = () => {
+        const activeBar = progressBars[currentSlide];
+        if (activeBar) {
+          const progressFill = activeBar.querySelector('div');
+          if (progressFill && progressFill.classList.contains('progress-animated')) {
+            progressFill.classList.remove('progress-paused');
+          }
+        }
+      };
 
       const stopAutoplay = () => {
         if (autoplayTimerId) {
           clearInterval(autoplayTimerId);
           autoplayTimerId = null;
         }
+        pauseProgressAnimation();
       };
 
       const startAutoplay = () => {
         if (!hasMultipleSlides) return;
         stopAutoplay();
+        
+        // Uruchom animację paska dla aktywnego slajdu
+        startProgressAnimation();
+        
         autoplayTimerId = setInterval(() => {
           const nextSlide = (currentSlide + 1) % slides.length;
           goToSlide(nextSlide);
+          startProgressAnimation();
         }, AUTOPLAY_INTERVAL_MS);
       };
 
       if (carouselRoot && hasMultipleSlides) {
         carouselRoot.addEventListener('mouseenter', stopAutoplay);
-        carouselRoot.addEventListener('mouseleave', startAutoplay);
+        carouselRoot.addEventListener('mouseleave', () => {
+          resumeProgressAnimation();
+          startAutoplay();
+        });
       }
 
-      // Obsługa kliknięć na kropki
+      // Obsługa kliknięć na kropki (desktop)
       dots.forEach(dot => {
         dot.addEventListener('click', () => {
           const slideTarget = parseInt(dot.getAttribute('data-slide-target') || '0');
           goToSlide(slideTarget);
           // Restart autoplay, o ile nie trzymamy kursora nad karuzelą
+          if (!carouselRoot || !carouselRoot.matches(':hover')) {
+            startAutoplay();
+          }
+        });
+      });
+      
+      // Obsługa kliknięć na paski postępu (mobile)
+      progressBars.forEach(bar => {
+        bar.addEventListener('click', () => {
+          const slideTarget = parseInt(bar.getAttribute('data-slide-target') || '0');
+          goToSlide(slideTarget);
+          // Restart autoplay
           if (!carouselRoot || !carouselRoot.matches(':hover')) {
             startAutoplay();
           }
@@ -285,17 +387,62 @@ const servicesClient = services;
       // Inicjalizacja
       updateTreatmentButtons();
       
+      // Force update pierwszego paska postępu
+      goToSlide(0);
+      
       // Automatyczne kliknięcie pierwszego przycisku
       /** @type {HTMLButtonElement | null} */
       const firstButton = document.querySelector('.treatment-btn');
       firstButton?.click();
 
       // Start autoplay po inicjalizacji (jeśli jest więcej niż jeden slajd i brak hover)
-      if (!carouselRoot || !carouselRoot.matches(':hover')) {
+      if (hasMultipleSlides && (!carouselRoot || !carouselRoot.matches(':hover'))) {
         startAutoplay();
       }
     });
   </script>
+
+  <!-- Custom CSS dla breakpointu 370px -->
+  <style>
+    /* Ukryj paski postępu domyślnie */
+    .js-progress-bars-container {
+      display: none;
+    }
+    
+    /* Pokaż paski postępu od 370px do 767px */
+    @media (min-width: 370px) and (max-width: 767px) {
+      .js-progress-bars-container {
+        display: block !important;
+      }
+    }
+
+    /* Animacja progresywnego wypełniania paska w czasie rzeczywistym */
+    @keyframes progressFillRealTime {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    .progress-animated {
+      animation: progressFillRealTime 6s linear forwards;
+      /* Wyłącz Tailwind transition podczas animacji keyframes */
+      transition: none !important;
+    }
+
+    .progress-paused {
+      animation-play-state: paused;
+    }
+
+    .progress-reset {
+      animation: none;
+      width: 0%;
+      /* Przywróć transition dla zwykłych stanów */
+      transition: all 0.7s ease-in-out;
+    }
+  </style>
 </section>
 
 

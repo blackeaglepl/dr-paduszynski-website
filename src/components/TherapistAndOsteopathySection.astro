@@ -46,13 +46,13 @@ const content = translations[currentLocale];
       <img 
         src={portret1.src} 
         alt={content.doctor.name} 
-        class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0" 
+        class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0 mx-auto md:mx-0" 
       />
       <div class="md:pl-6 lg:pl-12">
-        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-400 hover:text-medical-primary">
+        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-400 hover:text-medical-primary text-center md:text-left">
           <span class="font-light">dr</span> Jarema <strong class="font-semibold">Paduszyński</strong>
         </h2>
-        <p class="mt-3 text-medical-text-light text-body-mobile md:text-body-desktop max-w-2xl">
+        <p class="mt-3 text-medical-text-light text-body-mobile md:text-body-desktop max-w-2xl text-center md:text-left">
           {content.doctor.description}
         </p>
       </div>
@@ -67,8 +67,8 @@ const content = translations[currentLocale];
         <img src={gallery4.src} alt={content.osteopathy.imageAlt} class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm" />
       </div>
       <div>
-        <h3 class="font-heading text-h3-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-200 hover:text-medical-primary">{content.osteopathy.title}</h3>
-        <p class="mt-4 text-medical-text-light text-body-mobile md:text-body-desktop">
+        <h3 class="font-heading text-h3-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-200 hover:text-medical-primary text-center md:text-left">{content.osteopathy.title}</h3>
+        <p class="mt-4 text-medical-text-light text-body-mobile md:text-body-desktop text-center md:text-left">
           {content.osteopathy.description}
         </p>
       </div>

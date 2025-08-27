@@ -1,6 +1,7 @@
 
 ---
 // Komponent mapy Google dla strony kontakt - sekcja lokalizacji
+const googleMapsApiKey = import.meta.env.GOOGLE_MAPS_API_KEY;
 ---
 
 <!-- Sekcja z mapą lokalizacji gabinetu -->
@@ -93,7 +94,7 @@
   }
 </style>
 
-<script>
+<script define:vars={{googleMapsApiKey}}>
   // Konfiguracja mapy Google zgodna z danymi gabinetu
   const GOOGLE_MAPS_CONFIG = {
     "locations": [
@@ -121,7 +122,7 @@
       "maxZoom": 16,
       "mapId": ""
     },
-    "mapsApiKey": "AIzaSyCe2p_6Ixj_o8ak9mbCVUlIDcX-EdF5l-M",
+    "mapsApiKey": googleMapsApiKey,
     "capabilities": {
       "input": false,
       "autocomplete": false,
