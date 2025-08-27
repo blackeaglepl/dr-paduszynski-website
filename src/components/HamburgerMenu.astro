@@ -1,0 +1,296 @@
+---
+import { getLocaleFromUrl, getTranslations, getLocalizedPath, type Locale } from "../utils/i18n";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import logoSzare from '../assets/logo_szare.svg';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+---
+
+<!-- Przycisk menu hamburger (widoczny tylko na mobile) -->
+<div class="md:hidden fixed top-4 right-4 z-50 transition-all duration-300 ease-out">
+  <button
+    id="hamburger-button" 
+    class="hamburger-button relative w-12 h-12 rounded-lg bg-medical-primary hover:bg-medical-light transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50 flex items-center justify-center shadow-lg backdrop-blur-sm"
+    style="z-index: 9999; background-color: #4ECDC4 !important;"
+    aria-label="Otwórz/zamknij menu nawigacji"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <!-- Ikona hamburger z animacją -->
+    <div class="hamburger-lines flex flex-col">
+      <span class="hamburger-line block w-5 h-0.5 bg-white transition-all duration-300 ease-in-out" style="background-color: white !important;"></span>
+      <span class="hamburger-line block w-5 h-0.5 bg-white mt-1 transition-all duration-300 ease-in-out" style="background-color: white !important;"></span>
+      <span class="hamburger-line block w-5 h-0.5 bg-white mt-1 transition-all duration-300 ease-in-out" style="background-color: white !important;"></span>
+    </div>
+  </button>
+</div>
+
+<!-- Menu mobilne (overlay) -->
+<div
+  id="mobile-menu"
+  class="mobile-menu fixed inset-0 z-50 md:hidden translate-x-full transition-transform duration-300 ease-in-out"
+  style="background-color: rgba(0,0,0,0.5); z-index: 9999;"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="mobile-menu-title"
+>
+  <!-- Tło overlay -->
+  <div class="mobile-menu-backdrop absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-300"></div>
+  
+  <!-- Panel menu -->
+  <div class="mobile-menu-panel absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-medical-white shadow-xl translate-x-full transition-transform duration-300 ease-out flex flex-col" 
+       style="background-color: #FFFFFF; z-index: 10000;">
+    <!-- Header menu -->
+    <div class="flex items-center justify-between p-4 border-b border-medical-bg">
+      <h2 id="mobile-menu-title" class="text-xl font-heading font-semibold text-medical-text">
+        Menu
+      </h2>
+      <button
+        id="close-menu-button"
+        class="close-button w-10 h-10 rounded-lg bg-medical-bg hover:bg-medical-light/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50 flex items-center justify-center"
+        aria-label="Zamknij menu"
+      >
+        <!-- Ikona X -->
+        <svg class="w-5 h-5 text-medical-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Nawigacja -->
+    <nav class="p-4 flex flex-col space-y-2" role="navigation">
+      <a 
+        href={getLocalizedPath("/", currentLocale)} 
+        class="mobile-nav-link block px-4 py-3 font-heading font-medium text-medical-text hover:text-medical-primary hover:bg-medical-bg rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+      >
+        {t.navigation.about}
+      </a>
+      
+      <a 
+        href={getLocalizedPath("/cennik/", currentLocale)} 
+        class="mobile-nav-link block px-4 py-3 font-heading font-medium text-medical-text hover:text-medical-primary hover:bg-medical-bg rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+      >
+        {t.navigation.pricing}
+      </a>
+      
+      {currentLocale === 'pl' && (
+        <a 
+          href={getLocalizedPath("/blog/", currentLocale)} 
+          class="mobile-nav-link block px-4 py-3 font-heading font-medium text-medical-text hover:text-medical-primary hover:bg-medical-bg rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+        >
+          {t.navigation.blog}
+        </a>
+      )}
+      
+      <a 
+        href={getLocalizedPath("/kontakt/", currentLocale)} 
+        class="mobile-nav-link block px-4 py-3 font-heading font-medium text-medical-text hover:text-medical-primary hover:bg-medical-bg rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
+      >
+        {t.navigation.contact}
+      </a>
+    </nav>
+
+    <!-- Przełącznik języka -->
+    <div class="p-4 border-t border-medical-bg">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-heading font-medium text-medical-text-light">Język / Language</span>
+      </div>
+      <LanguageSwitcher />
+    </div>
+
+    <!-- Logo pod przełącznikiem języka (powiększone) -->
+    <div class="p-14 flex justify-center">
+      <img
+        src={logoSzare.src}
+        alt="Dr Jarema Paduszyński – Osteopata"
+        class="w-32 opacity-80 transition-opacity duration-200 hover:opacity-80"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <!-- Przycisk CTA na dole -->
+    <div class="p-4 border-t border-medical-bg mt-auto">
+      <a 
+        href={getLocalizedPath("/kontakt/", currentLocale)}
+        class="w-full block text-center bg-medical-primary hover:bg-medical-light text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none shadow-sm"
+      >
+        Umów wizytę
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  console.log('HamburgerMenu script loaded');
+
+  // Prosta funkcja inicjalizacji menu hamburger
+  function initHamburgerMenu() {
+    console.log('Initializing hamburger menu');
+    
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const closeButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuBackdrop = document.querySelector('.mobile-menu-backdrop');
+    const navLinks = document.querySelectorAll('.mobile-nav-link');
+    
+    console.log('Elements found:', {
+      hamburgerButton: !!hamburgerButton,
+      closeButton: !!closeButton,
+      mobileMenu: !!mobileMenu,
+      mobileMenuBackdrop: !!mobileMenuBackdrop,
+      navLinksCount: navLinks.length
+    });
+
+    if (!hamburgerButton || !mobileMenu) {
+      console.error('Required elements not found');
+      return;
+    }
+
+    let isOpen = false;
+
+    function openMenu() {
+      console.log('Opening menu');
+      isOpen = true;
+      if (hamburgerButton) {
+        hamburgerButton.classList.add('active');
+        hamburgerButton.setAttribute('aria-expanded', 'true');
+      }
+      
+      if (mobileMenu) {
+        // Force show menu with inline styles for debugging
+        (mobileMenu as HTMLElement).style.transform = 'translateX(0)';
+        (mobileMenu as HTMLElement).style.visibility = 'visible';
+        (mobileMenu as HTMLElement).style.opacity = '1';
+        mobileMenu.classList.remove('translate-x-full');
+        mobileMenu.classList.add('translate-x-0');
+        document.body.style.overflow = 'hidden';
+        
+        console.log('Menu styles applied:', {
+          transform: (mobileMenu as HTMLElement).style.transform,
+          visibility: (mobileMenu as HTMLElement).style.visibility,
+          opacity: (mobileMenu as HTMLElement).style.opacity
+        });
+        
+        // Pokaz panel
+        const panel = mobileMenu.querySelector('.mobile-menu-panel') as HTMLElement;
+        if (panel) {
+          panel.style.transform = 'translateX(0)';
+          panel.classList.remove('translate-x-full');
+          panel.classList.add('translate-x-0');
+          console.log('Panel found and styles applied');
+        } else {
+          console.error('Panel not found!');
+        }
+      }
+      
+      // Pokaz backdrop
+      if (mobileMenuBackdrop) {
+        mobileMenuBackdrop.classList.remove('opacity-0');
+        mobileMenuBackdrop.classList.add('opacity-100');
+      }
+    }
+
+    function closeMenu() {
+      console.log('Closing menu');
+      isOpen = false;
+      if (hamburgerButton) {
+        hamburgerButton.classList.remove('active');
+        hamburgerButton.setAttribute('aria-expanded', 'false');
+      }
+      
+      if (mobileMenu) {
+        // Force hide menu with inline styles for debugging
+        (mobileMenu as HTMLElement).style.transform = 'translateX(100%)';
+        (mobileMenu as HTMLElement).style.visibility = 'hidden';
+        (mobileMenu as HTMLElement).style.opacity = '0';
+        mobileMenu.classList.remove('translate-x-0');
+        mobileMenu.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+        
+        console.log('Menu close styles applied:', {
+          transform: (mobileMenu as HTMLElement).style.transform,
+          visibility: (mobileMenu as HTMLElement).style.visibility,
+          opacity: (mobileMenu as HTMLElement).style.opacity
+        });
+        
+        // Ukryj panel
+        const panel = mobileMenu.querySelector('.mobile-menu-panel') as HTMLElement;
+        if (panel) {
+          panel.style.transform = 'translateX(100%)';
+          panel.classList.remove('translate-x-0');
+          panel.classList.add('translate-x-full');
+          console.log('Panel hidden');
+        } else {
+          console.error('Panel not found when closing!');
+        }
+      }
+      
+      // Ukryj backdrop
+      if (mobileMenuBackdrop) {
+        mobileMenuBackdrop.classList.remove('opacity-100');
+        mobileMenuBackdrop.classList.add('opacity-0');
+      }
+    }
+
+    function toggleMenu() {
+      console.log('Toggle menu, current state:', isOpen);
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    // Event listeners
+    hamburgerButton.addEventListener('click', toggleMenu);
+    console.log('Hamburger button event listener added');
+    
+    if (closeButton) {
+      closeButton.addEventListener('click', closeMenu);
+      console.log('Close button event listener added');
+    } else {
+      console.error('Close button not found!');
+    }
+    
+    if (mobileMenuBackdrop) {
+      mobileMenuBackdrop.addEventListener('click', closeMenu);
+      console.log('Backdrop event listener added');
+    } else {
+      console.error('Backdrop not found!');
+    }
+    
+    // Zamknij menu po kliknięciu w link nawigacyjny
+    navLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        closeMenu();
+      }
+    });
+
+    // Resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && isOpen) {
+        closeMenu();
+      }
+    });
+    
+    console.log('Hamburger menu initialized successfully');
+  }
+
+  // Inicjalizacja
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+  } else {
+    initHamburgerMenu();
+  }
+
+  // Reinicjalizacja dla Astro View Transitions
+  document.addEventListener('astro:page-load', initHamburgerMenu);
+</script>
