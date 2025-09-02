@@ -3,7 +3,7 @@ import { SITE_AUTHOR, SITE_IMAGE } from '../consts';
 import MainLayout from '../layouts/MainLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
 import ContactAndWidget from '../components/ContactAndWidget.astro';
-import DirectionsMap from '../components/DirectionsMap.astro';
+import LocationMap from '../components/LocationMap.astro';
 import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
 import tlo4 from '../assets/tlo4.png';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
@@ -68,6 +68,6 @@ const content = translations[currentLocale];
   />
   <ContactAndWidget />
 
-  <DirectionsMap />
+  <LocationMap />
   <PreFooterLogoSection />
 </MainLayout>
