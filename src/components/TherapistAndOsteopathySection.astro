@@ -4,7 +4,7 @@
 // Wzorowana na załączonej makiecie: dwa bloki jeden po drugim, duże odstępy.
 import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
 import portret1 from '../assets/portret1.jpg';
-import gallery4 from '../assets/gallery4.jpg';
+import foto1 from '../assets/foto1.jpg';
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
 const t = getTranslations(currentLocale);
@@ -64,7 +64,7 @@ const content = translations[currentLocale];
     <!-- Blok: Osteopatia (obraz po lewej, tekst po prawej) -->
     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center" data-animate="fade-up" data-animate-delay="200">
       <div>
-        <img src={gallery4.src} alt={content.osteopathy.imageAlt} class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm" />
+        <img src={foto1.src} alt={content.osteopathy.imageAlt} class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm" />
       </div>
       <div>
         <h3 class="font-heading text-h3-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-200 hover:text-medical-primary text-center md:text-left">{content.osteopathy.title}</h3>

@@ -52,6 +52,8 @@
   - [ ] [2025-08-13] Sekcja „Zalety osteopatii” – nowy komponent `BenefitsSection.astro` (3 kolumny z ikonami i opisami) – w trakcie
 - [ ] [2025-08-18] Typografia nagłówków: w `TherapistAndOsteopathySection.astro` dodano `span` z `font-light` dla „Dr” i `font-semibold` dla nazwiska; przegląd pozostałych sekcji pod ten wzorzec
 
+- [ ] [2025-09-02] Konfiguracja domeny `osteopatia-paduszynski.pl` na Netlify (zewnętrzny DNS u Zenbox: A na Netlify dla `@`, CNAME `www` → `*.netlify.app`, weryfikacja SSL i przekierowanie kanoniczne)
+
 ## 🔴 Do wykonania
 
 ### Strukturę i komponenty podstawowe
