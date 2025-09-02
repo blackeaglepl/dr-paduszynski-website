@@ -75,6 +75,11 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta name="medical.specialty" content="Osteopathy, Physical Therapy" />
 <meta name="healthcare.provider" content="Dr Jarema Paduszyński" />
 
+<!-- Cache Control -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />

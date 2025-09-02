@@ -50,6 +50,37 @@ import '../styles/global.css';
     </main>
     <Footer />
     <script is:inline>
+      // Rejestracja Service Worker dla lepszego cache management
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW zarejestrowany:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW nie został zarejestrowany:', error);
+            });
+        });
+
+        // Funkcja do czyszczenia cache (dla debugowania)
+        window.clearSiteCache = () => {
+          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            const channel = new MessageChannel();
+            channel.port1.onmessage = (event) => {
+              if (event.data === 'CACHE_CLEARED') {
+                location.reload();
+              }
+            };
+            navigator.serviceWorker.controller.postMessage('CLEAR_CACHE', [channel.port2]);
+          } else {
+            // Fallback - wyczyść localStorage i przeładuj
+            localStorage.clear();
+            sessionStorage.clear();
+            location.reload();
+          }
+        };
+      }
+
       // Lekki system animacji sekcji (AOS-like) bez zewnętrznych bibliotek
       (() => {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
