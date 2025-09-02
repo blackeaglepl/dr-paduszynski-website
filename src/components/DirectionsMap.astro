@@ -6,13 +6,13 @@ const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
 const t = getTranslations(currentLocale);
 
 // Pobierz klucz API z zmiennych środowiskowych
-const GOOGLE_MAPS_API_KEY = import.meta.env.GOOGLE_MAPS_API_KEY;
+const GOOGLE_MAPS_API_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
 // Tłumaczenia dla komponentu mapy
 const translations = {
   pl: {
     heading: 'Lokalizacja gabinetu',
-    description: 'Gabinet znajduje się na I piętrze budynku przy ul. Jugowickiej 35/5. Parking dla Klientów.',
+    description: 'Gabinet znajduje się na I piętrze budynku przy ul. Jugowickiej 35/5.',
     clinic: {
       name: 'Klinika Osteopatii dr Jarema Paduszyński',
       address: 'ul. Jugowicka 35, 30-443 Kraków'
@@ -21,7 +21,7 @@ const translations = {
   },
   en: {
     heading: 'Clinic location',
-    description: 'The clinic is located on the first floor of the building at 35/5 Jugowicka Street. Parking available for clients.',
+    description: 'The clinic is located on the first floor of the building at 35/5 Jugowicka Street.',
     clinic: {
       name: 'Osteopathy Clinic dr Jarema Paduszyński',
       address: '35/5 Jugowicka Street, 30-443 Kraków'
@@ -109,7 +109,7 @@ const content = translations[currentLocale];
       "maxZoom": 18,
       "mapId": ""
     },
-    "mapsApiKey": GOOGLE_MAPS_API_KEY,
+    "mapsApiKey": "${GOOGLE_MAPS_API_KEY}",
     "capabilities": {
       "input": false,
       "autocomplete": false,
@@ -161,16 +161,18 @@ const content = translations[currentLocale];
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
               </div>
+              <!-- Fallback: Dane gabinetu na sztywno, jeśli nie można pobrać dynamicznie -->
               <h3 class="text-h3-mobile md:text-h3-desktop font-heading font-semibold text-medical-text mb-2">
-                ${content.clinic.name}
+                Gabinet Osteopatii dr Jarema Paduszyński
               </h3>
               <p class="text-body-mobile md:text-body-desktop text-medical-text-light mb-4">
-                ${content.clinic.address}
+                ul. Jugowicka 35, 30-443 Kraków
               </p>
               <a href="https://maps.google.com/maps?q=Jugowicka+35,+Kraków" 
                  target="_blank" 
                  class="bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none shadow-sm inline-flex items-center">
-                ${content.button}
+                <!-- Przycisk prowadzący do Google Maps - tekst na sztywno po polsku -->
+                Otwórz w Google Maps
                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
