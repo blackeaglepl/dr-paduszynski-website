@@ -2,16 +2,65 @@
 import { SITE_AUTHOR, SITE_IMAGE } from '../consts';
 import MainLayout from '../layouts/MainLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
-import { servicesList } from '../utils/services';
+import { getServicesList } from '../utils/services';
 import TreatmentSelector from '../components/TreatmentSelector.astro';
 import ZnanyLekarzWidget from '../components/ZnanyLekarzWidget.astro';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
+import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
 import tlo2 from '../assets/tlo2.jpg';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+const servicesList = getServicesList(currentLocale);
+
+// Tłumaczenia dla strony cennik
+const translations = {
+  pl: {
+    meta: {
+      title: "Cennik Zabiegów Osteopatycznych - Dr Jarema Paduszyński Kraków",
+      description: "Przejrzyste ceny zabiegów osteopatycznych w Krakowie. Konsultacja, terapia manualna, fizjoterapia. Sprawdź aktualne ceny wizyt u osteopaty.",
+      keywords: "cennik osteopata Kraków, ceny osteopatia, koszt wizyty osteopata, cennik fizjoterapia, terapia manualna ceny"
+    },
+    hero: {
+      title: "Cennik zabiegów",
+      supportingText: "Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś",
+      ratingText: "150+ pozytywnych opinii Pacjentów",
+      secondaryCtaLabel: "Oceń wizytę",
+      ctaLabel: "Zapisz się"
+    },
+    pricing: {
+      doctorName: "dr Jarema Paduszyński",
+      heading: "Cennik Usług",
+      disclaimer: "Ceny dotyczą pojedynczej wizyty. Czas trwania do 60 min."
+    }
+  },
+  en: {
+    meta: {
+      title: "Osteopathic Treatment Pricing - Dr Jarema Paduszyński Kraków",
+      description: "Transparent pricing for osteopathic treatments in Kraków. Consultation, manual therapy, physiotherapy. Check current prices for osteopath visits.",
+      keywords: "osteopath pricing Kraków, osteopathy costs, osteopath visit cost, physiotherapy pricing, manual therapy prices"
+    },
+    hero: {
+      title: "Treatment pricing",
+      supportingText: "Book an appointment and take care of your health today",
+      ratingText: "150+ positive patient reviews",
+      secondaryCtaLabel: "Rate visit",
+      ctaLabel: "Book appointment"
+    },
+    pricing: {
+      doctorName: "dr Jarema Paduszyński",
+      heading: "Service Pricing",
+      disclaimer: "Prices apply to single visits. Duration up to 60 min."
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 <MainLayout 
-  title="Cennik Zabiegów Osteopatycznych - Dr Jarema Paduszyński Kraków" 
-  description="Przejrzyste ceny zabiegów osteopatycznych w Krakowie. Konsultacja, terapia manualna, fizjoterapia. Sprawdź aktualne ceny wizyt u osteopaty."
-  keywords="cennik osteopata Kraków, ceny osteopatia, koszt wizyty osteopata, cennik fizjoterapia, terapia manualna ceny"
+  title={content.meta.title} 
+  description={content.meta.description}
+  keywords={content.meta.keywords}
   author={SITE_AUTHOR}
   image={SITE_IMAGE}
   type="website"
@@ -19,13 +68,13 @@ import tlo2 from '../assets/tlo2.jpg';
   schemaType="pricing"
 >
   <HeroSection
-    title="Cennik zabiegów"
-    supportingText="Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś"
+    title={content.hero.title}
+    supportingText={content.hero.supportingText}
     ratingStars={5}
-    ratingText="150+ pozytywnych opinii Pacjentów"
-    secondaryCtaLabel="Oceń wizytę"
+    ratingText={content.hero.ratingText}
+    secondaryCtaLabel={content.hero.secondaryCtaLabel}
     secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
-    ctaLabel="Zapisz się"
+    ctaLabel={content.hero.ctaLabel}
     ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
     bgImageSrc={tlo2.src}
   />
@@ -35,8 +84,8 @@ import tlo2 from '../assets/tlo2.jpg';
     <div class="container mx-auto px-4 md:px-6 max-w-3xl">
       <!-- Nagłówek sekcji cennika -->
       <div class="text-center mb-8 md:mb-10">
-        <div class="font-heading font-light text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight">dr Jarema Paduszyński</div>
-        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text font-semibold tracking-tight">Cennik Usług</h2>
+        <div class="font-heading font-light text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight">{content.pricing.doctorName}</div>
+        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text font-semibold tracking-tight">{content.pricing.heading}</h2>
       </div>
       <div class="space-y-6">
         {servicesList.map((service, idx) => (
@@ -53,7 +102,7 @@ import tlo2 from '../assets/tlo2.jpg';
           </div>
         ))}
       </div>
-      <p class="mt-8 text-center text-medical-text-light text-sm">Ceny dotyczą pojedynczej wizyty. Czas trwania do 60 min.</p>
+      <p class="mt-8 text-center text-medical-text-light text-sm">{content.pricing.disclaimer}</p>
     </div>
   </section>
   <TreatmentSelector />

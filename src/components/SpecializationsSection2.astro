@@ -1,5 +1,33 @@
 ---
-// Komponent sekcji „Specjalizacje 2” — identyczny layout jak SpecializationsSection, 3 kolumny
+// Komponent sekcji „Specjalizacje 2" — identyczny layout jak SpecializationsSection, 3 kolumny
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia specjalizacji 2
+const translations = {
+  pl: {
+    heading: 'Moje specjalizacje',
+    ariaLabel: 'Lista specjalizacji 2',
+    specializations: [
+      'Fizjoterapia stomatologiczna',
+      'Fizjoterapia twarzowo-szczękowa', 
+      'Fizjoterapia uroginekologiczna'
+    ]
+  },
+  en: {
+    heading: 'My specializations',
+    ariaLabel: 'List of specializations 2',
+    specializations: [
+      'Dental physiotherapy',
+      'Facial-jaw physiotherapy',
+      'Urogynecological physiotherapy'
+    ]
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 
 <section class="py-12 md:pt-16 md:pb-16">
@@ -10,27 +38,27 @@
       data-animate="fade-up"
       data-animate-delay="100"
     >
-      Moje specjalizacje 
+      {content.heading} 
     </h2>
 
     <!-- Siatka kolumn z pionowymi separatorami (desktop) -->
     <div
       class="mt-2 md:mt-3 pt-12 md:pt-16 grid gap-8 md:gap-12 lg:gap-16 place-items-center md:place-items-stretch md:grid-cols-3 md:divide-x-2 md:divide-medical-text/30"
-      aria-label="Lista specjalizacji 2"
+      aria-label={content.ariaLabel}
     >
       <!-- Kolumna 1 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia stomatologiczna</li>
+        <li class="transition-colors duration-200 hover:text-medical-primary">{content.specializations[0]}</li>
       </ul>
 
       <!-- Kolumna 2 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia twarzowo-szczękowa</li>
+        <li class="transition-colors duration-200 hover:text-medical-primary">{content.specializations[1]}</li>
       </ul>
 
       <!-- Kolumna 3 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Fizjoterapia uroginekologiczna</li>
+        <li class="transition-colors duration-200 hover:text-medical-primary">{content.specializations[2]}</li>
       </ul>
     </div>
   </div>

@@ -6,13 +6,8 @@
 
 import logo from '../assets/logo_osteopatia.svg';
 import placeholderBg from '../assets/tlo1.jpg';
-import { servicesList as defaultServices } from '../utils/services';
-
-export interface ServiceItem {
-  name: string;
-  price: string;
-  description: string;
-}
+import { getServicesList, type ServiceItem } from '../utils/services';
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
 
 export interface TreatmentSelectorProps {
   services?: ServiceItem[];
@@ -21,9 +16,29 @@ export interface TreatmentSelectorProps {
   bgImageSrc?: string;
 }
 
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia komponentu
+const translations = {
+  pl: {
+    ctaLabel: 'Zapisz się',
+    logoAlt: 'Logo Dr Jarema Paduszyński Osteopata',
+    defaultServiceName: 'Zabieg'
+  },
+  en: {
+    ctaLabel: 'Book appointment',
+    logoAlt: 'Dr Jarema Paduszyński Osteopath Logo',
+    defaultServiceName: 'Treatment'
+  }
+} as const;
+
+const content = translations[currentLocale];
+const localizedServices = getServicesList(currentLocale);
+
 const {
-  services = defaultServices,
-  ctaLabel = 'Zapisz się',
+  services = localizedServices,
+  ctaLabel = content.ctaLabel,
   ctaHref = 'https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow',
   bgImageSrc,
 }: TreatmentSelectorProps = Astro.props;
@@ -54,11 +69,11 @@ const servicesClient = services;
           <!-- Lewa kolumna: logo + tytuł + opis + cena + CTA -->
           <div class="md:col-span-3 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
             <div class="flex items-center gap-3 mb-6">
-              <img src={logo.src} alt="Logo Dr Jarema Paduszyński Osteopata" class="h-10 md:h-12" />
+              <img src={logo.src} alt={content.logoAlt} class="h-10 md:h-12" />
             </div>
 
             <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-white tracking-tight js-title text-center md:text-left">
-              {services[0]?.name || 'Zabieg'}
+              {services[0]?.name || content.defaultServiceName}
             </h2>
             <p class="mt-5 text-white/85 text-body-mobile md:text-body-desktop max-w-full md:max-w-sm lg:max-w-xs flex-1 md:leading-relaxed js-description">
               {services[0]?.description}

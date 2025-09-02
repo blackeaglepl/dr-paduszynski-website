@@ -1,29 +1,110 @@
 ---
+import { SITE_AUTHOR, SITE_IMAGE } from '../../consts';
 import MainLayout from '../../layouts/MainLayout.astro';
 import HeroSection from '../../components/HeroSection.astro';
-import tlo1 from '../../assets/tlo1.jpg';
----
+import { getServicesList } from '../../utils/services';
+import TreatmentSelector from '../../components/TreatmentSelector.astro';
+import ZnanyLekarzWidget from '../../components/ZnanyLekarzWidget.astro';
+import PreFooterLogoSection from '../../components/PreFooterLogoSection.astro';
+import { getLocaleFromUrl, getTranslations, type Locale } from '../../utils/i18n';
+import tlo2 from '../../assets/tlo2.jpg';
 
-<MainLayout title="Pricing - Dr Jarema Paduszyński" description="Treatment pricing" hideHeader={true}>
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+const servicesList = getServicesList(currentLocale);
+
+// Tłumaczenia dla strony cennik
+const translations = {
+  pl: {
+    meta: {
+      title: "Cennik Zabiegów Osteopatycznych - Dr Jarema Paduszyński Kraków",
+      description: "Przejrzyste ceny zabiegów osteopatycznych w Krakowie. Konsultacja, terapia manualna, fizjoterapia. Sprawdź aktualne ceny wizyt u osteopaty.",
+      keywords: "cennik osteopata Kraków, ceny osteopatia, koszt wizyty osteopata, cennik fizjoterapia, terapia manualna ceny"
+    },
+    hero: {
+      title: "Cennik zabiegów",
+      supportingText: "Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś",
+      ratingText: "150+ pozytywnych opinii Pacjentów",
+      secondaryCtaLabel: "Oceń wizytę",
+      ctaLabel: "Zapisz się"
+    },
+    pricing: {
+      doctorName: "dr Jarema Paduszyński",
+      heading: "Cennik Usług",
+      disclaimer: "Ceny dotyczą pojedynczej wizyty. Czas trwania do 60 min."
+    }
+  },
+  en: {
+    meta: {
+      title: "Osteopathic Treatment Pricing - Dr Jarema Paduszyński Kraków",
+      description: "Transparent pricing for osteopathic treatments in Kraków. Consultation, manual therapy, physiotherapy. Check current prices for osteopath visits.",
+      keywords: "osteopath pricing Kraków, osteopathy costs, osteopath visit cost, physiotherapy pricing, manual therapy prices"
+    },
+    hero: {
+      title: "Treatment pricing",
+      supportingText: "Book an appointment and take care of your health today",
+      ratingText: "150+ positive patient reviews",
+      secondaryCtaLabel: "Rate visit",
+      ctaLabel: "Book appointment"
+    },
+    pricing: {
+      doctorName: "dr Jarema Paduszyński",
+      heading: "Service Pricing",
+      disclaimer: "Prices apply to single visits. Duration up to 60 min."
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
+---
+<MainLayout 
+  title={content.meta.title} 
+  description={content.meta.description}
+  keywords={content.meta.keywords}
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="website"
+  hideHeader={true} 
+  schemaType="pricing"
+>
   <HeroSection
-    title="Pricing"
-    supportingText="Book an appointment and take care of your health today"
+    title={content.hero.title}
+    supportingText={content.hero.supportingText}
     ratingStars={5}
-    ratingText="150+ positive patient reviews"
-    secondaryCtaLabel="Rate visit"
+    ratingText={content.hero.ratingText}
+    secondaryCtaLabel={content.hero.secondaryCtaLabel}
     secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
-    ctaLabel="Book now"
+    ctaLabel={content.hero.ctaLabel}
     ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
-    bgImageSrc={tlo1.src}
+    bgImageSrc={tlo2.src}
   />
-  <main class="py-16 md:py-24">
-    <div class="container mx-auto px-4 md:px-6 max-w-4xl">
-      <h1 class="font-heading text-h1-mobile md:text-h1-desktop text-medical-text text-center mb-8">
-        Pricing
-      </h1>
-      <p class="text-center text-medical-text-light">
-        English version coming soon...
-      </p>
+ 
+  <!-- Sekcja listy cen zgodna z makietą -->
+  <section class="py-12 md:py-20">
+    <div class="container mx-auto px-4 md:px-6 max-w-3xl">
+      <!-- Nagłówek sekcji cennika -->
+      <div class="text-center mb-8 md:mb-10">
+        <div class="font-heading font-light text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight">{content.pricing.doctorName}</div>
+        <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text font-semibold tracking-tight">{content.pricing.heading}</h2>
+      </div>
+      <div class="space-y-6">
+        {servicesList.map((service, idx) => (
+          <div class="group">
+            <div class={`flex items-center justify-between rounded-full border transition-colors duration-200 bg-transparent text-medical-text border-medical-bg group-hover:bg-medical-primary group-hover:text-white group-hover:border-transparent`}> 
+              <div class={`flex-1 px-6 py-4 md:px-10 md:py-5 text-sm md:text-base group-hover:text-white`}>
+                {service.name}
+              </div>
+              <div class={`w-px h-8 md:h-10 bg-medical-light/70 group-hover:bg-white/60`}></div>
+              <div class={`px-6 py-4 md:px-10 md:py-5 font-heading font-semibold text-base md:text-lg text-medical-text-light group-hover:text-white`}>
+                {service.price}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-center text-medical-text-light text-sm">{content.pricing.disclaimer}</p>
     </div>
-  </main>
+  </section>
+  <TreatmentSelector />
+  <PreFooterLogoSection />
 </MainLayout>

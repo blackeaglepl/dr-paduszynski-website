@@ -10,6 +10,58 @@ import foto5 from "../assets/gallery5.jpg";
 import foto6 from "../assets/gallery6.jpg";
 import geopin from "../assets/geopin.svg";
 import arrow from "../assets/arrow.svg";
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia dla galerii gabinetu
+const translations = {
+  pl: {
+    heading: { strong: 'Gabinet', light: 'w jakim Cię przyjmę' },
+    srOnly: 'Prezentacja zdjęć gabinetu i lokalizacji.',
+    navigation: {
+      previous: 'Poprzednie zdjęcia',
+      next: 'Następne zdjęcia',
+      prevAlt: 'Poprzednie',
+      nextAlt: 'Następne'
+    },
+    images: {
+      slide1: ['Wnętrze gabinetu – łóżko do terapii', 'Wnętrze gabinetu – jasne wnętrze'],
+      slide2: ['Gabinet – detale wyposażenia', 'Gabinet – widok na stół terapeutyczny'],
+      slide3: ['Gabinet – jasne, przestronne wnętrze', 'Gabinet – nowoczesne wyposażenie']
+    },
+    location: {
+      city: 'Kraków',
+      cityAlt: 'Lokalizacja: Kraków',
+      address: 'ul. Jugowicka 35/5',
+      description: 'Mój gabinet mieści się w Krakowie przy ul. Jugowickiej 35/5. Bliskość Zakopianki oraz obwodnicy zapewnia wygodny dojazd z niemal każdej części Krakowa, a także z pobliskich miejscowości, takich jak Myślenice, Libertów, Mogilany czy Skawina. Jeśli szukasz gabinetu osteopatii w południowej części Krakowa – właśnie go znalazłeś.'
+    }
+  },
+  en: {
+    heading: { strong: 'Clinic', light: 'where I will see you' },
+    srOnly: 'Presentation of clinic and location photos.',
+    navigation: {
+      previous: 'Previous photos',
+      next: 'Next photos', 
+      prevAlt: 'Previous',
+      nextAlt: 'Next'
+    },
+    images: {
+      slide1: ['Clinic interior – therapy bed', 'Clinic interior – bright interior'],
+      slide2: ['Clinic – equipment details', 'Clinic – view of therapeutic table'],
+      slide3: ['Clinic – bright, spacious interior', 'Clinic – modern equipment']
+    },
+    location: {
+      city: 'Kraków',
+      cityAlt: 'Location: Kraków',
+      address: 'ul. Jugowicka 35/5',
+      description: 'My clinic is located in Kraków at ul. Jugowicka 35/5. The proximity to Zakopianka and the ring road ensures convenient access from almost any part of Kraków, as well as from nearby towns such as Myślenice, Libertów, Mogilany or Skawina. If you are looking for an osteopathy clinic in the southern part of Kraków – you have just found it.'
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 
 <!-- Nagłówek sekcji: owinięty w kontener dla pewnego wyśrodkowania -->
@@ -19,10 +71,10 @@ import arrow from "../assets/arrow.svg";
     data-animate="fade-up"
     data-animate-delay="100"
   >
-    <strong class="font-semibold">Gabinet</strong>
-    <span class="font-light">w jakim Cię przyjmę</span>
+    <strong class="font-semibold">{content.heading.strong}</strong>
+    <span class="font-light">{content.heading.light}</span>
   </h2>
-  <p class="sr-only">Prezentacja zdjęć gabinetu i lokalizacji.</p>
+  <p class="sr-only">{content.srOnly}</p>
   <!-- koniec nagłówka -->
 </div>
 
@@ -40,26 +92,26 @@ import arrow from "../assets/arrow.svg";
     <!-- Przyciski nawigacji -->
     <button
       type="button"
-      aria-label="Poprzednie zdjęcia"
+      aria-label={content.navigation.previous}
       data-action="prev"
       class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
     >
       <img
         src={arrow.src}
-        alt="Poprzednie"
+        alt={content.navigation.prevAlt}
         aria-hidden="true"
         class="h-5 w-5 md:h-6 md:w-6 rotate-180"
       />
     </button>
     <button
       type="button"
-      aria-label="Następne zdjęcia"
+      aria-label={content.navigation.next}
       data-action="next"
       class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
     >
       <img
         src={arrow.src}
-        alt="Następne"
+        alt={content.navigation.nextAlt}
         aria-hidden="true"
         class="h-5 w-5 md:h-6 md:w-6"
       />
@@ -77,13 +129,13 @@ import arrow from "../assets/arrow.svg";
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             <img
               src={foto1.src}
-              alt="Wnętrze gabinetu – łóżko do terapii"
+              alt={content.images.slide1[0]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
             <img
               src={foto2.src}
-              alt="Wnętrze gabinetu – jasne wnętrze"
+              alt={content.images.slide1[1]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
@@ -94,13 +146,13 @@ import arrow from "../assets/arrow.svg";
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             <img
               src={foto3.src}
-              alt="Gabinet – detale wyposażenia"
+              alt={content.images.slide2[0]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
             <img
               src={foto4.src}
-              alt="Gabinet – widok na stół terapeutyczny"
+              alt={content.images.slide2[1]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
@@ -111,13 +163,13 @@ import arrow from "../assets/arrow.svg";
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             <img
               src={foto5.src}
-              alt="Gabinet – jasne, przestronne wnętrze"
+              alt={content.images.slide3[0]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
             <img
               src={foto6.src}
-              alt="Gabinet – nowoczesne wyposażenie"
+              alt={content.images.slide3[1]}
               loading="lazy"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
@@ -135,30 +187,26 @@ import arrow from "../assets/arrow.svg";
   >
     <div class="md:col-span-1">
       <div class="flex items-center gap-3 justify-center md:justify-start">
-        <img src={geopin.src} alt="Lokalizacja: Kraków" class="h-6 w-6" />
+        <img src={geopin.src} alt={content.location.cityAlt} class="h-6 w-6" />
         <span class="font-heading text-medical-text text-base md:text-lg"
-          >Kraków</span
+          >{content.location.city}</span
         >
       </div>
       <div
         class="mt-3 font-heading text-medical-text text-h3-mobile md:text-h2-desktop tracking-tight text-center md:text-left"
       >
-        ul. Jugowicka 35/5
+        {content.location.address}
       </div>
     </div>
     <div class="md:col-span-2">
       <p class="text-medical-text-light text-body-mobile md:text-body-desktop">
-        Mój gabinet mieści się w Krakowie przy ul. Jugowickiej 35/5. Bliskość
-        Zakopianki oraz obwodnicy zapewnia wygodny dojazd z niemal każdej części
-        Krakowa, a także z pobliskich miejscowości, takich jak Myślenice,
-        Libertów, Mogilany czy Skawina. Jeśli szukasz gabinetu osteopatii w
-        południowej części Krakowa – właśnie go znalazłeś.
+        {content.location.description}
       </p>
     </div>
   </div>
 </div>
 
-<!-- Skrypt karuzeli: auto-scroll, przyciski, pauza po najechaniu -->
+<!-- Skrypt karuzeli: auto-scroll, przyciski, pauza po najechaniu, obsługa swipe -->
 <script>
   const carouselRoot = document.getElementById(
     "clinic-carousel",
@@ -180,6 +228,12 @@ import arrow from "../assets/arrow.svg";
       "(prefers-reduced-motion: reduce)",
     ).matches;
     let autoScrollId: number = 0;
+
+    // Zmienne dla obsługi swipe
+    let startX = 0;
+    let endX = 0;
+    let isDragging = false;
+    let startTime = 0;
 
     const update = (instant: boolean = false) => {
       if (!track) return;
@@ -209,10 +263,57 @@ import arrow from "../assets/arrow.svg";
       }
     };
 
-    // Zdarzenia
+    // Obsługa swipe/touch
+    const handleTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+      startTime = Date.now();
+      isDragging = true;
+      stop(); // Zatrzymaj auto-scroll podczas interakcji
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      endX = e.touches[0].clientX;
+      // Zapobiegnij scroll strony podczas swipe karuzeli
+      e.preventDefault();
+    };
+
+    const handleTouchEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      
+      const deltaX = startX - endX;
+      const deltaTime = Date.now() - startTime;
+      const minSwipeDistance = 50;
+      const maxSwipeTime = 500;
+
+      // Sprawdź czy gest spełnia warunki swipe
+      if (Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
+        if (deltaX > 0) {
+          // Swipe w lewo - następny slajd
+          goTo(currentIndex + 1);
+        } else {
+          // Swipe w prawo - poprzedni slajd
+          goTo(currentIndex - 1);
+        }
+      }
+      
+      // Wznów auto-scroll po krótkiej przerwie
+      setTimeout(start, 1000);
+    };
+
+    // Zdarzenia touch dla urządzeń mobilnych
+    if (track) {
+      track.addEventListener("touchstart", handleTouchStart, { passive: false });
+      track.addEventListener("touchmove", handleTouchMove, { passive: false });
+      track.addEventListener("touchend", handleTouchEnd);
+    }
+
+    // Zdarzenia przycisków
     prevBtn?.addEventListener("click", () => goTo(currentIndex - 1));
     nextBtn?.addEventListener("click", () => goTo(currentIndex + 1));
 
+    // Zatrzymaj auto-scroll podczas hover (desktop)
     carouselRoot.addEventListener("mouseenter", stop);
     carouselRoot.addEventListener("mouseleave", start);
 

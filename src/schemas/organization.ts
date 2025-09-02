@@ -61,25 +61,11 @@ export const organizationSchema: MedicalOrganization = {
   
   // Certyfikaty organizacji
   "hasCredential": [
+
+    
     {
       "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Licencja na wykonywanie działalności leczniczej",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Wojewódzki Urząd w Krakowie"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Certyfikat jakości ISO 9001",
-      "recognizedBy": {
-        "@type": "Organization", 
-        "name": "Bureau Veritas"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Członkostwo w Polskim Towarzystwie Osteopatii",
+      "credentialCategory": "Dyplom w Polskim Towarzystwie Osteopatii",
       "recognizedBy": {
         "@type": "Organization",
         "name": "Polskie Towarzystwo Osteopatii"

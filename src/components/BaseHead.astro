@@ -40,7 +40,9 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="shortcut icon" href="/favicon.svg" />
 
 <!-- Title -->
 <title>{title}</title>
@@ -49,6 +51,7 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageUrl} />
+<meta property="og:logo" content={new URL('/logo_ico.ico', Astro.site || Astro.url.origin).href} />
 <meta property="og:image:alt" content="Dr Jarema Paduszyński - Osteopata w Krakowie" />
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonical} />

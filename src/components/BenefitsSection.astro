@@ -3,6 +3,7 @@
 import icon1 from '../assets/ikona1.svg';
 import icon2 from '../assets/ikona2.svg';
 import icon3 from '../assets/ikona3.svg';
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
 
 interface BenefitItem {
   icon: { src: string };
@@ -16,32 +17,62 @@ interface BenefitsProps {
   items?: BenefitItem[];
 }
 
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia korzyści
+const translations = {
+  pl: {
+    heading: { strong: 'Korzyści', light: 'osteopatii' },
+    items: [
+      {
+        icon: icon1,
+        title: 'Życie bez bólu',
+        description: 'Osteopatia eliminuje źródło bólu poprzez przywrócenie naturalnej równowagi ciała, bez leków i inwazyjnych zabiegów.',
+      },
+      {
+        icon: icon2,
+        title: 'Swoboda ruchu',
+        description: 'Delikatne techniki osteopatyczne uwalniają napięcia i blokady, przywracając pełną sprawność ruchową.',
+      },
+      {
+        icon: icon3,
+        title: 'Naturalna regeneracja',
+        description: 'Osteopata aktywuje naturalne mechanizmy samouzdrawiania organizmu, wspierając długotrwałą poprawę zdrowia.',
+      },
+    ]
+  },
+  en: {
+    heading: { strong: 'Benefits', light: 'of osteopathy' },
+    items: [
+      {
+        icon: icon1,
+        title: 'Life without pain',
+        description: 'Osteopathy eliminates the source of pain by restoring the body\'s natural balance, without drugs and invasive procedures.',
+      },
+      {
+        icon: icon2,
+        title: 'Freedom of movement',
+        description: 'Gentle osteopathic techniques release tensions and blockages, restoring full mobility.',
+      },
+      {
+        icon: icon3,
+        title: 'Natural regeneration',
+        description: 'An osteopath activates the body\'s natural self-healing mechanisms, supporting long-term health improvement.',
+      },
+    ]
+  }
+} as const;
+
+const content = translations[currentLocale];
+
 // Nagłówek sekcji (h2 domyślnie, można nadpisać przez props)
 // Jeśli chcesz użyć innego poziomu nagłówka (np. h3), przekaż przez props: headingTag: 'h3'
 const {
   // Nagłówek z pogrubionym słowem "Zalety" (font-semibold)
   heading,
   headingTag = 'h2', // domyślnie h2, można ustawić np. 'h3'
-  items = [
-    {
-      icon: icon1,
-      title: 'Życie bez bólu',
-      description:
-        'Osteopatia eliminuje źródło bólu poprzez przywrócenie naturalnej równowagi ciała, bez leków i inwazyjnych zabiegów.',
-    },
-    {
-      icon: icon2,
-      title: 'Swoboda ruchu',
-      description:
-        'Delikatne techniki osteopatyczne uwalniają napięcia i blokady, przywracając pełną sprawność ruchową.',
-    },
-    {
-      icon: icon3,
-      title: 'Naturalna regeneracja',
-      description:
-        'Osteopata aktywuje naturalne mechanizmy samouzdrawiania organizmu, wspierając długotrwałą poprawę zdrowia.',
-    },
-  ],
+  items = content.items,
 }: BenefitsProps = Astro.props;
 ---
 
@@ -49,9 +80,9 @@ const {
   <div class="container mx-auto px-4 md:px-6 max-w-6xl">
     <div class="text-center max-w-2xl mx-auto">
       <h2 class="font-heading text-medical-text text-h2-mobile md:text-h2-desktop tracking-tight transition-colors duration-400 hover:text-medical-primary">
-        {heading ? heading : <> <span class="font-semibold">Korzyści</span> <span class="font-light">osteopatii</span></>}
+        {heading ? heading : <> <span class="font-semibold">{content.heading.strong}</span> <span class="font-light">{content.heading.light}</span></>}
       </h2>
-      <p class="sr-only">Trzy kluczowe powody, dla których pacjenci wybierają osteopatię.</p>
+      <p class="sr-only">{currentLocale === 'pl' ? 'Trzy kluczowe powody, dla których pacjenci wybierają osteopatię.' : 'Three key reasons why patients choose osteopathy.'}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 mt-10 md:mt-14">

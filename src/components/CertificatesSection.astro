@@ -9,6 +9,50 @@ import diploma4 from '../assets/dyplom4.jpg';
 import diploma5 from '../assets/dyplom5.jpg';
 import diploma6 from '../assets/dyplom6.jpg';
 import arrow from '../assets/arrow.svg';
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia certyfikatów
+const translations = {
+  pl: {
+    heading: { strong: 'Certyfikaty', light: 'i referencje' },
+    navigation: {
+      previous: 'Poprzednie certyfikaty',
+      next: 'Następne certyfikaty', 
+      prevAlt: 'Poprzednie',
+      nextAlt: 'Następne'
+    },
+    certificates: [
+      'Dyplom ukończenia studiów magisterskich – fizjoterapia',
+      'Certyfikat ukończenia kursu osteopatii',
+      'Certyfikat specjalizacji w terapii manualnej',
+      'Dyplom doktora nauk medycznych',
+      'Certyfikat ukończenia kursu terapii czaszkowo-krzyżowej',
+      'Certyfikat członkostwa w Polskim Towarzystwie Fizjoterapii'
+    ]
+  },
+  en: {
+    heading: { strong: 'Certificates', light: 'and references' },
+    navigation: {
+      previous: 'Previous certificates',
+      next: 'Next certificates',
+      prevAlt: 'Previous', 
+      nextAlt: 'Next'
+    },
+    certificates: [
+      'Master\'s degree diploma – physiotherapy',
+      'Osteopathy course completion certificate',
+      'Manual therapy specialization certificate',
+      'PhD in medical sciences diploma',
+      'Craniosacral therapy course completion certificate',
+      'Polish Society of Physiotherapy membership certificate'
+    ]
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 
 <section id="certyfikaty" class="py-16 md:pt-20 lg:pt-24 pb-16">
@@ -19,7 +63,7 @@ import arrow from '../assets/arrow.svg';
       data-animate="fade-up"
       data-animate-delay="100"
     >
-      <strong class="font-semibold">Certyfikaty</strong> i referencje
+      <strong class="font-semibold">{content.heading.strong}</strong> {content.heading.light}
     </h2>
 
     <!-- Karuzela dyplomów (format A4) -->
@@ -34,19 +78,19 @@ import arrow from '../assets/arrow.svg';
       <!-- Przyciski nawigacji -->
       <button
         type="button"
-        aria-label="Poprzednie certyfikaty"
+        aria-label={content.navigation.previous}
         data-action="prev"
         class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
       >
-        <img src={arrow.src} alt="Poprzednie" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180" />
+        <img src={arrow.src} alt={content.navigation.prevAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180" />
       </button>
       <button
         type="button"
-        aria-label="Następne certyfikaty"
+        aria-label={content.navigation.next}
         data-action="next"
         class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/80 text-medical-text shadow-sm ring-1 ring-medical-bg hover:bg-white focus:outline-none focus:ring-2 focus:ring-medical-primary/50"
       >
-        <img src={arrow.src} alt="Następne" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" />
+        <img src={arrow.src} alt={content.navigation.nextAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6" />
       </button>
 
       <!-- Okno widoku: ukryj tylko nadmiar w osi X, zostaw miejsce na cień w Y + wewnętrzne paddingi -->
@@ -61,7 +105,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma1.src}
-                      alt="Dyplom nr 1"
+                      alt={content.certificates[0]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -73,7 +117,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma2.src}
-                      alt="Dyplom nr 2"
+                      alt={content.certificates[1]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -85,7 +129,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma3.src}
-                      alt="Dyplom nr 3"
+                      alt={content.certificates[2]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -103,7 +147,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma4.src}
-                      alt="Dyplom nr 4"
+                      alt={content.certificates[3]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -115,7 +159,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma5.src}
-                      alt="Dyplom nr 5"
+                      alt={content.certificates[4]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -127,7 +171,7 @@ import arrow from '../assets/arrow.svg';
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
                     <img
                       src={diploma6.src}
-                      alt="Dyplom nr 6"
+                      alt={content.certificates[5]}
                       loading="lazy"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
@@ -199,41 +243,56 @@ import arrow from '../assets/arrow.svg';
         if (e.key === 'ArrowRight') goTo(currentIndex + 1);
       });
 
-      // Gesty dotykowe (swipe)
+      // Obsługa swipe/touch (ulepszona wersja)
       let startX = 0;
-      let isSwiping = false;
-      const onTouchStart = (e: TouchEvent) => {
-        if (!e.touches || e.touches.length === 0) return;
+      let endX = 0;
+      let isDragging = false;
+      let startTime = 0;
+
+      const handleTouchStart = (e: TouchEvent) => {
         startX = e.touches[0].clientX;
-        isSwiping = true;
-        stop();
-      };
-      const onTouchMove = (e: TouchEvent) => {
-        if (!isSwiping || !track) return;
-        const deltaX = e.touches[0].clientX - startX;
-        // delikatne przesunięcie pod palcem bez podcinania cienia
-        track.style.transitionDuration = '0ms';
-        track.style.transform = `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`;
-      };
-      const onTouchEnd = (e: TouchEvent) => {
-        if (!isSwiping) return;
-        const endX = (e.changedTouches && e.changedTouches[0]?.clientX) || startX;
-        const delta = endX - startX;
-        const threshold = 40; // czułość gestu
-        if (delta > threshold) {
-          goTo(currentIndex - 1);
-        } else if (delta < -threshold) {
-          goTo(currentIndex + 1);
-        } else {
-          update();
-        }
-        isSwiping = false;
-        start();
+        startTime = Date.now();
+        isDragging = true;
+        stop(); // Zatrzymaj auto-scroll podczas interakcji
       };
 
-      carouselRoot.addEventListener('touchstart', onTouchStart, { passive: true });
-      carouselRoot.addEventListener('touchmove', onTouchMove, { passive: true });
-      carouselRoot.addEventListener('touchend', onTouchEnd);
+      const handleTouchMove = (e: TouchEvent) => {
+        if (!isDragging) return;
+        endX = e.touches[0].clientX;
+        // Zapobiegnij scroll strony podczas swipe karuzeli
+        e.preventDefault();
+      };
+
+      const handleTouchEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const deltaX = startX - endX;
+        const deltaTime = Date.now() - startTime;
+        const minSwipeDistance = 50;
+        const maxSwipeTime = 500;
+
+        // Sprawdź czy gest spełnia warunki swipe
+        if (Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
+          if (deltaX > 0) {
+            // Swipe w lewo - następny slajd
+            goTo(currentIndex + 1);
+          } else {
+            // Swipe w prawo - poprzedni slajd
+            goTo(currentIndex - 1);
+          }
+        }
+        
+        // Wznów auto-scroll po krótkiej przerwie
+        setTimeout(start, 1000);
+      };
+
+      // Zdarzenia touch dla urządzeń mobilnych
+      if (track) {
+        track.addEventListener("touchstart", handleTouchStart, { passive: false });
+        track.addEventListener("touchmove", handleTouchMove, { passive: false });
+        track.addEventListener("touchend", handleTouchEnd);
+      }
 
       // Inicjalizacja
       update(true);

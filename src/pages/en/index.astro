@@ -1,32 +1,54 @@
 ---
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_KEYWORDS, SITE_AUTHOR, SITE_IMAGE } from '../../consts';
 import tlo1 from '../../assets/tlo1.jpg';
 import MainLayout from '../../layouts/MainLayout.astro';
 import HeroSection from '../../components/HeroSection.astro';
 import TreatmentSelector from '../../components/TreatmentSelector.astro';
 import StatsSection from '../../components/StatsSection.astro';
 import TherapistAndOsteopathySection from '../../components/TherapistAndOsteopathySection.astro';
+import BenefitsSection from '../../components/BenefitsSection.astro';
 import ClinicGallerySection from '../../components/ClinicGallerySection.astro';
 import SpecializationsSection from '../../components/SpecializationsSection.astro';
+import SpecializationsSection2 from '../../components/SpecializationsSection2.astro';
 import CertificatesSection from '../../components/CertificatesSection.astro';
+import TestimonialsSection from '../../components/TestimonialsSection.astro';
+import PreFooterLogoSection from '../../components/PreFooterLogoSection.astro';
+
 ---
-<MainLayout title={SITE_TITLE + " - English"} description={SITE_DESCRIPTION} hideHeader={true}>
+<MainLayout 
+  title={SITE_TITLE + " - English"} 
+  description={SITE_DESCRIPTION}
+  keywords={SITE_KEYWORDS}
+  author={SITE_AUTHOR}
+  image={SITE_IMAGE}
+  type="website"
+  hideHeader={true} 
+  schemaType="home"
+>
   <HeroSection
-    title="I'm glad you found me."
-    subtitle="I'm here to help you"
+    title="Osteopathy Clinic"
+    subtitle="dr Jarema Paduszyński"
+    slides={[
+      { title: 'Osteopathy Clinic', subtitle: 'dr Jarema Paduszyński' },
+      { title: 'I\'m glad you found me.', subtitle: 'I\'m here to help you' },
+    ]}
     supportingText="Book an appointment and take care of your health today"
     ratingStars={5}
     ratingText="150+ positive patient reviews"
     secondaryCtaLabel="Rate visit"
     secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
-    ctaLabel="Book now"
-    ctaHref="#contact"
+    ctaLabel="Book appointment"
+    ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
     bgImageSrc={tlo1.src}
   />
   <StatsSection />
   <TherapistAndOsteopathySection />
+  <BenefitsSection />
   <ClinicGallerySection />
   <TreatmentSelector />
   <SpecializationsSection />
+  <SpecializationsSection2 />
   <CertificatesSection />
+  <TestimonialsSection />
+  <PreFooterLogoSection />
 </MainLayout>

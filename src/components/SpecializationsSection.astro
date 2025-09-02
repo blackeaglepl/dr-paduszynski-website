@@ -1,6 +1,63 @@
 ---
 // Komponent sekcji „Pomagam w" — lista specjalizacji w 3 kolumnach
-// Test change for git tracking
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia specjalizacji
+const translations = {
+  pl: {
+    heading: { text: 'Pomagam', highlight: 'w' },
+    ariaLabel: 'Lista specjalizacji terapeuty',
+    specializations: {
+      column1: [
+        'Zaburzenia czynnościowe układu pokarmowego',
+        'Zaburzenia funkcjonalne stawu skroniowo żuchwowego',
+        'Bóle głowy i migreny',
+        'Zaparcia i zgagi'
+      ],
+      column2: [
+        'Napięcia kostne',
+        'Kręcz szyi', 
+        'Szumy uszne',
+        'Ulewania, zaparcia'
+      ],
+      column3: [
+        'Korygowanie u dziecka zniekształceń kształtu główki',
+        'Odblokowywanie u dzieci kanalików łzowych',
+        'Kolki u dzieci',
+        'Stres'
+      ]
+    }
+  },
+  en: {
+    heading: { text: 'I help', highlight: 'with' },
+    ariaLabel: 'List of therapist specializations',
+    specializations: {
+      column1: [
+        'Functional disorders of the digestive system',
+        'Functional temporomandibular joint disorders',
+        'Headaches and migraines',
+        'Constipation and heartburn'
+      ],
+      column2: [
+        'Bone tensions',
+        'Neck spasms',
+        'Tinnitus',
+        'Reflux, constipation'
+      ],
+      column3: [
+        'Correcting head shape deformations in children',
+        'Unblocking tear ducts in children',
+        'Colic in children',
+        'Stress'
+      ]
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 
 <section class="py-16 md:pt-2 pb-16">
@@ -11,36 +68,33 @@
       data-animate="fade-up"
       data-animate-delay="100"
     >
-      Pomagam <span class="text-light-medical-primary font-light">w</span>
+      {content.heading.text} <span class="text-light-medical-primary font-light">{content.heading.highlight}</span>
     </h2>
 
     <!-- Siatka kolumn z pionowymi separatorami (desktop) -->
     <div
       class="mt-2 md:mt-3 pt-12 md:pt-16 grid gap-8 md:gap-12 lg:gap-16 place-items-center md:place-items-stretch md:grid-cols-3 md:divide-x-2 md:divide-medical-text/30"
-      aria-label="Lista specjalizacji terapeuty"
+      aria-label={content.ariaLabel}
     >
       <!-- Kolumna 1 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Zaburzenia czynnościowe układu pokarmowego</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Zaburzenia funkcjonalne stawu skroniowo żuchwowego</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Bóle głowy i migreny</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Zaparcia i zgagi</li>
+        {content.specializations.column1.map(item => (
+          <li class="transition-colors duration-200 hover:text-medical-primary">{item}</li>
+        ))}
       </ul>
 
       <!-- Kolumna 2 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Napięcia kostne</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Kręcz szyi</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Szumy uszne</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Ulewania, zaparcia</li>
+        {content.specializations.column2.map(item => (
+          <li class="transition-colors duration-200 hover:text-medical-primary">{item}</li>
+        ))}
       </ul>
 
       <!-- Kolumna 3 -->
       <ul class="text-medical-text text-body-mobile md:text-body-desktop space-y-6 md:space-y-8 px-2 md:px-10 lg:px-14 list-disc list-inside md:list-none text-center md:text-left max-w-md mx-auto">
-        <li class="transition-colors duration-200 hover:text-medical-primary">Korygowanie u dziecka zniekształceń kształtu główki</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Odblokowywanie u dzieci kanalików łzowych</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Kolki u dzieci</li>
-        <li class="transition-colors duration-200 hover:text-medical-primary">Stres</li>
+        {content.specializations.column3.map(item => (
+          <li class="transition-colors duration-200 hover:text-medical-primary">{item}</li>
+        ))}
       </ul>
     </div>
   </div>

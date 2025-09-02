@@ -2,6 +2,7 @@
 /* @ts-nocheck */
 // Sekcja: Opinie pacjentów (ciemna sekcja + karuzela z auto-rotacją)
 import arrow from '../assets/arrow.svg';
+import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
 
 type Testimonial = {
   name: string;
@@ -11,80 +12,163 @@ type Testimonial = {
   service: string;
 };
 
-const testimonials: Testimonial[] = [
-  {
-    name: 'Rodzice niemowlęcia',
-    initials: 'RN',
-    content:
-      'Pan doktor Jarema pomógł naszemu synkowi (niemowlakowi). Na każdej wizycie otrzymywaliśmy szczegółowe wyjaśnienia dotyczące problemów oraz zakresu działań. Wizyty przebiegały w przyjaznej atmosferze dla naszego maleństwa. Efekty pracy Pana Doktora są widoczne gołym okiem. Szczerze polecam.',
-    date: '25 lutego 2025',
-    service: 'osteopatia pediatryczna',
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Kompletne tłumaczenia opinii pacjentów
+const translations = {
+  pl: {
+    heading: { light: 'Co mówią', strong: 'pacjenci' },
+    navigation: {
+      previous: 'Poprzednie opinie',
+      next: 'Następne opinie',
+      prevAlt: 'Poprzednie',
+      nextAlt: 'Następne'
+    },
+    testimonials: [
+      {
+        name: 'Rodzice niemowlęcia',
+        initials: 'RN',
+        content: 'Pan doktor Jarema pomógł naszemu synkowi (niemowlakowi). Na każdej wizycie otrzymywaliśmy szczegółowe wyjaśnienia dotyczące problemów oraz zakresu działań. Wizyty przebiegały w przyjaznej atmosferze dla naszego maleństwa. Efekty pracy Pana Doktora są widoczne gołym okiem. Szczerze polecam.',
+        date: '25 lutego 2025',
+        service: 'osteopatia pediatryczna',
+      },
+      {
+        name: 'Pacjentka',
+        initials: 'P',
+        content: 'Miałam przyjemność skorzystać z usług Pana Jaremy i jestem pod ogromnym wrażeniem jego profesjonalizmu oraz wiedzy. Już po pierwszej wizycie zauważyłam znaczną poprawę – szumy w uchu oraz bóle głowy ustąpiły. Odbyłam także terapię wisceralną. Podejście niezwykle empatyczne – czułam się w pełni zaopiekowana. Gorąco polecam.',
+        date: '22 lutego 2025',
+        service: 'terapia wisceralna',
+      },
+      {
+        name: 'Gabriela',
+        initials: 'G',
+        content: 'Jestem bardzo wdzięczna za wizytę u Doktora Jaremy. Doktor bardzo profesjonalnie podszedł do wizyt, poświęcił należytą ilość czasu, żeby przeanalizować mój problem, dociec jego przyczyny i go wyleczyć. Terapia stawów skroniowo-żuchwowych została wykonana bardzo dokładnie przy holistycznym podejściu, doktor posiada obszerną wiedzę i praktyczne umiejętności leczenia. Po 2 wizytach wychodzę z wielką ulgą po bólu i dawką wiedzy jak o to jakże cenne zdrowie na codzień dbać i takim bólom zapobiegać ;). Są wykwalifikowani i empatyczni lekarze na tym świecie, którym warto zaufać i doktor Jarema do takich należy. Zdecydowanie polecam każdemu, serdecznie dziękuję za pomoc!',
+        date: '28 grudnia 2024',
+        service: 'terapia stawów skroniowo-żuchwowych',
+      },
+      {
+        name: 'Agnieszka',
+        initials: 'A',
+        content: 'Serdecznie polecam Pana Doktora. Z dużym zaangażowaniem podchodzi do pacjenta, wszystko szczegółowo wyjaśnia. Po wizycie ból minął.',
+        date: '18 lutego 2025',
+        service: 'wizyta fizjoterapeutyczna',
+      },
+      {
+        name: 'Anna',
+        initials: 'A',
+        content: 'Pan Jarema to bardzo empatyczny człowiek z ogromnym doświadczeniem i świetnym podejściem do dzieci. Wszystko nam objaśnił i odpowiadał na każde pytanie. Córeczka była zachwycona. Bardzo polecam.',
+        date: '19 listopada 2024',
+        service: 'osteopatia pediatryczna',
+      },
+      {
+        name: 'Małgorzata',
+        initials: 'M',
+        content: 'Gorąco polecam – trzy wizyty wystarczyły, aby bóle, z którymi borykałam się od lat i po wielu konsultacjach, ustąpiły.',
+        date: '23 października 2024',
+        service: 'konsultacja osteopatyczna',
+      },
+      {
+        name: 'Monika',
+        initials: 'M',
+        content: 'Bardzo empatyczny specjalista. Polecam dla dzieci – problem został szczegółowo omówiony, bez pośpiechu, w spokojnej atmosferze.',
+        date: '2 grudnia 2024',
+        service: 'osteopatia pediatryczna',
+      },
+      {
+        name: 'Jerzy',
+        initials: 'J',
+        content: 'Bardzo dobre, zaangażowane podejście. Ulga już po pierwszej wizycie. Dziękuję.',
+        date: '3 grudnia 2024',
+        service: 'konsultacja osteopatyczna',
+      },
+      {
+        name: 'Agata D.',
+        initials: 'AD',
+        content: 'Pan Doktor to wspaniały lekarz, który nie raz uratował mój kręgosłup. Po wielu nieudanych konsultacjach dopiero Pan Dr Jarema pomógł mi i mojej starszej mamie. Dziękuję i polecam z całego serca!',
+        date: '2024/2025',
+        service: 'terapia manualna kręgosłupa',
+      },
+    ]
   },
-  {
-    name: 'Pacjentka',
-    initials: 'P',
-    content:
-      'Miałam przyjemność skorzystać z usług Pana Jaremy i jestem pod ogromnym wrażeniem jego profesjonalizmu oraz wiedzy. Już po pierwszej wizycie zauważyłam znaczną poprawę – szumy w uchu oraz bóle głowy ustąpiły. Odbyłam także terapię wisceralną. Podejście niezwykle empatyczne – czułam się w pełni zaopiekowana. Gorąco polecam.',
-    date: '22 lutego 2025',
-    service: 'terapia wisceralna',
-  },
-  {
-    name: 'Gabriela',
-    initials: 'G',
-    content:
-      'Jestem bardzo wdzięczna za wizytę u Doktora Jaremy. Doktor bardzo profesjonalnie podszedł do wizyt, poświęcił należytą ilość czasu, żeby przeanalizować mój problem, dociec jego przyczyny i go wyleczyć. Terapia stawów skroniowo-żuchwowych została wykonana bardzo dokładnie przy holistycznym podejściu, doktor posiada obszerną wiedzę i praktyczne umiejętności leczenia. Po 2 wizytach wychodzę z wielką ulgą po bólu i dawką wiedzy jak o to jakże cenne zdrowie na codzień dbać i takim bólom zapobiegać ;). Są wykwalifikowani i empatyczni lekarze na tym świecie, którym warto zaufać i doktor Jarema do takich należy. Zdecydowanie polecam każdemu, serdecznie dziękuję za pomoc!',
-    date: '28 grudnia 2024',
-    service: 'terapia stawów skroniowo-żuchwowych',
-  },
-  {
-    name: 'Agnieszka',
-    initials: 'A',
-    content:
-      'Serdecznie polecam Pana Doktora. Z dużym zaangażowaniem podchodzi do pacjenta, wszystko szczegółowo wyjaśnia. Po wizycie ból minął.',
-    date: '18 lutego 2025',
-    service: 'wizyta fizjoterapeutyczna',
-  },
-  {
-    name: 'Anna',
-    initials: 'A',
-    content:
-      'Pan Jarema to bardzo empatyczny człowiek z ogromnym doświadczeniem i świetnym podejściem do dzieci. Wszystko nam objaśnił i odpowiadał na każde pytanie. Córeczka była zachwycona. Bardzo polecam.',
-    date: '19 listopada 2024',
-    service: 'osteopatia pediatryczna',
-  },
-  {
-    name: 'Małgorzata',
-    initials: 'M',
-    content:
-      'Gorąco polecam – trzy wizyty wystarczyły, aby bóle, z którymi borykałam się od lat i po wielu konsultacjach, ustąpiły.',
-    date: '23 października 2024',
-    service: 'konsultacja osteopatyczna',
-  },
-  {
-    name: 'Monika',
-    initials: 'M',
-    content:
-      'Bardzo empatyczny specjalista. Polecam dla dzieci – problem został szczegółowo omówiony, bez pośpiechu, w spokojnej atmosferze.',
-    date: '2 grudnia 2024',
-    service: 'osteopatia pediatryczna',
-  },
-  {
-    name: 'Jerzy',
-    initials: 'J',
-    content:
-      'Bardzo dobre, zaangażowane podejście. Ulga już po pierwszej wizycie. Dziękuję.',
-    date: '3 grudnia 2024',
-    service: 'konsultacja osteopatyczna',
-  },
-  {
-    name: 'Agata D.',
-    initials: 'AD',
-    content:
-      'Pan Doktor to wspaniały lekarz, który nie raz uratował mój kręgosłup. Po wielu nieudanych konsultacjach dopiero Pan Dr Jarema pomógł mi i mojej starszej mamie. Dziękuję i polecam z całego serca!',
-    date: '2024/2025',
-    service: 'terapia manualna kręgosłupa',
-  },
-];
+  en: {
+    heading: { light: 'What our', strong: 'patients say' },
+    navigation: {
+      previous: 'Previous testimonials',
+      next: 'Next testimonials',
+      prevAlt: 'Previous',
+      nextAlt: 'Next'
+    },
+    testimonials: [
+      {
+        name: 'Parents of an infant',
+        initials: 'PI',
+        content: 'Dr. Jarema helped our son (infant). At each visit we received detailed explanations regarding the problems and scope of actions. The visits took place in a friendly atmosphere for our little one. The effects of the Doctor\'s work are visible to the naked eye. I sincerely recommend.',
+        date: 'February 25, 2025',
+        service: 'pediatric osteopathy',
+      },
+      {
+        name: 'Female Patient',
+        initials: 'P',
+        content: 'I had the pleasure of using Mr. Jarema\'s services and I am extremely impressed with his professionalism and knowledge. After just the first visit, I noticed a significant improvement – the tinnitus and headaches subsided. I also underwent visceral therapy. An extremely empathetic approach – I felt fully cared for. I highly recommend.',
+        date: 'February 22, 2025',
+        service: 'visceral therapy',
+      },
+      {
+        name: 'Gabriela',
+        initials: 'G',
+        content: 'I am very grateful for the visit to Dr. Jarema. The doctor approached the visits very professionally, devoted the appropriate amount of time to analyze my problem, find its cause and cure it. The temporomandibular joint therapy was performed very thoroughly with a holistic approach, the doctor has extensive knowledge and practical healing skills. After 2 visits, I leave with great relief from pain and a dose of knowledge on how to take care of this precious health on a daily basis and prevent such pain ;). There are qualified and empathetic doctors in this world who are worth trusting and Dr. Jarema is one of them. I definitely recommend to everyone, thank you very much for your help!',
+        date: 'December 28, 2024',
+        service: 'temporomandibular joint therapy',
+      },
+      {
+        name: 'Agnieszka',
+        initials: 'A',
+        content: 'I sincerely recommend the Doctor. He approaches the patient with great commitment, explains everything in detail. After the visit, the pain was gone.',
+        date: 'February 18, 2025',
+        service: 'physiotherapy visit',
+      },
+      {
+        name: 'Anna',
+        initials: 'A',
+        content: 'Mr. Jarema is a very empathetic person with extensive experience and a great approach to children. He explained everything to us and answered every question. Our daughter was delighted. I highly recommend.',
+        date: 'November 19, 2024',
+        service: 'pediatric osteopathy',
+      },
+      {
+        name: 'Małgorzata',
+        initials: 'M',
+        content: 'I highly recommend – three visits were enough for the pain that I had been struggling with for years and after many consultations to subside.',
+        date: 'October 23, 2024',
+        service: 'osteopathic consultation',
+      },
+      {
+        name: 'Monika',
+        initials: 'M',
+        content: 'Very empathetic specialist. I recommend for children – the problem was discussed in detail, without haste, in a calm atmosphere.',
+        date: 'December 2, 2024',
+        service: 'pediatric osteopathy',
+      },
+      {
+        name: 'Jerzy',
+        initials: 'J',
+        content: 'Very good, committed approach. Relief after the first visit. Thank you.',
+        date: 'December 3, 2024',
+        service: 'osteopathic consultation',
+      },
+      {
+        name: 'Agata D.',
+        initials: 'AD',
+        content: 'The Doctor is a wonderful physician who has saved my spine more than once. After many unsuccessful consultations, Dr. Jarema was the first to help me and my elderly mother. Thank you and I recommend with all my heart!',
+        date: '2024/2025',
+        service: 'manual spine therapy',
+      },
+    ]
+  }
+} as const;
+
+const content = translations[currentLocale];
+const testimonials: Testimonial[] = content.testimonials;
 
 // Grupujemy po 3, aby na desktopie wyświetlać 3 opinie naraz
 const slides: Testimonial[][] = [];
@@ -103,17 +187,17 @@ for (let i = 0; i < testimonials.length; i += 3) {
     <!-- Eyebrow + Nagłówek minimalistyczny -->
   
     <h2 class="font-heading text-h1-mobile md:text-h1-desktop text-medical-white tracking-tight text-center">
-      <span class="font-light">Co mówią</span> <span class="font-semibold">pacjenci</span>
+      <span class="font-light">{content.heading.light}</span> <span class="font-semibold">{content.heading.strong}</span>
     </h2>
 
     <!-- Karuzela z opiniami -->
     <div id="testimonials-carousel" class="relative mt-8 md:mt-10 select-none" aria-roledescription="carousel" tabindex="0">
       <!-- Przyciski nawigacji -->
-      <button type="button" aria-label="Poprzednie opinie" data-action="prev" class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt="Poprzednie" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180 invert" />
+      <button type="button" aria-label={content.navigation.previous} data-action="prev" class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
+        <img src={arrow.src} alt={content.navigation.prevAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180 invert" />
       </button>
-      <button type="button" aria-label="Następne opinie" data-action="next" class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt="Następne" aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 invert" />
+      <button type="button" aria-label={content.navigation.next} data-action="next" class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
+        <img src={arrow.src} alt={content.navigation.nextAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 invert" />
       </button>
 
       <!-- Okno widoku -->

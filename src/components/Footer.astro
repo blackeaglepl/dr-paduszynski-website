@@ -1,5 +1,69 @@
 ---
 // Footer component - minimalistyczna stopka zgodna z wymaganiami
+import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia stopki
+const translations = {
+  pl: {
+    cta: {
+      text: 'Sprawdź dostepny grafik i umów się na wizytę. Zapraszam!',
+      bookButton: 'Zapisz się',
+      bookAriaLabel: 'Zapisz się — otwiera w nowej karcie',
+      directionsButton: 'Jak dojechać',
+      directionsAriaLabel: 'Jak dojechać — otwiera Mapy Google w nowej karcie'
+    },
+    brand: {
+      name: 'dr Jarema Paduszyński',
+      description: 'Osteopata, fizjoterapeuta – skuteczna terapia bólu i dysfunkcji narządów ruchu.'
+    },
+    navigation: {
+      title: 'Na skróty',
+      links: {
+        about: 'O mnie',
+        pricing: 'Cennik',
+        blog: 'Blog',
+        contact: 'Kontakt'
+      }
+    },
+    contact: {
+      title: 'Kontakt'
+    },
+    copyright: 'Wszelkie prawa zastrzeżone.',
+    privacyLink: 'Polityka prywatności'
+  },
+  en: {
+    cta: {
+      text: 'Check the available schedule and book an appointment. Welcome!',
+      bookButton: 'Book appointment',
+      bookAriaLabel: 'Book appointment — opens in new tab',
+      directionsButton: 'Get directions',
+      directionsAriaLabel: 'Get directions — opens Google Maps in new tab'
+    },
+    brand: {
+      name: 'dr Jarema Paduszyński',
+      description: 'Osteopath, physiotherapist – effective therapy for pain and dysfunction of the musculoskeletal system.'
+    },
+    navigation: {
+      title: 'Quick links',
+      links: {
+        about: 'About me',
+        pricing: 'Pricing',
+        blog: 'Blog',
+        contact: 'Contact'
+      }
+    },
+    contact: {
+      title: 'Contact'
+    },
+    copyright: 'All rights reserved.',
+    privacyLink: 'Privacy Policy'
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 
 <footer class="bg-white border-t border-medical-light/20">
@@ -10,7 +74,7 @@
     <!-- Pre-footer: krótka informacja + CTA -->
     <div class="flex flex-col md:flex-row items-center justify-between gap-4 py-4 md:py-5 border-b border-medical-light/20">
       <p class="text-medical-text-light text-sm md:text-base text-center md:text-left">
-        Sprawdź dostepny grafik i umów się na wizytę. Zapraszam!
+        {content.cta.text}
       </p>
       <div class="flex items-center gap-3">
         <a
@@ -18,18 +82,18 @@
           target="_blank"
           rel="noopener noreferrer"
           class="inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none"
-          aria-label="Zapisz się — otwiera w nowej karcie"
+          aria-label={content.cta.bookAriaLabel}
         >
-          Zapisz się
+          {content.cta.bookButton}
         </a>
         <a
           href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none"
-          aria-label="Jak dojechać — otwiera Mapy Google w nowej karcie"
+          aria-label={content.cta.directionsAriaLabel}
         >
-          Jak dojechać
+          {content.cta.directionsButton}
         </a>
       </div>
     </div>
@@ -38,29 +102,28 @@
     <div class="grid md:grid-cols-3 gap-8 md:gap-10 py-10">
       <!-- Brand / krótki opis -->
       <div class="min-w-0">
-        <a href="/" class="font-heading font-semibold text-medical-text text-lg">
-          dr Jarema Paduszyński
+        <a href={currentLocale === 'en' ? '/en/' : '/'} class="font-heading font-semibold text-medical-text text-lg">
+          {content.brand.name}
         </a>
-          <p class="text-medical-text-light text-sm mt-2">Osteopata, fizjoterapeuta – skuteczna terapia  <br> bólu
-            i dysfunkcji narządów ruchu.</p>
+          <p class="text-medical-text-light text-sm mt-2">{content.brand.description}</p>
       </div>
 
       <!-- Mapa strony -->
       <div class="min-w-0">
-        <h3 class="font-heading font-semibold text-medical-text mb-4">Na skróty</h3>
+        <h3 class="font-heading font-semibold text-medical-text mb-4">{content.navigation.title}</h3>
         <nav class="space-y-2 md:space-y-8">
-          <a href="/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">O mnie</a>
-          <a href="/cennik/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Cennik</a>
-          {Astro.url.pathname.startsWith('/en') ? null : (
-            <a href="/blog/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Blog</a>
+          <a href={currentLocale === 'en' ? '/en/' : '/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.about}</a>
+          <a href={currentLocale === 'en' ? '/en/pricing/' : '/cennik/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.pricing}</a>
+          {currentLocale === 'en' ? null : (
+            <a href="/blog/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.blog}</a>
           )}
-          <a href="/kontakt/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">Kontakt</a>
+          <a href={currentLocale === 'en' ? '/en/contact/' : '/kontakt/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.contact}</a>
         </nav>
       </div>
 
       <!-- Dane kontaktowe -->
       <div class="min-w-0">
-        <h3 class="font-heading font-semibold text-medical-text mb-4">Kontakt</h3>
+        <h3 class="font-heading font-semibold text-medical-text mb-4">{content.contact.title}</h3>
         <div class="space-y-2 md:space-y-3 text-medical-text-light">
           <p class="flex items-center gap-2">
             <svg class="w-4 h-4 text-medical-primary" fill="currentColor" viewBox="0 0 20 20">
@@ -88,13 +151,13 @@
     <!-- Dolny pasek -->
     <div class="border-t border-medical-light/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-medical-text-light text-sm text-center md:text-left">
-        &copy; {new Date().getFullYear()} dr Jarema Paduszyński. Wszelkie prawa zastrzeżone.
+        &copy; {new Date().getFullYear()} dr Jarema Paduszyński. {content.copyright}
       </p>
       <div class="flex items-center gap-6 text-sm">
-        {Astro.url.pathname.startsWith('/en') ? (
-          <a href="/en/privacy-policy/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">Privacy Policy</a>
+        {currentLocale === 'en' ? (
+          <a href="/en/privacy-policy/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.privacyLink}</a>
         ) : (
-          <a href="/polityka-prywatnosci/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">Polityka prywatności</a>
+          <a href="/polityka-prywatnosci/" class="text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.privacyLink}</a>
         )}
       </div>
     </div>

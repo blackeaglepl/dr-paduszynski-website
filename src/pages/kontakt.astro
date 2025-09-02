@@ -4,13 +4,51 @@ import MainLayout from '../layouts/MainLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
 import ContactAndWidget from '../components/ContactAndWidget.astro';
 import DirectionsMap from '../components/DirectionsMap.astro';
+import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
 import tlo4 from '../assets/tlo4.png';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+const t = getTranslations(currentLocale);
+
+// Tłumaczenia dla strony kontakt
+const translations = {
+  pl: {
+    meta: {
+      title: "Kontakt - Osteopata Dr Jarema Paduszyński Kraków | Umów Wizytę",
+      description: "Skontaktuj się z osteopatą Dr. Jarema Paduszyński w Krakowie. Umów wizytę telefonicznie lub online przez ZnanyLekarz. Adres gabinetu, godziny przyjęć.",
+      keywords: "kontakt osteopata Kraków, osteopata, fizjoterapeuta, umówienie wizyty osteopata, gabinet osteopatii Kraków, Klinika Osteopatii, Dr Jarema Paduszyński, Dr Paduszyński kontakt, ZnanyLekarz"
+    },
+    hero: {
+      title: "Kontakt i umówienie wizyty",
+      supportingText: "Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś",
+      ratingText: "150+ pozytywnych opinii Pacjentów",
+      secondaryCtaLabel: "Oceń wizytę",
+      ctaLabel: "Zapisz się"
+    }
+  },
+  en: {
+    meta: {
+      title: "Contact - Osteopath Dr Jarema Paduszyński Kraków | Book Appointment",
+      description: "Contact osteopath Dr. Jarema Paduszyński in Kraków. Book an appointment by phone or online through ZnanyLekarz. Clinic address, office hours.",
+      keywords: "osteopath contact Kraków, osteopath, physiotherapist, osteopath appointment booking, osteopathy clinic Kraków, Osteopathy Clinic, Dr Jarema Paduszyński, Dr Paduszyński contact, ZnanyLekarz"
+    },
+    hero: {
+      title: "Contact and appointment booking",
+      supportingText: "Book an appointment and take care of your health today",
+      ratingText: "150+ positive patient reviews",
+      secondaryCtaLabel: "Rate visit",
+      ctaLabel: "Book appointment"
+    }
+  }
+} as const;
+
+const content = translations[currentLocale];
 ---
 <MainLayout 
-  title="Kontakt - Osteopata Dr Jarema Paduszyński Kraków | Umów Wizytę" 
-  description="Skontaktuj się z osteopatą Dr. Jarema Paduszyński w Krakowie. Umów wizytę telefonicznie lub online przez ZnanyLekarz. Adres gabinetu, godziny przyjęć."
-  keywords="kontakt osteopata Kraków, osteopata, fizjoterapeuta, umówienie wizyty osteopata, gabinet osteopatii Kraków, Klinika Osteopatii, Dr Jarema Paduszyński, Dr Paduszyński kontakt, ZnanyLekarz"
+  title={content.meta.title} 
+  description={content.meta.description}
+  keywords={content.meta.keywords}
   author={SITE_AUTHOR}
   image={SITE_IMAGE}
   type="website"
@@ -18,13 +56,13 @@ import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
   schemaType="contact"
 >
   <HeroSection
-    title="Kontakt i umówienie wizyty"
-    supportingText="Zarezerwuj wizytę i zadbaj o swoje zdrowie już dziś"
+    title={content.hero.title}
+    supportingText={content.hero.supportingText}
     ratingStars={5}
-    ratingText="150+ pozytywnych opinii Pacjentów"
-    secondaryCtaLabel="Oceń wizytę"
+    ratingText={content.hero.ratingText}
+    secondaryCtaLabel={content.hero.secondaryCtaLabel}
     secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
-    ctaLabel="Zapisz się"
+    ctaLabel={content.hero.ctaLabel}
     ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
     bgImageSrc={tlo4.src}
   />
