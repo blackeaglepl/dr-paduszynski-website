@@ -9,7 +9,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://osteopatia-paduszynski.pl/',
   build: {
-    format: 'directory',
+    format: 'file',
     assets: '_astro'
   },
   server: {
