@@ -36,5 +36,32 @@ export default defineConfig({
       }
     }
   },
-  integrations: [mdx(), sitemap(), tailwind()],
+  integrations: [
+    mdx(), 
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      // Konfiguracja dla lepszego SEO
+      serialize(item) {
+        // Priorytet dla stron głównych
+        if (item.url === 'https://osteopatia-paduszynski.pl/') {
+          item.priority = 1.0;
+          item.changefreq = 'weekly';
+        }
+        // Priorytet dla ważnych stron
+        if (item.url.includes('/cennik') || item.url.includes('/kontakt')) {
+          item.priority = 0.9;
+          item.changefreq = 'monthly';
+        }
+        // Blog ma średni priorytet ale częstsze zmiany
+        if (item.url.includes('/blog')) {
+          item.priority = 0.7;
+          item.changefreq = 'weekly';
+        }
+        return item;
+      }
+    }),
+    tailwind()
+  ],
 });
