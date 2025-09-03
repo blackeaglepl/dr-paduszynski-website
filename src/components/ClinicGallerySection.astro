@@ -266,35 +266,58 @@ const content = translations[currentLocale];
     // Obsługa swipe/touch
     const handleTouchStart = (e: TouchEvent) => {
       startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       startTime = Date.now();
       isDragging = true;
+      swipeDirection = null;
       stop(); // Zatrzymaj auto-scroll podczas interakcji
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
-      endX = e.touches[0].clientX;
-      // Zapobiegnij scroll strony podczas swipe karuzeli
-      e.preventDefault();
+
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+
+      if (swipeDirection === null) {
+        const deltaX = Math.abs(currentX - startX);
+        const deltaY = Math.abs(currentY - startY);
+        // Ustaw kierunek tylko jeśli ruch jest wystarczająco duży
+        if (deltaX > 5 || deltaY > 5) {
+            if (deltaX > deltaY) {
+                swipeDirection = 'horizontal';
+            } else {
+                swipeDirection = 'vertical';
+            }
+        }
+      }
+
+      if (swipeDirection === 'horizontal') {
+        endX = e.touches[0].clientX;
+        // Zapobiegnij scroll strony podczas swipe karuzeli
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = () => {
       if (!isDragging) return;
       isDragging = false;
       
-      const deltaX = startX - endX;
-      const deltaTime = Date.now() - startTime;
-      const minSwipeDistance = 50;
-      const maxSwipeTime = 500;
+      if (swipeDirection === 'horizontal') {
+        const deltaX = startX - endX;
+        const deltaTime = Date.now() - startTime;
+        const minSwipeDistance = 50;
+        const maxSwipeTime = 500;
 
-      // Sprawdź czy gest spełnia warunki swipe
-      if (Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
-        if (deltaX > 0) {
-          // Swipe w lewo - następny slajd
-          goTo(currentIndex + 1);
-        } else {
-          // Swipe w prawo - poprzedni slajd
-          goTo(currentIndex - 1);
+        // Sprawdź czy gest spełnia warunki swipe
+        if (Math.abs(deltaX) > minSwipeDistance && deltaTime < maxSwipeTime) {
+          if (deltaX > 0) {
+            // Swipe w lewo - następny slajd
+            goTo(currentIndex + 1);
+          } else {
+            // Swipe w prawo - poprzedni slajd
+            goTo(currentIndex - 1);
+          }
         }
       }
       
