@@ -1,5 +1,0 @@
-# Netlify redirects for Astro directory format
-# Force trailing slash for clean URLs
-
-/blog/* /blog/:splat/ 301!
-/* /:splat/ 200
