@@ -79,6 +79,12 @@ export function getSwitchLanguageUrl(currentUrl: URL, targetLocale: Locale): str
   if (targetLocale === defaultLocale) {
     // Powrót na język domyślny (PL) — usuń ewentualny prefix /en
     const cleanPath = currentPath.replace(/^\/en/, '') || '/';
+    
+    // Specjalny przypadek: jeśli próbujemy wrócić na blog z EN, przekieruj na blog PL
+    if (currentPath.startsWith('/en/blog/')) {
+      return '/blog/';
+    }
+    
     return ensureTrailingSlash(cleanPath);
   }
 
