@@ -8,7 +8,7 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://osteopatia-paduszynski.pl/',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore', // Changed from 'always' - fixes mobile vs desktop routing issues
   build: {
     format: 'directory',
   },
