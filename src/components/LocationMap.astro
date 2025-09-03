@@ -13,20 +13,19 @@ const translations = {
   pl: {
     heading: 'Lokalizacja gabinetu',
     description: 'Klinika Osteopatii dr Jarema Paduszyński znajduje się na I piętrze budynku przy ul. Jugowickiej 35/5.',
-    loading: 'Ładowanie mapy...',
-    errorTitle: 'Mapa Google niedostępna',
     openInMaps: 'Otwórz w Google Maps →'
   },
   en: {
-    heading: 'Clinic location',
+    heading: 'Clinic location', 
     description: 'The Osteopathy Clinic dr Jarema Paduszyński is located on the first floor of the building at 35/5 Jugowicka Street.',
-    loading: 'Loading map...',
-    errorTitle: 'Google Maps unavailable',
     openInMaps: 'Open in Google Maps →'
   }
 } as const;
 
 const content = translations[currentLocale];
+
+// URL do Google Maps Embed - najprostsze rozwiązanie
+const embedUrl = `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=Klinika+Osteopatii+dr+Jarema+Paduszyński,Jugowicka+35,Kraków,Poland`;
 ---
 
 <!-- Sekcja z mapą lokalizacji gabinetu -->
@@ -41,210 +40,46 @@ const content = translations[currentLocale];
       </p>
     </div>
 
-    <!-- Mapa Google - pełna szerokość -->
+    <!-- Mapa Google - najprostsze rozwiązanie z Embed API -->
     <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg overflow-hidden">
-      <div 
-        id="google-maps-container" 
-        class="relative w-full"
-        style="height: 500px; min-height: 400px;"
-      >
-        <!-- Loading placeholder -->
-        <div id="maps-loading" class="absolute inset-0 bg-medical-bg flex items-center justify-center">
-          <div class="text-center">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-medical-primary mx-auto mb-2"></div>
-            <p class="text-small-mobile text-medical-text-light">{content.loading}</p>
-          </div>
-        </div>
-        
-        <!-- Error fallback -->
-        <div id="maps-error" class="absolute inset-0 bg-medical-bg flex items-center justify-center hidden">
-          <div class="text-center p-6">
-            <div class="w-12 h-12 text-medical-text-light mx-auto mb-4">
-              <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-              </svg>
+      <div class="relative w-full" style="height: 500px;">
+        {googleMapsApiKey ? (
+          <iframe 
+            src={embedUrl}
+            width="100%" 
+            height="500" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            class="rounded-lg"
+            title="Lokalizacja Kliniki Osteopatii dr Jarema Paduszyński"
+          ></iframe>
+        ) : (
+          <div class="absolute inset-0 bg-medical-bg flex items-center justify-center">
+            <div class="text-center p-6">
+              <div class="w-12 h-12 text-medical-text-light mx-auto mb-4">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+              </div>
+              <p class="text-body-mobile text-medical-text mb-2">Mapa Google niedostępna</p>
+              <p class="text-small-mobile text-medical-text-light mb-4">
+                ul. Jugowicka 35/5, 30-443 Kraków
+              </p>
+              <a 
+                href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-medical-primary hover:text-medical-light font-medium"
+              >
+                {content.openInMaps}
+              </a>
             </div>
-            <p class="text-body-mobile text-medical-text mb-2">{content.errorTitle}</p>
-            <p class="text-small-mobile text-medical-text-light mb-4">
-              ul. Jugowicka 35/5, 30-443 Kraków
-            </p>
-            <a 
-              href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D" 
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-medical-primary hover:text-medical-light font-medium"
-            >
-              {content.openInMaps}
-            </a>
           </div>
-        </div>
-
-        <!-- Google Maps Store Locator 
-             Uwaga: Google może pokazać komunikat weryfikacji domeny dla nowych stron.
-             Po zamknięciu komunikatu mapa powinna działać normalnie. -->
-        <gmpx-store-locator></gmpx-store-locator>
+        )}
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  /* Stylizacja Google Maps zgodna z design system */
-  gmpx-store-locator {
-    width: 100%;
-    height: 100%;
-    
-    /* Dostosowanie kolorów do palety medycznej */
-    --gmpx-color-surface: #FFFFFF;
-    --gmpx-color-on-surface: #243648;
-    --gmpx-color-on-surface-variant: #7F8C8D;
-    --gmpx-color-primary: #4ECDC4;
-    --gmpx-color-outline: #E8F8F5;
-    --gmpx-fixed-panel-width-row-layout: 0;
-    --gmpx-fixed-panel-height-column-layout: 0;
-    --gmpx-font-family-base: "Inter", sans-serif;
-    --gmpx-font-family-headings: "Quicksand", sans-serif;
-    --gmpx-font-size-base: 0.875rem;
-    --gmpx-hours-color-open: #4ECDC4;
-    --gmpx-hours-color-closed: #7F8C8D;
-    --gmpx-rating-color: #4ECDC4;
-    --gmpx-rating-color-empty: #E8F8F5;
-  }
-
-  /* Ukryj niepotrzebne elementy locator */
-  gmpx-store-locator::part(panel) {
-    display: none !important;
-  }
-  
-  gmpx-store-locator::part(directions-panel) {
-    display: none !important;
-  }
-</style>
-
-<script define:vars={{googleMapsApiKey}}>
-  // Konfiguracja mapy Google zgodna z danymi gabinetu
-  const GOOGLE_MAPS_CONFIG = {
-    "locations": [
-      {
-        "title": "Klinika Osteopatii dr Jarema Paduszyński",
-        "address1": "Jugowicka 35",
-        "address2": "Kraków, Poland",
-        "coords": {
-          "lat": 50.0076785,
-          "lng": 19.9339658
-        },
-        "placeId": "ChIJZVgsOg1dFkcR4viGJU2z410"
-      }
-    ],
-    "mapOptions": {
-      "center": {
-        "lat": 50.0076785,
-        "lng": 19.9339658
-      },
-      "fullscreenControl": true,
-      "mapTypeControl": false,
-      "streetViewControl": true,
-      "zoom": 15,
-      "zoomControl": true,
-      "maxZoom": 16
-    },
-    "mapsApiKey": googleMapsApiKey,
-    "capabilities": {
-      "input": false,
-      "autocomplete": false,
-      "directions": true,
-      "distanceMatrix": false,
-      "details": true,
-      "actions": true
-    }
-  };
-
-  // Inicjalizacja mapy z obsługą błędów
-  document.addEventListener('DOMContentLoaded', async () => {
-    const loadingEl = document.getElementById('maps-loading');
-    const errorEl = document.getElementById('maps-error');
-    
-    // Sprawdź czy klucz API jest dostępny
-    if (!GOOGLE_MAPS_CONFIG.mapsApiKey || GOOGLE_MAPS_CONFIG.mapsApiKey === 'YOUR_API_KEY_HERE') {
-      console.warn('Google Maps API key not configured');
-      showError();
-      return;
-    }
-    
-    try {
-      // Załaduj bibliotekę Google Maps
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.14/index.min.js';
-      
-      script.onload = async () => {
-        try {
-          // Stwórz loader API
-          const apiLoader = document.createElement('gmpx-api-loader');
-          apiLoader.setAttribute('key', GOOGLE_MAPS_CONFIG.mapsApiKey);
-          apiLoader.setAttribute('solution-channel', 'GMP_QB_locatorplus_v11_c');
-          document.body.appendChild(apiLoader);
-          
-          // Poczekaj na załadowanie komponentów
-          await customElements.whenDefined('gmpx-store-locator');
-          
-          // Pobierz element store-locator i skonfiguruj go
-          const locator = document.querySelector('gmpx-store-locator');
-          if (locator && typeof locator.configureFromQuickBuilder === 'function') {
-            // Wywołaj metodę konfiguracyjną
-            locator.configureFromQuickBuilder(GOOGLE_MAPS_CONFIG);
-
-            // Ukryj loading po załadowaniu - dłuższy timeout dla komunikatów Google
-            setTimeout(() => {
-              if (loadingEl) {
-                loadingEl.style.display = 'none';
-              }
-              
-              // Sprawdź czy mapa się faktycznie załadowała
-              const mapContainer = document.querySelector('gmpx-store-locator');
-              if (mapContainer) {
-                console.log('Google Maps Store Locator loaded successfully');
-                
-                // Sprawdź czy są komunikaty błędów Google
-                const errorElements = mapContainer.querySelectorAll('[role="dialog"], [role="alertdialog"]');
-                if (errorElements.length > 0) {
-                  console.info('Google Maps showing verification dialogs - this is normal for new domains');
-                }
-              }
-            }, 3000);
-          }
-        } catch (error) {
-          console.warn('Google Maps initialization error:', error);
-          showError();
-        }
-      };
-      
-      script.onerror = () => {
-        console.warn('Failed to load Google Maps script');
-        showError();
-      };
-      
-      document.head.appendChild(script);
-      
-      // Timeout fallback
-      setTimeout(() => {
-        if (loadingEl && loadingEl.style.display !== 'none') {
-          showError();
-        }
-      }, 10000);
-      
-    } catch (error) {
-      console.warn('Google Maps setup error:', error);
-      showError();
-    }
-    
-    function showError() {
-      if (loadingEl) {
-        loadingEl.style.display = 'none';
-      }
-      if (errorEl) {
-        errorEl.classList.remove('hidden');
-      }
-    }
-  });
-</script>
