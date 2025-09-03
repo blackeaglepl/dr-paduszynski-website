@@ -4,3 +4,9 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+# Minimal SSL headers for Edge compatibility only
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000"
