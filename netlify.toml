@@ -5,17 +5,18 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# SSL Certificate Configuration - Force regeneration
+# SSL Certificate Configuration - Compatibility mode
 [context.production.environment]
-  TLS_BYPASS_CUSTOM_DOMAIN_ERRORS = "false"
+  TLS_BYPASS_CUSTOM_DOMAIN_ERRORS = "true"
   SSL_FORCE_REGENERATE = "false"
+  NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
 # Comprehensive headers for SSL fix
 [[headers]]
   for = "/*"
   [headers.values]
-    # Updated SSL headers for certificate regeneration compatibility
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    # Relaxed SSL headers for compatibility with older devices
+    Strict-Transport-Security = "max-age=31536000"
     # Removed CSP - causing issues with different devices/browsers
     # Additional security headers
     X-Content-Type-Options = "nosniff"
@@ -47,21 +48,21 @@
     Cache-Control = "public, max-age=0, must-revalidate"
     Content-Type = "application/javascript"
 
-# Redirect rules for SSL enforcement
+# Soft redirect rules - avoid force for compatibility
 [[redirects]]
   from = "http://osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 301
-  force = true
+  status = 302
+  force = false
 
 [[redirects]]
   from = "http://www.osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 301
-  force = true
+  status = 302
+  force = false
 
 [[redirects]]
   from = "https://www.osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 301
-  force = true
+  status = 302
+  force = false
