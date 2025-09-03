@@ -8,7 +8,7 @@
 # SSL Certificate Configuration - Force regeneration
 [context.production.environment]
   TLS_BYPASS_CUSTOM_DOMAIN_ERRORS = "false"
-  SSL_FORCE_REGENERATE = "true"
+  SSL_FORCE_REGENERATE = "false"
 
 # Comprehensive headers for SSL fix
 [[headers]]
@@ -16,8 +16,7 @@
   [headers.values]
     # Updated SSL headers for certificate regeneration compatibility
     Strict-Transport-Security = "max-age=63072000; includeSubDomains"
-    # Content Security Policy with stricter controls
-    Content-Security-Policy = "upgrade-insecure-requests; block-all-mixed-content; default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https: https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;"
+    # Removed CSP - causing issues with different devices/browsers
     # Additional security headers
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "SAMEORIGIN"
