@@ -35,9 +35,14 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Cache-Control = "public, max-age=300, must-revalidate"
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
-    Content-Security-Policy = "upgrade-insecure-requests"
+    # Mobile-friendly cache without must-revalidate to avoid SSL protocol errors
+    Cache-Control = "public, max-age=300"
+    # Mobile-friendly HSTS without preload to avoid SSL protocol errors
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Gentler CSP for mobile compatibility
+    Content-Security-Policy = "upgrade-insecure-requests; block-all-mixed-content"
+    # Additional headers for mobile SSL compatibility
+    Vary = "Accept-Encoding"
 
 # Cache static assets
 [[headers]]
