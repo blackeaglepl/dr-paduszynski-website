@@ -20,9 +20,11 @@ export const patientReviews: Review[] = [
     },
     "datePublished": "2024-07-15",
     "reviewBody": "Fantastyczny osteopata! Dr Paduszyński szybko zdiagnozował przyczynę moich bólów kręgosłupa i dzięki jego terapii mogę znowu normalnie funkcjonować. Profesjonalizm na najwyższym poziomie.",
+    // Poprawka: itemReviewed jako Organization z wymaganym polem name
     "itemReviewed": {
-      "@type": "MedicalOrganization",
-      "@id": "#gabinet-osteopatii"
+      "@type": "Organization",
+      "@id": "#Klinika-osteopatii",
+      "name": "Klinika Osteopatii dr Jarema Paduszyński"
     }
   },
   {
@@ -42,7 +44,8 @@ export const patientReviews: Review[] = [
     "reviewBody": "Po latach problemów z dyskiem, w końcu trafiłem do prawdziwego fachowca. Dr Paduszyński nie tylko pomógł mi pozbyć się bólu, ale także nauczył jak dbać o kręgosłup na co dzień.",
     "itemReviewed": {
       "@type": "Person", 
-      "@id": "#jarema-paduszynski"
+      "@id": "#jarema-paduszynski",
+      "name": "Dr Jarema Paduszyński"
     }
   },
   {
@@ -60,9 +63,11 @@ export const patientReviews: Review[] = [
     },
     "datePublished": "2024-08-03",
     "reviewBody": "Serdecznie polecam! Doktor bardzo dokładnie zbadał przyczynę moich bólów głowy i dzięki osteopatii kranialnej problem się rozwiązał. Miła atmosfera w gabinecie.",
+    // Poprawka: itemReviewed jako Organization z wymaganym polem name
     "itemReviewed": {
-      "@type": "MedicalOrganization",
-      "@id": "#gabinet-osteopatii"
+      "@type": "Organization",
+      "@id": "#klinika-osteopatii",
+      "name": "Klinika Osteopatii dr Jarema Paduszyński"
     }
   },
   {
@@ -82,7 +87,8 @@ export const patientReviews: Review[] = [
     "reviewBody": "Bardzo kompetentny osteopata. Pomógł mi wrócić do formy po kontuzji sportowej. Jedynym minusem są terminy - czasem trzeba trochę poczekać, ale warto.",
     "itemReviewed": {
       "@type": "Person",
-      "@id": "#jarema-paduszynski"
+      "@id": "#jarema-paduszynski",
+      "name": "Dr Jarema Paduszyński"
     }
   },
   {
@@ -102,7 +108,8 @@ export const patientReviews: Review[] = [
     "reviewBody": "Rewelacyjne podejście do pacjenta! Dr Paduszyński poświęca dużo czasu na wyjaśnienie problemu i jest bardzo cierpliwy. Polecam każdemu, kto szuka prawdziwego specjalisty.",
     "itemReviewed": {
       "@type": "MedicalOrganization",
-      "@id": "#gabinet-osteopatii" 
+      "@id": "#gabinet-osteopatii",
+      "name": "Klinika Osteopatii dr Jarema Paduszyński"
     }
   }
 ];
@@ -124,10 +131,11 @@ export const organizationWithReviews: Organization = {
   
   "name": "Klinika Osteopatii Dr Jarema Paduszyński",
   "url": "https://osteopatia-paduszynski.pl",
-  
-  // Zagregowana ocena
+  // UWAGA: Właściwość "aggregateRating" nie jest oficjalnie wspierana przez typ Organization w Schema.org,
+  // ale Google ją akceptuje dla MedicalOrganization w kontekście opinii lokalnych.
+  // Dodajemy ją celowo dla SEO lokalnego (rich snippets).
   "aggregateRating": aggregateRating,
-  
+
   // Link do profilu ZnanyLekarz
   "sameAs": [
     "https://www.znanylekarz.pl/jarema-paduszynski"

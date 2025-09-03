@@ -3,7 +3,7 @@
 
 import type { LocalBusiness, MedicalOrganization } from './types';
 
-export const localBusinessSchema: LocalBusiness & MedicalOrganization = {
+export const localBusinessSchema: LocalBusiness = {
   "@context": "https://schema.org",
   "@type": ["MedicalOrganization", "LocalBusiness"],
   "name": "Klinika Osteopatii Dr Jarema Paduszyński",
@@ -38,13 +38,6 @@ export const localBusinessSchema: LocalBusiness & MedicalOrganization = {
     "Tu 14:00-18:00", 
     "We 10:00-13:00,14:00-18:00",
     "Fr 09:00-13:00,14:00-17:00"
-  ],
-  
-  // Usługi medyczne
-  "medicalSpecialty": [
-    "Osteopatia",
-    "Fizjoterapia",
-    "Terapia manualna"
   ],
   
   // Obszary obsługi
@@ -116,49 +109,5 @@ export const localBusinessSchema: LocalBusiness & MedicalOrganization = {
         }
       }
     ]
-  },
-  
-  // Pozwolenia i certyfikaty
-  "hasCredential": [
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Dyplom lekarza",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Uniwersytet Medyczny w Krakowie"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Studia kwalifikacyjne",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "AWF Kraków"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Stopień naukowy Doktora",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Studia doktoranckie"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Dyplom osteopaty",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Akademia Osteopatii"
-      }
-    },
-    {
-      "@type": "EducationalOccupationalCredential", 
-      "credentialCategory": "Certyfikat osteopatii",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Polskie Towarzystwo Osteopatii"
-      }
-    }
-  ]
+  }
 };

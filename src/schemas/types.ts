@@ -56,11 +56,12 @@ export interface Organization {
   foundingDate?: string;
   founder?: Person;
   employee?: Person | Person[];
+  aggregateRating?: AggregateRating;
   sameAs?: string[];
 }
 
 export interface MedicalOrganization extends Organization {
-  "@type": "MedicalOrganization" | string[];
+  "@type": "MedicalOrganization";
   medicalSpecialty?: string[];
   hasCredential?: EducationalOccupationalCredential[];
 }

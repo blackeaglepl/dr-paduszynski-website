@@ -30,7 +30,7 @@ const translations = {
       'Certyfikat specjalizacji w terapii manualnej',
       'Dyplom doktora nauk medycznych',
       'Certyfikat ukończenia kursu terapii czaszkowo-krzyżowej',
-      'Certyfikat członkostwa w Polskim Towarzystwie Fizjoterapii'
+      'Certyfikat członkostwa w Polskim Towarzystwie Osteopatii'
     ]
   },
   en: {
@@ -188,7 +188,7 @@ const content = translations[currentLocale];
 
     <!-- Krótka notka uwiarygadniająca -->
     <p class="mt-4 pb-8 text-center text-medical-text-light text-small-mobile md:text-small-desktop" data-animate="fade-up" data-animate-delay="150">
-      Powyżej znajdują się wybrane szkolenia i certyfikaty. Oryginały dostępne do wglądu w moim gabinecie.
+      {currentLocale === 'pl' ? 'Powyżej znajdują się wybrane szkolenia i certyfikaty. Oryginały dostępne do wglądu w moim gabinecie.' : 'Above are selected training courses and certificates. Originals available for inspection in my office.'}
     </p>
   </div>
 

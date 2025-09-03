@@ -126,10 +126,10 @@ const servicesTranslations = {
 
 // Funkcja do pobierania usług w odpowiednim języku
 export function getServicesList(locale: Locale): ServiceItem[] {
-  return servicesTranslations[locale];
+  return [...servicesTranslations[locale]];
 }
 
 // Domyślna lista usług (polska) dla kompatybilności wstecznej
-export const servicesList: ServiceItem[] = servicesTranslations.pl;
+export const servicesList: ServiceItem[] = [...servicesTranslations.pl];
 
 
