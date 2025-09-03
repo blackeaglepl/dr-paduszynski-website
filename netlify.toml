@@ -18,11 +18,8 @@
   status = 301
   force = true
 
-# SPA fallback
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# SPA fallback removed - not needed for static Astro site
+# This was causing all pages to redirect to index.html
 
 [context.production.environment]
   NODE_ENV = "production"
