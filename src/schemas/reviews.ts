@@ -43,9 +43,9 @@ export const patientReviews: Review[] = [
     "datePublished": "2024-06-28",
     "reviewBody": "Po latach problemów z dyskiem, w końcu trafiłem do prawdziwego fachowca. Dr Paduszyński nie tylko pomógł mi pozbyć się bólu, ale także nauczył jak dbać o kręgosłup na co dzień.",
     "itemReviewed": {
-      "@type": "Person", 
-      "@id": "#jarema-paduszynski",
-      "name": "Dr Jarema Paduszyński"
+      "@type": "Organization",
+      "@id": "#klinika-osteopatii",
+      "name": "Klinika Osteopatii dr Jarema Paduszyński"
     }
   },
   {
@@ -86,9 +86,9 @@ export const patientReviews: Review[] = [
     "datePublished": "2024-05-12",
     "reviewBody": "Bardzo kompetentny osteopata. Pomógł mi wrócić do formy po kontuzji sportowej. Jedynym minusem są terminy - czasem trzeba trochę poczekać, ale warto.",
     "itemReviewed": {
-      "@type": "Person",
-      "@id": "#jarema-paduszynski",
-      "name": "Dr Jarema Paduszyński"
+      "@type": "Organization",
+      "@id": "#klinika-osteopatii",
+      "name": "Klinika Osteopatii dr Jarema Paduszyński"
     }
   },
   {

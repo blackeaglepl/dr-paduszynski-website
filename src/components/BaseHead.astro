@@ -10,12 +10,13 @@ export interface Props {
   robots?: string;
 }
 
+// Destrukturyzacja props z domyślnymi wartościami dla meta tagów
 const { 
   title = 'dr Jarema Paduszyński – Osteopata Kraków | Profesjonalna Terapia Manualna',
-  description = 'Gabinet osteopatii w Krakowie. Dr Jarema Paduszyński - 29+ lat doświadczenia. Profesjonalna terapia manualna, fizjoterapia i osteopatia. Umów wizytę online.',
+  description = 'Osteopatia i fizjoterapia Kraków | dr Jarema Paduszyński - 29 lat doświadczenia | Skuteczna terapia manualna. Zapraszam do Kliniki Osteopatii przy ul. Jugowickiej.',
   image = '/gallery2.jpg',
   type = 'website',
-  keywords = 'osteopata Kraków, fizjoterapeuta Kraków, terapia manualna, osteopatia, gabinet osteopatii, Dr Paduszyński, fizjoterapia',
+  keywords = 'osteopata Kraków, fizjoterapeuta Kraków, terapia manualna, osteopatia, gabinet osteopatii, dr Jarema Paduszyński, fizjoterapia',
   author = 'Dr Jarema Paduszyński',
   canonical = Astro.url.href,
   robots = 'index, follow'
@@ -43,8 +44,7 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/x-icon" href="/logo_ico.ico" />
 <link rel="shortcut icon" href="/favicon.svg" />
 
 <!-- Title -->
