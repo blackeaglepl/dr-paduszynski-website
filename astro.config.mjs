@@ -13,4 +13,10 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [mdx(), sitemap(), tailwind()],
+  server: {
+    // Headers for development server to test SSL compatibility
+    headers: {
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+    },
+  },
 });

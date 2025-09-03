@@ -1,5 +1,5 @@
-// Service Worker dla lepszego zarządzania cache
-const CACHE_NAME = 'osteopatia-paduszynski-v1';
+// Service Worker dla lepszego zarządzania cache z poprawkami SSL dla mobile
+const CACHE_NAME = 'osteopatia-paduszynski-v1.3-ssl-mobile-fix';
 const STATIC_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 godziny w milisekundach
 
 // Pliki do cache'owania
@@ -43,10 +43,9 @@ self.addEventListener('fetch', (event) => {
   // Tylko dla naszej domeny i HTTPS
   if (url.origin !== location.origin) return;
   
-  // Wymuszaj HTTPS dla mobilnych urządzeń
+  // Sprawdzaj protokół bez wymuszania przekierowań które mogą powodować SSL errors na mobile
   if (url.protocol === 'http:' && location.protocol === 'https:') {
-    const httpsUrl = url.href.replace('http:', 'https:');
-    event.respondWith(fetch(httpsUrl));
+    // Skip service worker for mixed content to avoid SSL protocol errors
     return;
   }
 

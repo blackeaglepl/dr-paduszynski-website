@@ -27,7 +27,7 @@
 [context.production.environment]
   NODE_ENV = "production"
 
-# Security and Cache headers for HTML with SSL mobile fix
+# Security and Cache headers optimized for mobile SSL compatibility
 [[headers]]
   for = "/*"
   [headers.values]
@@ -35,9 +35,13 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Cache-Control = "public, max-age=300, must-revalidate"
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-    Content-Security-Policy = "upgrade-insecure-requests"
+    Cache-Control = "public, max-age=300"
+    # Mobile-friendly HSTS without preload to avoid SSL protocol errors
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Gentler CSP for mobile compatibility
+    Content-Security-Policy = "upgrade-insecure-requests; block-all-mixed-content"
+    # Additional headers for mobile SSL compatibility
+    Vary = "Accept-Encoding"
 
 # Cache static assets
 [[headers]]
@@ -60,3 +64,12 @@
   for = "/*.webp"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
+
+# Headers for HTML files with mobile SSL optimizations
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    # Optimize for mobile browsers
+    Accept-CH = "DPR, Viewport-Width, Width"
+    # Reduce SSL handshake issues on mobile
+    Connection = "keep-alive"
