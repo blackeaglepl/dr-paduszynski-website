@@ -75,9 +75,8 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta name="medical.specialty" content="Osteopathy, Physical Therapy" />
 <meta name="healthcare.provider" content="Dr Jarema Paduszyński" />
 
-<!-- Security Headers - CSP handled by Netlify headers to avoid mobile conflicts -->
+<!-- Basic Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
 
 <!-- Preconnect for Performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
