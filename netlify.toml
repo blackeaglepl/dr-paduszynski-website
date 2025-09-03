@@ -5,29 +5,13 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# SSL Certificate Configuration - Compatibility mode
-[context.production.environment]
-  TLS_BYPASS_CUSTOM_DOMAIN_ERRORS = "true"
-  SSL_FORCE_REGENERATE = "false"
-  NODE_TLS_REJECT_UNAUTHORIZED = "0"
-
-# Comprehensive headers for SSL fix
+# Podstawowe nagłówki bezpieczeństwa
 [[headers]]
   for = "/*"
   [headers.values]
-    # Relaxed SSL headers for compatibility with older devices
-    Strict-Transport-Security = "max-age=31536000"
-    # Removed CSP - causing issues with different devices/browsers
-    # Additional security headers
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    # Cache control for SSL resources
-    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"
-    # SSL debugging headers
-    Vary = "Accept-Encoding, User-Agent"
 
 # Specific headers for HTML files
 [[headers]]
@@ -48,21 +32,18 @@
     Cache-Control = "public, max-age=0, must-revalidate"
     Content-Type = "application/javascript"
 
-# Soft redirect rules - avoid force for compatibility
+# Podstawowe przekierowania HTTP -> HTTPS (bez force)
 [[redirects]]
   from = "http://osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 302
-  force = false
+  status = 301
 
 [[redirects]]
   from = "http://www.osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 302
-  force = false
+  status = 301
 
 [[redirects]]
   from = "https://www.osteopatia-paduszynski.pl/*"
   to = "https://osteopatia-paduszynski.pl/:splat"
-  status = 302
-  force = false
+  status = 301
