@@ -316,76 +316,87 @@ for (let i = 0; i < testimonials.length; i += 3) {
     }
   </script>
 
-  <!-- Leniwe ładowanie Vanta.js Waves jako tła testowego -->
+  <!-- Naprawione ładowanie Vanta.js Waves -->
   <script>
-    const vantaTarget = document.getElementById('testimonials-vanta') as HTMLElement | null;
-    if (vantaTarget) {
+    document.addEventListener('DOMContentLoaded', () => {
+      const vantaTarget = document.getElementById('testimonials-vanta');
+      if (!vantaTarget) return;
+      
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let vantaInstance: any = null;
-
-      const loadScript = (src: string) =>
-        new Promise<void>((resolve, reject) => {
-          if (document.querySelector(`script[src="${src}"]`)) return resolve();
-          const s = document.createElement('script');
-          s.src = src;
-          s.async = true;
-          s.defer = true;
-          s.onload = () => resolve();
-          s.onerror = () => reject(new Error(`Failed to load ${src}`));
-          document.head.appendChild(s);
+      if (prefersReducedMotion) return;
+      
+      let vantaInstance = null;
+      
+      // Funkcja do ładowania skryptów sekwencyjnie
+      const loadScriptSequential = (src) => {
+        return new Promise((resolve, reject) => {
+          const existingScript = document.querySelector(`script[src="${src}"]`);
+          if (existingScript) {
+            resolve();
+            return;
+          }
+          
+          const script = document.createElement('script');
+          script.src = src;
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error(`Failed to load ${src}`));
+          document.head.appendChild(script);
         });
-
+      };
+      
+      // Inicjalizacja Vanta
       const initVanta = async () => {
         try {
-          // three r134 zgodnie z przykładem + Vanta Waves
-          await loadScript('https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js');
-          await loadScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js');
-          // @ts-ignore
-          if (window?.VANTA && !vantaInstance) {
-            // @ts-ignore
-            vantaInstance = window.VANTA.WAVES({
-              el: vantaTarget,
-              mouseControls: true,
-              touchControls: true,
-              gyroControls: false,
-              minHeight: 200.0,
-              minWidth: 200.0,
-              scale: 1.0,
-              scaleMobile: 1.0,
-              // Ciemna zieleń spójna z identyfikacją
-              color: 0x0e3b33,
-              shininess: 22.0,
-              waveHeight: 6.5,
-              waveSpeed: 1.0,
-              zoom: 1.02,
-            });
+          console.log('Loading Three.js...');
+          await loadScriptSequential('https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js');
+          
+          console.log('Loading Vanta Waves...');
+          await loadScriptSequential('https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.waves.min.js');
+          
+          // Sprawdź czy biblioteki są dostępne
+          if (typeof window.THREE === 'undefined') {
+            throw new Error('Three.js not loaded');
           }
-        } catch (e) {
-          // w razie błędu pozostaje gradient fallback
+          
+          if (!window.VANTA || !window.VANTA.WAVES) {
+            throw new Error('Vanta Waves not loaded');
+          }
+          
+          console.log('Initializing Vanta Waves...');
+          vantaInstance = window.VANTA.WAVES({
+            el: vantaTarget,
+            THREE: window.THREE,
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.0,
+            minWidth: 200.0,
+            scale: 1.0,
+            scaleMobile: 1.0,
+            color: 0x0f2d26,
+            shininess: 30.0,
+            waveHeight: 8.0,
+            waveSpeed: 0.8,
+            zoom: 1.1
+          });
+          
+          console.log('Vanta.js Waves initialized successfully!');
+          
+        } catch (error) {
+          console.warn('Failed to initialize Vanta.js:', error);
         }
       };
-
-      if (!prefersReducedMotion) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            const isVisible = entries.some((e) => e.isIntersecting);
-            if (isVisible) {
-              initVanta();
-              io.disconnect();
-            }
-          },
-          { rootMargin: '200px' }
-        );
-        io.observe(vantaTarget);
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden && vantaInstance?.destroy) {
+      
+      // Spróbuj załadować natychmiast
+      initVanta();
+      
+      // Cleanup przy opuszczeniu strony
+      window.addEventListener('beforeunload', () => {
+        if (vantaInstance && vantaInstance.destroy) {
           vantaInstance.destroy();
-          vantaInstance = null;
         }
       });
-    }
+    });
   </script>
 </section>
 
