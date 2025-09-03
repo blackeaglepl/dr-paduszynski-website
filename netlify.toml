@@ -5,6 +5,20 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Force HTTPS redirect
+[[redirects]]
+  from = "http://osteopatia-paduszynski.pl/*"
+  to = "https://osteopatia-paduszynski.pl/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.osteopatia-paduszynski.pl/*"
+  to = "https://osteopatia-paduszynski.pl/:splat"
+  status = 301
+  force = true
+
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -22,6 +36,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Cache-Control = "public, max-age=0, must-revalidate"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
 
 # Cache static assets
 [[headers]]
