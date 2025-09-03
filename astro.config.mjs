@@ -8,15 +8,9 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://osteopatia-paduszynski.pl/',
-  trailingSlash: 'ignore', // Changed from 'always' - fixes mobile vs desktop routing issues
+  trailingSlash: 'always',
   build: {
     format: 'directory',
   },
   integrations: [mdx(), sitemap(), tailwind()],
-  server: {
-    // Headers for development server to test SSL compatibility
-    headers: {
-      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-    },
-  },
 });

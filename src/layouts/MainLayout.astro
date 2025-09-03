@@ -50,24 +50,16 @@ import '../styles/global.css';
     </main>
     <Footer />
     <script is:inline>
-      // Rejestracja Service Worker z bezpiecznym sprawdzeniem SSL dla mobile
-      if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      // Rejestracja Service Worker dla lepszego cache management
+      if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          // Dodatkowe sprawdzenie dla mobile browsers czy SSL jest w pełni załadowany
-          const checkSSLReady = () => {
-            if (document.readyState === 'complete') {
-              navigator.serviceWorker.register('/sw.js')
-                .then((registration) => {
-                  console.log('SW zarejestrowany bezpiecznie:', registration.scope);
-                })
-                .catch((error) => {
-                  console.log('SW nie został zarejestrowany (SSL error prevented):', error);
-                });
-            } else {
-              setTimeout(checkSSLReady, 100);
-            }
-          };
-          checkSSLReady();
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW zarejestrowany:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('SW nie został zarejestrowany:', error);
+            });
         });
 
         // Funkcja do czyszczenia cache (dla debugowania)
