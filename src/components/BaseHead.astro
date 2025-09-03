@@ -75,15 +75,13 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta name="medical.specialty" content="Osteopathy, Physical Therapy" />
 <meta name="healthcare.provider" content="Dr Jarema Paduszyński" />
 
-<!-- Cache Control -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
+<!-- HTTPS/SSL Support dla mobilnych -->
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.googletagmanager.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://www.google.com; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://www.googletagmanager.com https://cdn.jsdelivr.net https://platform.docplanner.com https://ajax.googleapis.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https://www.google.com https://www.znanylekarz.pl; worker-src 'self' blob:; object-src 'none';" />
 
 <!-- Preconnect for Performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

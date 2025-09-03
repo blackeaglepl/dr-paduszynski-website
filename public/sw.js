@@ -40,8 +40,15 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Tylko dla naszej domeny
+  // Tylko dla naszej domeny i HTTPS
   if (url.origin !== location.origin) return;
+  
+  // Wymuszaj HTTPS dla mobilnych urządzeń
+  if (url.protocol === 'http:' && location.protocol === 'https:') {
+    const httpsUrl = url.href.replace('http:', 'https:');
+    event.respondWith(fetch(httpsUrl));
+    return;
+  }
 
   // Strategia dla różnych typów zasobów
   if (request.destination === 'document') {

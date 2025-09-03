@@ -69,7 +69,7 @@ const content = translations[currentLocale];
               ul. Jugowicka 35/5, 30-443 Kraków
             </p>
             <a 
-              href="https://goo.gl/maps/your-google-maps-link" 
+              href="https://www.google.com/maps/dir//Klinika+Osteopatii+dr+Jarema+Paduszy%C5%84ski,+Jugowicka,+Krak%C3%B3w/@50.0076712,19.8927667,19603m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0x47165d0d3a2c5865:0x5de3b34d2586f8e2!2m2!1d19.9339658!2d50.0076785!3e0?hl=pl&entry=ttu&g_ep=EgoyMDI1MDgxMy4wIKXMDSoASAFQAw%3D%3D" 
               target="_blank"
               rel="noopener noreferrer"
               class="text-medical-primary hover:text-medical-light font-medium"
@@ -80,7 +80,7 @@ const content = translations[currentLocale];
         </div>
 
         <!-- Google Maps będzie tutaj wstawiona -->
-        <gmpx-store-locator map-id="DEMO_MAP_ID"></gmpx-store-locator>
+        <gmpx-store-locator></gmpx-store-locator>
       </div>
     </div>
   </div>
@@ -144,8 +144,7 @@ const content = translations[currentLocale];
       "streetViewControl": true,
       "zoom": 15,
       "zoomControl": true,
-      "maxZoom": 16,
-      "mapId": ""
+      "maxZoom": 16
     },
     "mapsApiKey": googleMapsApiKey,
     "capabilities": {
@@ -162,6 +161,13 @@ const content = translations[currentLocale];
   document.addEventListener('DOMContentLoaded', async () => {
     const loadingEl = document.getElementById('maps-loading');
     const errorEl = document.getElementById('maps-error');
+    
+    // Sprawdź czy klucz API jest dostępny
+    if (!GOOGLE_MAPS_CONFIG.mapsApiKey || GOOGLE_MAPS_CONFIG.mapsApiKey === 'YOUR_API_KEY_HERE') {
+      console.warn('Google Maps API key not configured');
+      showError();
+      return;
+    }
     
     try {
       // Załaduj bibliotekę Google Maps

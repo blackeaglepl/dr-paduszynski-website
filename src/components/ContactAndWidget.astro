@@ -166,7 +166,14 @@ const content = translations[currentLocale];
       <!-- Widget ZnanyLekarz (bez nagłówka i opisu) -->
       <div class="bg-medical-white rounded-lg shadow-sm border border-medical-bg p-4 md:p-6 h-full flex flex-col">
         <!-- Placeholder, aby zachować wysokość przed załadowaniem -->
-        <div class="flex-1 min-h-[451px] w-full flex items-center">
+        <div class="flex-1 min-h-[451px] w-full flex items-center relative">
+          <!-- Loading indicator dla widget -->
+          <div id="widget-loading" class="absolute inset-0 bg-medical-bg/50 flex items-center justify-center rounded z-10">
+            <div class="text-center">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-medical-primary mx-auto mb-2"></div>
+              <p class="text-small-mobile text-medical-text-light">Ładowanie kalendarza...</p>
+            </div>
+          </div>
           <!-- ZnanyLekarz anchor, przekształcany przez skrypt widgetu -->
           <a
             id="zl-url-contact"
@@ -201,13 +208,36 @@ const content = translations[currentLocale];
   <!-- Natychmiastowe ładowanie skryptu widgetu ZnanyLekarz -->
   <script>
     const WIDGET_SCRIPT_ID = 'zl-widget-s';
-    const WIDGET_SCRIPT_SRC = '//platform.docplanner.com/js/widget.js';
+    const WIDGET_SCRIPT_SRC = 'https://platform.docplanner.com/js/widget.js';
+
+    function hideWidgetLoading() {
+      const loadingEl = document.getElementById('widget-loading');
+      if (loadingEl) {
+        loadingEl.style.display = 'none';
+      }
+    }
 
     function injectZnanyLekarzScript() {
       if (document.getElementById(WIDGET_SCRIPT_ID)) return;
+      
       const script = document.createElement('script');
       script.id = WIDGET_SCRIPT_ID;
       script.src = WIDGET_SCRIPT_SRC;
+      script.async = true;
+      
+      // Obsługa sukcesu
+      script.onload = () => {
+        console.log('ZnanyLekarz widget script loaded successfully');
+        // Ukryj loading po krótkim opóźnieniu, aby widget się załadował
+        setTimeout(hideWidgetLoading, 2000);
+      };
+      
+      // Obsługa błędu
+      script.onerror = () => {
+        console.warn('Failed to load ZnanyLekarz widget script');
+        hideWidgetLoading();
+      };
+      
       const firstScript = document.getElementsByTagName('script')[0];
       if (firstScript && firstScript.parentNode) {
         firstScript.parentNode.insertBefore(script, firstScript);
@@ -223,5 +253,8 @@ const content = translations[currentLocale];
     } else {
       injectZnanyLekarzScript();
     }
+
+    // Fallback timeout - ukryj loading po 10 sekundach
+    setTimeout(hideWidgetLoading, 10000);
   </script>
 </section>
