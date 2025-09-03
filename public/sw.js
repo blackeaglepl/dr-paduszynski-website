@@ -1,5 +1,5 @@
-// Service Worker dla lepszego zarządzania cache - SSL mobile fix
-const CACHE_NAME = 'osteopatia-paduszynski-v1.3-ssl-mobile-fix';
+// Service Worker dla lepszego zarządzania cache - SSL PROTOCOL ERROR fix
+const CACHE_NAME = 'osteopatia-paduszynski-v1.4-ssl-protocol-fix';
 const STATIC_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 godziny w milisekundach
 
 // Pliki do cache'owania
@@ -35,7 +35,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Strategia cache dla różnych typów zasobów
+// Strategia cache dla różnych typów zasobów z SSL error handling
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -43,9 +43,13 @@ self.addEventListener('fetch', (event) => {
   // Tylko dla naszej domeny i HTTPS
   if (url.origin !== location.origin) return;
   
-  // Sprawdzaj protokół bez wymuszania przekierowań które mogą powodować SSL errors na mobile
-  if (url.protocol === 'http:' && location.protocol === 'https:') {
-    // Skip service worker for mixed content to avoid SSL protocol errors
+  // Skip service worker for HTTP requests to avoid SSL protocol conflicts
+  if (url.protocol === 'http:') {
+    return;
+  }
+
+  // Skip service worker dla zasobów zewnętrznych które mogą powodować SSL conflicts
+  if (url.hostname !== location.hostname) {
     return;
   }
 
@@ -83,10 +87,15 @@ self.addEventListener('fetch', (event) => {
             }
           }
           
-          // Pobierz z sieci i zapisz do cache
-          return fetch(request)
+          // Pobierz z sieci z SSL error handling i zapisz do cache
+          return fetch(request, {
+            // Dodaj headers które mogą pomóc z SSL handshake
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
+          })
             .then((response) => {
-              if (response.status === 200) {
+              if (response.status === 200 && response.ok) {
                 const responseClone = response.clone();
                 caches.open(CACHE_NAME).then((cache) => {
                   cache.put(request, responseClone);
@@ -94,7 +103,16 @@ self.addEventListener('fetch', (event) => {
               }
               return response;
             })
-            .catch(() => cachedResponse); // Fallback do starego cache
+            .catch((error) => {
+              // Log SSL errors for debugging
+              if (error.message && error.message.includes('SSL')) {
+                console.warn('SSL error in Service Worker:', error);
+              }
+              return cachedResponse || new Response('Offline', { 
+                status: 503, 
+                statusText: 'Service Unavailable' 
+              });
+            });
         })
     );
   }

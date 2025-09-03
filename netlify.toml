@@ -5,8 +5,64 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Minimal SSL headers for Edge compatibility only
+# SSL Certificate Configuration - Force regeneration
+[context.production.environment]
+  TLS_BYPASS_CUSTOM_DOMAIN_ERRORS = "false"
+  SSL_FORCE_REGENERATE = "true"
+
+# Comprehensive headers for SSL fix
 [[headers]]
   for = "/*"
   [headers.values]
-    Strict-Transport-Security = "max-age=31536000"
+    # Updated SSL headers for certificate regeneration compatibility
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    # Content Security Policy with stricter controls
+    Content-Security-Policy = "upgrade-insecure-requests; block-all-mixed-content; default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https: https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:;"
+    # Additional security headers
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    # Cache control for SSL resources
+    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"
+    # SSL debugging headers
+    Vary = "Accept-Encoding, User-Agent"
+
+# Specific headers for HTML files
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    
+# Specific headers for assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Service Worker headers
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "application/javascript"
+
+# Redirect rules for SSL enforcement
+[[redirects]]
+  from = "http://osteopatia-paduszynski.pl/*"
+  to = "https://osteopatia-paduszynski.pl/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.osteopatia-paduszynski.pl/*"
+  to = "https://osteopatia-paduszynski.pl/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.osteopatia-paduszynski.pl/*"
+  to = "https://osteopatia-paduszynski.pl/:splat"
+  status = 301
+  force = true

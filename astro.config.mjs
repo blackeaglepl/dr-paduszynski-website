@@ -10,6 +10,31 @@ export default defineConfig({
   site: 'https://osteopatia-paduszynski.pl/',
   build: {
     format: 'directory',
+    assets: '_astro'
+  },
+  server: {
+    // Headers for development server SSL compatibility
+    headers: {
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+      'X-Content-Type-Options': 'nosniff'
+    }
+  },
+  vite: {
+    build: {
+      // Optymalizacje dla SSL
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
+    },
+    server: {
+      // SSL-friendly dev server settings
+      https: false, // Let Netlify handle SSL
+      hmr: {
+        protocol: 'ws'
+      }
+    }
   },
   integrations: [mdx(), sitemap(), tailwind()],
 });
