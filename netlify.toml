@@ -24,15 +24,41 @@
 [context.production.environment]
   NODE_ENV = "production"
 
-# Basic security headers - simplified for Netlify compatibility
+# Security and Cache headers for HTML with SSL mobile fix
 [[headers]]
   for = "/*"
   [headers.values]
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Mobile-friendly cache without must-revalidate to avoid SSL protocol errors
+    Cache-Control = "public, max-age=300"
+    # Mobile-friendly HSTS without preload to avoid SSL protocol errors
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Gentler CSP for mobile compatibility
+    Content-Security-Policy = "upgrade-insecure-requests; block-all-mixed-content"
+    # Additional headers for mobile SSL compatibility
+    Vary = "Accept-Encoding"
 
 # Cache static assets
 [[headers]]
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+    
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+    
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
