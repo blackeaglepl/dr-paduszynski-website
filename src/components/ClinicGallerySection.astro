@@ -231,9 +231,11 @@ const content = translations[currentLocale];
 
     // Zmienne dla obsługi swipe
     let startX = 0;
+    let startY = 0;
     let endX = 0;
     let isDragging = false;
     let startTime = 0;
+    let swipeDirection: 'horizontal' | 'vertical' | null = null;
 
     const update = (instant: boolean = false) => {
       if (!track) return;
