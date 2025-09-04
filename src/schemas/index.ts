@@ -10,17 +10,21 @@ export {
   fizjoterapiaService,
   osteopatiaKranialna,
   osteopatiaWisceralna,
-  pakietZabiegow,
   allServices 
 } from './services';
-export { faqSchema } from './faq';
+
+// Eksport schematów opinii oraz FAQ
+export { 
+  faqSchema 
+} from './faq';
+
 export { 
   patientReviews,
   aggregateRating,
   organizationWithReviews,
   personWithReviews,
   fetchZnanyLekarzReviews,
-  calculateAggregateRating 
+  calculateAggregateRating
 } from './reviews';
 
 export type * from './types';

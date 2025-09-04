@@ -99,7 +99,7 @@ export const fizjoterapiaService: Service = {
   
   "provider": provider,
   "category": "Fizjoterapia",
-  "duration": "PT50M", // 50 minut
+  "duration": "PT60M", // 50 minut
   
   "procedureType": "Physical therapy treatment",
   "bodyLocation": [
@@ -202,35 +202,6 @@ export const osteopatiaWisceralna: Service = {
   ]
 };
 
-// Pakiet zabiegów
-export const pakietZabiegow: Service = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": "#pakiet-5-zabiegow",
-  
-  "name": "Pakiet 5 zabiegów osteopatycznych",
-  "description": "Kompleksowy pakiet 5 zabiegów osteopatycznych z preferencyjną ceną. Idealny dla pacjentów wymagających długofalowej terapii i rehabilitacji.",
-  
-  "provider": provider,
-  "category": "Pakiet terapeutyczny",
-  "duration": "PT300M", // 5 x 60 minut = 300 minut łącznie
-  
-  "offers": [
-    {
-      "@type": "Offer",
-      "itemOffered": {
-        "@type": "Service",
-        "@id": "#pakiet-5-zabiegow"
-      },
-      "price": "1000",
-      "priceCurrency": "PLN",
-      "availability": "https://schema.org/InStock",
-      "validFrom": "2024-01-01",
-      "validThrough": "2024-12-31"
-    }
-  ]
-};
-
 // Eksport wszystkich usług
 export const allServices = [
   konsultacjaOsteopatycznaService,
@@ -238,5 +209,4 @@ export const allServices = [
   fizjoterapiaService,
   osteopatiaKranialna,
   osteopatiaWisceralna,
-  pakietZabiegow
 ];

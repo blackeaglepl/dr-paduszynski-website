@@ -57,7 +57,7 @@ export const localBusinessSchema: LocalBusiness = {
   ],
   
   // Cennik
-  "priceRange": "100-300 PLN",
+  "priceRange": "300-350 PLN",
   
   // Media społecznościowe i recenzje
   "sameAs": [

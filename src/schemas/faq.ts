@@ -20,7 +20,7 @@ export const faqSchema: FAQPage = {
       "name": "Czy osteopatia jest bezpieczna?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Osteopatia wykonywana przez wykwalifikowanego specjalistę jest metodą bardzo bezpieczną. Dr Jarema Paduszyński posiada wieloletnie doświadczenie oraz certyfikaty z renomowanych szkół osteopatii. Przed każdym zabiegiem przeprowadza się szczegółowy wywiad i badanie, aby wykluczyć przeciwwskazania."
+        "text": "Osteopatia wykonywana przez wykwalifikowanego specjalistę jest metodą bardzo bezpieczną. Posiadam wieloletnie doświadczenie oraz certyfikaty z renomowanych szkół fizjoterapii i osteopatii. Przed każdym zabiegiem przeprowadza się szczegółowy wywiad i badanie, aby wykluczyć przeciwwskazania."
       }
     },
     {
@@ -36,7 +36,7 @@ export const faqSchema: FAQPage = {
       "name": "Ile trwa wizyta u osteopaty?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pierwsza konsultacja osteopatyczna trwa około 60 minut i obejmuje szczegółowy wywiad, badanie oraz leczenie. Kolejne wizyty trwają 45-60 minut w zależności od rodzaju terapii. Dr Paduszyński poświęca każdemu pacjentowi tyle czasu, ile potrzeba dla uzyskania optymalnych rezultatów."
+        "text": "Pierwsza konsultacja osteopatyczna trwa około 60 minut i obejmuje szczegółowy wywiad, badanie oraz leczenie. Kolejne wizyty trwają zazwuczaj do 60 minut w zależności od rodzaju terapii. Poświęcam każdemu pacjentowi tyle czasu, ile potrzeba dla uzyskania optymalnych rezultatów."
       }
     },
     {
@@ -81,10 +81,10 @@ export const faqSchema: FAQPage = {
     },
     {
       "@type": "Question",
-      "name": "Gdzie znajduje się gabinet w Krakowie?",
+      "name": "Gdzie znajduje się Klinika Osteopatii?",
       "acceptedAnswer": {
         "@type": "Answer", 
-        "text": "Klinika Dr Jaremy Paduszyńskiego znajduje się w centrum Krakowa przy ul. Przykładowej 15/2. Dojazd jest możliwy komunikacją miejską oraz samochodem (dostępne miejsca parkingowe przy sklepie Żabka). Dokładna lokalizacja oraz mapa dojazdu znajdują się na stronie kontaktowej."
+        "text": "Klinika Dr Jaremy Paduszyńskiego znajduje się w centrum Krakowa przy ul. Jugowickiej 35/5."
       }
     }
   ]

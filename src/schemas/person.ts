@@ -9,10 +9,10 @@ export const drPaduszynskiSchema: Person = {
   "@id": "#jarema-paduszynski",
   
   // Dane osobowe
-  "name": "Dr Jarema Paduszyński",
+  "name": "dr Jarema Paduszyński",
   "givenName": "Jarema", 
   "familyName": "Paduszyński",
-  "honorificPrefix": "Dr",
+  "honorificPrefix": "dr",
   
   // Specjalizacje zawodowe
   "jobTitle": [
@@ -92,11 +92,7 @@ export const drPaduszynskiSchema: Person = {
       "name": "Krajowa Izba Fizjoterapeutów", 
       "description": "Fizjoterapeuta z prawem wykonywania zawodu"
     },
-    {
-      "@type": "Organization",
-      "name": "Okręgowa Izba Lekarska w Krakowie",
-      "description": "Lekarz z prawem wykonywania zawodu"
-    }
+    
   ],
   
   // Certyfikaty i uprawnienia
