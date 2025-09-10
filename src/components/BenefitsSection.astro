@@ -70,9 +70,10 @@ const content = translations[currentLocale];
 // Jeśli chcesz użyć innego poziomu nagłówka (np. h3), przekaż przez props: headingTag: 'h3'
 const {
   // Nagłówek z pogrubionym słowem "Zalety" (font-semibold)
+  // Pobieranie propsów sekcji korzyści, z domyślnymi wartościami
   heading,
-  headingTag = 'h2', // domyślnie h2, można ustawić np. 'h3'
-  items = content.items,
+  headingTag = 'h2', // domyślny poziom nagłówka (można nadpisać przez props)
+  items = [...content.items], // Rozpakowanie, aby usunąć readonly (naprawa błędu typowania)
 }: BenefitsProps = Astro.props;
 ---
 
