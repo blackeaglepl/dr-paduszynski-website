@@ -1,5 +1,5 @@
 ---
-title: "Nowe szkolenia certyfikaty - osteopatia w laryngologii i stomatologii"
+title: "Nowe szkolenia i certyfikaty - osteopatia w laryngologii i stomatologii"
 description: "Stale poszerzam kompetencje w leczeniu szumów usznych, zawrotów głowy i problemów ze stawem skroniowo-żuchwowym. Nowe możliwości terapeutyczne w Krakowie."
 pubDate: 2025-10-08
 heroImage: "../../assets/blog-placeholder-4.jpg"
@@ -12,8 +12,8 @@ featured: true
 draft: false
 ---
 
-Cieszę się, że mogę podzielić się z Wami dobrą nowiną – w ostatnich dniach ukończyłem zaawansowane szkolenia specjalistyczne, które pozwoliły mi pogłębić wiedzę z zakresu 
-osteopatii w laryngologii i stomatologii 
+Cieszę się, że mogę podzielić się z Wami dobrą informacją – w ostatnich dniach ukończyłem zaawansowane szkolenia specjalistyczne, które pozwoliły mi pogłębić wiedzę z zakresu 
+osteopatii w laryngologii i stomatologii.  
 
 ## Osteopatia w laryngologii
 
