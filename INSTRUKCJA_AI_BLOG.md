@@ -49,7 +49,7 @@ WYMAGANIA:
 
 5. SEO:
    - Słowa kluczowe: "osteopatia Kraków", "fizjoterapeuta Kraków"
-   - Długość: 800-1200 słów (zwięzłe, praktyczne)
+   - Długość: 700 słów (zwięzłe, praktyczne)
    - Nagłówki H1, H2, H3 z keywords
    - Internal linking do innych usług gabinetu
 
