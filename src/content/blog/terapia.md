@@ -3,7 +3,7 @@ title: "Osteopatia w leczeniu bezpłodności - naturalne wsparcie"
 description: "Dowiedz się jak osteopatia wspiera leczenie bezpłodności i procedury IVF. Kompleksowa pomoc dla par starających się o dziecko w Krakowie."
 pubDate: 2025-11-11
 heroImage: "../../assets/blog-placeholder-5.jpg"
-category: "porady"
+category: "aktualnosci"
 tags: ["bezpłodność", "osteopatia", "IVF", "wspomaganie płodności", "Kraków"]
 author: "Dr Jarema Paduszyński"
 keywords: "osteopatia bezpłodność Kraków, wspomaganie płodności, IVF osteopatia, niepłodność"
@@ -47,4 +47,4 @@ Przewlekły stres uruchamia w organizmie reakcję "walcz lub uciekaj", co sprawi
 
 **Pamiętaj**: Przedstawione informacje mają charakter edukacyjny i nie zastępują konsultacji ze specjalistą.
 
-Jeśli starasz się o dziecko, zapraszam na konsultację do mojego gabinetu w Krakowie. Wspólnie stworzymy optymalne warunki dla Twojego organizmu.
+Jeśli starasz się o dziecko, zapraszam na konsultację do mojego gabinetu przy ulicy Jugowickiej w Krakowie. Wspólnie stworzymy optymalne warunki dla Twojego organizmu.
