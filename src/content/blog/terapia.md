@@ -12,7 +12,7 @@ featured: true
 draft: false
 ---
 
-Ostatni weekend spędziłem na intensywnym szkoleniu z zakresu wspomagania bezpłodności metodami osteopatycznymi. To temat bliski wielu parom - **problem bezpłodności dotyka 15-20% par w Polsce**. 
+Ostatnie dni spędziłem na intensywnym szkoleniu z zakresu wspomagania bezpłodności metodami osteopatycznymi. To temat bliski wielu parom - **problem bezpłodności dotyka 15-20% par w Polsce**. 
 
 Osteopatia nie zastępuje diagnostyki ginekologicznej, ale może być cennym uzupełnieniem, które przywraca warunki dla prawidłowej fizjologii organizmu.
 
