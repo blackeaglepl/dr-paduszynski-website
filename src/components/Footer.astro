@@ -17,6 +17,7 @@ const translations = {
     },
     brand: {
       name: 'dr Jarema Paduszyński',
+      pwz: 'Nr PWZ: 1206',
       description: 'Osteopata, fizjoterapeuta – skuteczna terapia bólu i dysfunkcji narządów ruchu.'
     },
     navigation: {
@@ -44,6 +45,7 @@ const translations = {
     },
     brand: {
       name: 'dr Jarema Paduszyński',
+      pwz: 'Medical License No. (PWZ): 1206',
       description: 'Osteopath, physiotherapist – effective therapy for pain and dysfunction of the musculoskeletal system.'
     },
     navigation: {
@@ -105,7 +107,8 @@ const content = translations[currentLocale];
         <a href={currentLocale === 'en' ? '/en/' : '/'} class="font-heading font-semibold text-medical-text text-lg">
           {content.brand.name}
         </a>
-          <p class="text-medical-text-light text-sm mt-2">{content.brand.description}</p>
+        <p class="text-medical-text-light text-sm mt-2">{content.brand.pwz}</p>
+        <p class="text-medical-text-light text-sm mt-1">{content.brand.description}</p>
       </div>
 
       <!-- Mapa strony -->

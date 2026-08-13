@@ -1,4 +1,6 @@
 ---
+import { getHreflangAlternates } from '../utils/i18n';
+
 export interface Props {
   title?: string;
   description?: string;
@@ -24,6 +26,9 @@ const {
 
 // Generuj URL dla obrazka
 const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
+
+// Odpowiedniki językowe strony (puste dla stron bez tłumaczenia, np. bloga)
+const hreflangAlternates = getHreflangAlternates(Astro.url, Astro.site);
 ---
 
 <!-- Basic Meta Tags -->
@@ -35,10 +40,14 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta name="author" content={author} />
 <meta name="robots" content={robots} />
 <meta name="language" content="pl" />
-<meta name="revisit-after" content="7 days" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonical} />
+
+<!-- Odpowiedniki językowe (hreflang) -->
+{hreflangAlternates.map((alt) => (
+  <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+))}
 
 <!-- Sitemap dla Search Console -->
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
@@ -83,11 +92,8 @@ const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<!-- Medical Business Specific Meta Tags -->
-<meta name="geo.region" content="PL-MA" />
-<meta name="geo.placename" content="Kraków" />
-<meta name="geo.position" content="50.0647;19.9450" />
-<meta name="ICBM" content="50.0647, 19.9450" />
+<!-- Tagi geo (geo.region, geo.placename, geo.position, ICBM)
+     emitowane są wyłącznie przez SchemaMarkup.astro, aby uniknąć duplikatów. -->
 
 <!-- Medical/Healthcare specific -->
 <meta name="medical.specialty" content="Osteopathy, Physical Therapy" />

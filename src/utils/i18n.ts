@@ -72,6 +72,41 @@ export function getLocalizedPath(path: string, locale: Locale): string {
   return ensureTrailingSlash(`/${locale}${cleanPath}`);
 }
 
+// Pary stron, które istnieją w obu językach (PL <-> EN).
+// Slugi nie zawsze się pokrywają, dlatego mapowanie jest jawne.
+// Blog celowo pominięty — istnieje wyłącznie po polsku.
+const hreflangPairs: ReadonlyArray<{ pl: string; en: string }> = [
+  { pl: '/', en: '/en/' },
+  { pl: '/cennik/', en: '/en/cennik/' },
+  { pl: '/kontakt/', en: '/en/kontakt/' },
+  { pl: '/polityka-prywatnosci/', en: '/en/privacy-policy/' },
+];
+
+export interface HreflangAlternate {
+  hreflang: string;
+  href: string;
+}
+
+// Zwraca listę odpowiedników językowych dla podanego URL.
+// Pusta tablica oznacza stronę bez tłumaczenia — wtedy pomijamy hreflang.
+export function getHreflangAlternates(currentUrl: URL, site: URL | undefined): HreflangAlternate[] {
+  const currentPath = ensureTrailingSlash(currentUrl.pathname);
+  const pair = hreflangPairs.find((p) => p.pl === currentPath || p.en === currentPath);
+
+  if (!pair) {
+    return [];
+  }
+
+  const origin = site ?? new URL(currentUrl.origin);
+  const absolute = (path: string) => new URL(path, origin).href;
+
+  return [
+    { hreflang: 'pl', href: absolute(pair.pl) },
+    { hreflang: 'en', href: absolute(pair.en) },
+    { hreflang: 'x-default', href: absolute(pair.pl) },
+  ];
+}
+
 // Funkcja do przełączania języka
 export function getSwitchLanguageUrl(currentUrl: URL, targetLocale: Locale): string {
   const currentPath = ensureTrailingSlash(currentUrl.pathname);

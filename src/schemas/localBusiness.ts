@@ -61,14 +61,15 @@ export const localBusinessSchema: LocalBusiness = {
   
   // Media społecznościowe i recenzje
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski"
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
   ],
   
   // Logo i obrazy
   "logo": "https://osteopatia-paduszynski.pl/logo.png",
   "image": [
-    "https://osteopatia-paduszynski.pl/gabinet1.jpg",
-    "https://osteopatia-paduszynski.pl/gabinet2.jpg"
+    "https://osteopatia-paduszynski.pl/gabinet-wnetrze.jpg",
+    "https://osteopatia-paduszynski.pl/gabinet-sala-zabiegow.jpg",
+    "https://osteopatia-paduszynski.pl/gabinet-stol-terapeutyczny.jpg"
   ],
   
   // Właściciel/lekarz prowadzący

@@ -122,8 +122,13 @@ const content = translations[currentLocale];
                   <span>{line}{idx < content.contact.booking.description.split('\n').length - 1 && <br />}</span>
                 ))}
               </p>
-              <p class="text-body-mobile md:text-body-desktop text-medical-text-light"> 
-                {content.contact.booking.phone}
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                <a
+                  href={`tel:${content.contact.booking.phone.replace(/\s/g, '')}`}
+                  class="hover:text-medical-primary transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none rounded"
+                >
+                  {content.contact.booking.phone}
+                </a>
               </p>
             </div>
           </div>

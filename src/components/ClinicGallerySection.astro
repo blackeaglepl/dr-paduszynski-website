@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 /* @ts-nocheck */
 // Sekcja: Galeria gabinetu (karuzela + opis lokalizacji)
 // Wymagania: 3 stany karuzeli z autoscrollem, przyciski nawigacji, tekst poniżej
@@ -127,16 +128,26 @@ const content = translations[currentLocale];
         <!-- Slajd 1 -->
         <div class="w-full shrink-0">
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-            <img
-              src={foto1.src}
+            <Image
+              src={foto1}
               alt={content.images.slide1[0]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
-            <img
-              src={foto2.src}
+            <Image
+              src={foto2}
               alt={content.images.slide1[1]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
           </div>
@@ -144,16 +155,26 @@ const content = translations[currentLocale];
         <!-- Slajd 2 -->
         <div class="w-full shrink-0">
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-            <img
-              src={foto3.src}
+            <Image
+              src={foto3}
               alt={content.images.slide2[0]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
-            <img
-              src={foto4.src}
+            <Image
+              src={foto4}
               alt={content.images.slide2[1]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
           </div>
@@ -161,16 +182,26 @@ const content = translations[currentLocale];
         <!-- Slajd 3 -->
         <div class="w-full shrink-0">
           <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-            <img
-              src={foto5.src}
+            <Image
+              src={foto5}
               alt={content.images.slide3[0]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
-            <img
-              src={foto6.src}
+            <Image
+              src={foto6}
               alt={content.images.slide3[1]}
+              widths={[480, 800, 1100]}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              format="webp"
+              quality={80}
               loading="lazy"
+              decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
             />
           </div>

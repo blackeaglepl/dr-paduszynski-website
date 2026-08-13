@@ -41,7 +41,8 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date(),
+      // Celowo bez `lastmod` — stemplowanie wszystkich stron datą builda
+      // to fałszywy sygnał świeżości, który wyszukiwarki ignorują.
       // Konfiguracja dla lepszego SEO
       serialize(item) {
         // Priorytet dla stron głównych

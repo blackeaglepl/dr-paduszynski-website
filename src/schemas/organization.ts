@@ -14,11 +14,11 @@ export const organizationSchema: MedicalOrganization = {
   
   // Podstawowe informacje
   "url": "https://osteopatia-paduszynski.pl",
-  "logo": "https://osteopatia-paduszynski.pl/logo-gabinet.png",
+  "logo": "https://osteopatia-paduszynski.pl/logo.png",
   "image": [
     "https://osteopatia-paduszynski.pl/gabinet-wnetrze.jpg",
-    "https://osteopatia-paduszynski.pl/gabinet-recepcja.jpg", 
-    "https://osteopatia-paduszynski.pl/gabinet-sala-zabiegow.jpg"
+    "https://osteopatia-paduszynski.pl/gabinet-sala-zabiegow.jpg",
+    "https://osteopatia-paduszynski.pl/gabinet-stol-terapeutyczny.jpg"
   ],
   
   // Dane kontaktowe

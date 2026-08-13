@@ -3,6 +3,8 @@
 // Krótki opis: Sekcja hero z tłem (obraz/kolor), opcjonalnym paskiem nawigacji na overlay,
 // nagłówkiem, blokiem opinii/oceny oraz przyciskiem CTA.
 // Użycie: <HeroSection title="..." subtitle="..." ctaLabel="..." ctaHref="#" />
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import logo from '../assets/logo_osteopatia.svg';
 import { getLocaleFromUrl, getTranslations, getLocalizedPath, type Locale } from '../utils/i18n';
 import LanguageSwitcher from './LanguageSwitcher.astro';
@@ -19,7 +21,10 @@ export interface HeroProps {
   secondaryCtaHref?: string; // link dla drugiego przycisku
   ratingStars?: number; // 0-5
   ratingText?: string;
-  bgImageSrc?: string; // opcjonalny obraz tła
+  bgImageSrc?: string; // gotowy URL tła (bez optymalizacji) — wariant zapasowy
+  // Preferowany sposób podania tła: zaimportowany obraz. Przechodzi przez
+  // astro:assets, dzięki czemu trafia do przeglądarki jako WebP.
+  bgImage?: ImageMetadata;
   withOverlayNav?: boolean; // włącz/wyłącz nawigację na overlay
   languageLabel?: string; // etykieta języka (prawy znacznik)
   // Slajdy do dynamicznego nagłówka (opcjonalnie). Jeśli podane >= 2, nagłówek będzie rotował.
@@ -42,6 +47,7 @@ const {
   ratingStars = 5,
   ratingText = '',
   bgImageSrc,
+  bgImage,
   withOverlayNav = true,
   languageLabel = 'PL',
   slides = [],
@@ -51,6 +57,17 @@ const {
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
 const t = getTranslations(currentLocale);
+
+// Tło hero jest elementem LCP, więc przepuszczamy je przez astro:assets (WebP).
+// `bgImageSrc` obsługujemy nadal, gdy ktoś poda gotowy URL.
+// Bez `width` — tła mają natywnie 1376x768, a wymuszanie większej szerokości
+// tylko je rozciągało i powiększało plik.
+// quality 60 wybrane pomiarowo: przy 78 WebP wychodził większy od źródłowego
+// JPEG-a. Tło jest przykryte ciemnym gradientem, więc strata jest niewidoczna.
+const optimizedBg = bgImage
+  ? (await getImage({ src: bgImage, format: 'webp', quality: 60 })).src
+  : undefined;
+const bgUrl = optimizedBg ?? bgImageSrc;
 ---
 
 <!-- Sekcja HERO: kontener zewnętrzny -->
@@ -58,8 +75,8 @@ const t = getTranslations(currentLocale);
   <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-8">
     <div class="relative rounded-6xl overflow-hidden min-h-[50vh] md:min-h-[62vh]" data-mobile-optimized>
       <!-- Tło: obraz (jeśli podano) lub semantyczny kolor medyczny jako fallback -->
-      {bgImageSrc ? (
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style={`background-image: url(${bgImageSrc})`}></div>
+      {bgUrl ? (
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style={`background-image: url(${bgUrl})`}></div>
       ) : (
         <div class="absolute inset-0 bg-medical-bg"></div>
       )}

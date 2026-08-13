@@ -138,7 +138,7 @@ export const organizationWithReviews: Organization = {
 
   // Link do profilu ZnanyLekarz
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski"
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
   ]
 };
 
@@ -157,7 +157,7 @@ export const personWithReviews: Person = {
   
   // Link do profilu ZnanyLekarz
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski"
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
   ]
 };
 

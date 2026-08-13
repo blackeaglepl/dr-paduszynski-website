@@ -32,6 +32,7 @@
  - [x] **[2025-08-18]** `TreatmentSelector.astro`: dodano autoplay co 6s z pauzą podczas hover nad karuzelą, restart po interakcji
  - [x] **[2025-08-19]** Dodano tło `tlo3.jpg` do sekcji Hero na stronie bloga
  - [x] **[2025-08-19]** Wyłączono blog w wersji EN: ukryto link w `Header.astro` i `Footer.astro` dla EN, przekierowano przełącznik języka z `/blog/` na `/en/`, pozostawiono pusty placeholder pliku `src/pages/en/blog/index.astro` jako tymczasowe zabezpieczenie.
+- [x] **[2026-08-13]** Dodano numer PWZ (1206) w sekcji brand stopki (`Footer.astro`).
  - [x] **[2025-08-19]** Dodano stronę błędu `404` (`src/pages/404.astro`) z `noindex` oraz spójnym layoutem (Header/CTA/Stopka) dla SEO i UX.
  - [x] **[2025-08-19]** Strona `kontakt`: dodano widget ZnanyLekarz (lazy loading) i podmieniono tło hero na `tlo4.png`.
   - [x] **[2025-08-19]** SEO: dodano `public/robots.txt` (Allow: /, link do sitemap) i potwierdzono generowanie sitemap przez `@astrojs/sitemap` (`sitemap-index.xml`/`sitemap.xml`).
@@ -126,6 +127,33 @@ _Dodawaj tutaj zadania odkryte w trakcie implementacji_
 
 - [2025-08-19] Zmieniono format grafik hero z PNG na JPG: zaktualizowano importy `tlo1`, `tlo2` i placeholder w `TreatmentSelector.astro`.
  - [2025-08-19] Blog dostępny tylko w wersji polskiej (PL). Wersja EN usunięta z menu; ewentualne odnośniki powinny kierować na `/en/`.
+
+### Audyt techniczny SEO [2026-08-13]
+
+Wykonane:
+
+- [x] [2026-08-13] Ceny wszystkich usług zmienione na 400 zł (`src/utils/services.ts`) wraz z synchronizacją schema markup (`schemas/services.ts`, `localBusiness.ts`, `faq.ts`, `SchemaMarkup.astro`).
+- [x] [2026-08-13] Meta description usunięto emoji, dodano adres (ul. Jugowicka 35/5); dodano osobne `SITE_TITLE_EN`, `SITE_DESCRIPTION_EN`, `SITE_KEYWORDS_EN` dla `/en/`.
+- [x] [2026-08-13] Dodano hreflang PL/EN/x-default — funkcja `getHreflangAlternates()` w `utils/i18n.ts` z jawną mapą par URL (obsługuje różne slugi `polityka-prywatnosci` ↔ `privacy-policy`; blog pominięty, bo istnieje tylko po polsku).
+- [x] [2026-08-13] Usunięto duplikat tagów `geo.*`/`ICBM` z `BaseHead.astro` — jedynym źródłem jest `SchemaMarkup.astro`. Poprzednio `BaseHead` podawał współrzędne Rynku Głównego zamiast gabinetu.
+- [x] [2026-08-13] Usunięto `lastmod: new Date()` z konfiguracji sitemap — stemplowanie wszystkich stron datą builda to fałszywy sygnał świeżości.
+- [x] [2026-08-13] Usunięto martwy meta tag `revisit-after` i plik-artefakt `nul` z katalogu głównego.
+
+- [x] [2026-08-13] Nagłówki bezpieczeństwa w `netlify.toml`: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS (`max-age=86400` na start) oraz CSP w trybie `Report-Only`. Dodano też `Cache-Control: immutable` dla `/_astro/*`.
+- [x] [2026-08-13] Numer telefonu w sekcji kontaktu (`ContactAndWidget.astro`) owinięty w `<a href="tel:">` — działa w wersji PL i EN.
+
+- [x] [2026-08-13] Ujednolicono `sameAs` we wszystkich 5 definicjach schema na pełny URL ZnanyLekarz (wcześniej część wskazywała skrócony adres zwracający 301).
+- [x] [2026-08-13] Naprawiono martwe obrazy w schema — wszystkie 8 URL-i (`logo`, `image`) prowadziło do nieistniejących plików. Wygenerowano z `src/assets` zoptymalizowane kopie w `public/`: `logo.png`, `gabinet-wnetrze.jpg`, `gabinet-sala-zabiegow.jpg`, `gabinet-stol-terapeutyczny.jpg`, `dr-paduszynski-portret.jpg`. Logo pochodzi z `logo_szare.svg` (wersja `logo_osteopatia.svg` jest biała i byłaby niewidoczna).
+
+Do zrobienia:
+
+- [ ] **Po wdrożeniu:** sprawdzić konsolę przeglądarki na `/kontakt/` i `/cennik/` pod kątem raportów CSP. Gdy brak naruszeń — zamienić `Content-Security-Policy-Report-Only` na `Content-Security-Policy` i podnieść HSTS `max-age` do 31536000.
+- [ ] **Optymalizacja obrazów** — `tlo4.png` waży 2,6 MB, `portret1.jpg` 1,4 MB. 27 tagów `<img>` w komponentach omija `astro:assets` (brak WebP/AVIF i `srcset`), żaden nie ma `loading="lazy"`, tylko jeden ma `width`/`height` (ryzyko CLS).
+- [ ] **Numery telefonu nieklikalne** — na `/kontakt/` numer występuje 4 razy, ale tylko raz jako `<a href="tel:">`. Meta `format-detection: telephone=no` blokuje automatyczne wykrywanie pozostałych.
+- [ ] **Rozbieżny numer telefonu** — meta description PL podaje `12 346 55 44`, a stopka i całe schema `+48 667 762 227`. Ujednolicić (NAP).
+- [ ] Self-hosting fontów Inter/Quicksand zamiast render-blocking z `fonts.googleapis.com`.
+- [ ] `NODE_VERSION = "18"` w `netlify.toml` — Node 18 po EOL (kwiecień 2025), podnieść do 20/22.
+- [ ] **Pilne/bezpieczeństwo:** token GitHub zapisany jawnie w URL-u `git remote` (`.git/config`) — unieważnić i przejść na SSH lub credential manager.
 
 ---
 

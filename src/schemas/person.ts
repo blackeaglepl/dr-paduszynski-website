@@ -166,6 +166,6 @@ export const drPaduszynskiSchema: Person = {
   
   // Media społecznościowe i profile zawodowe
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski",
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow",
   ]
 };

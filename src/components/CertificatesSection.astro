@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 /* @ts-nocheck */
 // Sekcja: Certyfikaty i referencje (karuzela A4)
 // Reużywa logiki z ClinicGallerySection: strzałki, auto-scroll, klawiatura
@@ -103,10 +104,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma1.src}
+                    <Image
+                      src={diploma1}
                       alt={content.certificates[0]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>
@@ -115,10 +120,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma2.src}
+                    <Image
+                      src={diploma2}
                       alt={content.certificates[1]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>
@@ -127,10 +136,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma3.src}
+                    <Image
+                      src={diploma3}
                       alt={content.certificates[2]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>
@@ -145,10 +158,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma4.src}
+                    <Image
+                      src={diploma4}
                       alt={content.certificates[3]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>
@@ -157,10 +174,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma5.src}
+                    <Image
+                      src={diploma5}
                       alt={content.certificates[4]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>
@@ -169,10 +190,14 @@ const content = translations[currentLocale];
               <figure tabindex="0" class="group w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] mx-auto my-4 md:my-6">
                 <div class="relative w-full pt-[141.4%] bg-white rounded-[30px] shadow-[12px_12px_35px_rgba(0,0,0,0.15)] ring-1 ring-medical-bg transform-gpu transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform md:group-hover:scale-[1.125] md:group-focus:scale-[1.05] md:group-focus-within:scale-[1.125] md:group-hover:z-10">
                   <div class="absolute inset-0 m-auto h-[90%] w-[88%] bg-white rounded-[26px] pt-8 px-3 pb-3 sm:pt-8 sm:px-4 sm:pb-4">
-                    <img
-                      src={diploma6.src}
+                    <Image
+                      src={diploma6}
                       alt={content.certificates[5]}
+                      width={680}
+                      format="webp"
+                      quality={82}
                       loading="lazy"
+                      decoding="async"
                       class="h-full w-full object-contain rounded-[16px]"
                     />
                   </div>

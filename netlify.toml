@@ -4,3 +4,55 @@
 
 [build.environment]
   NODE_VERSION = "18"
+
+# ---------------------------------------------------------------------------
+# Nagłówki bezpieczeństwa
+# ---------------------------------------------------------------------------
+# Uwaga: te nagłówki działają wyłącznie na wdrożonej stronie (Netlify).
+# Odpowiedniki w `astro.config.mjs` dotyczą tylko serwera deweloperskiego.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Blokuje osadzanie strony w ramkach na obcych domenach (clickjacking)
+    X-Frame-Options = "SAMEORIGIN"
+
+    # Zakazuje przeglądarce zgadywania typu MIME
+    X-Content-Type-Options = "nosniff"
+
+    # Do zewnętrznych domen wysyłamy samą domenę, bez pełnej ścieżki
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Strona nie potrzebuje tych API — wyłączamy je na wszelki wypadek
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+    # HSTS — wymuszenie HTTPS.
+    # max-age celowo ustawione na 1 dzień. Nagłówek jest jednokierunkowy:
+    # przeglądarka pamięta go przez zadany czas i przy problemie z certyfikatem
+    # nie da się tego cofnąć zdalnie. Po kilku dniach bez problemów podnieść
+    # do 31536000 (rok) i dopiero wtedy rozważyć `preload`.
+    Strict-Transport-Security = "max-age=86400; includeSubDomains"
+
+    # CSP w trybie RAPORTOWANIA — niczego nie blokuje, jedynie zgłasza
+    # naruszenia do konsoli przeglądarki. Strona ładuje zasoby z 8 obcych domen,
+    # w tym widget rezerwacji ZnanyLekarz, dlatego wersję egzekwującą
+    # (Content-Security-Policy) włączamy dopiero po sprawdzeniu konsoli
+    # na podstronach /kontakt/ i /cennik/.
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://platform.docplanner.com https://www.znanylekarz.pl https://ajax.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://www.google.com https://maps.google.com https://platform.docplanner.com https://www.znanylekarz.pl; connect-src 'self' https://platform.docplanner.com; worker-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+
+# ---------------------------------------------------------------------------
+# Cache
+# ---------------------------------------------------------------------------
+
+# Pliki w /_astro/ mają hash w nazwie, więc każda zmiana treści zmienia URL.
+# Można je bezpiecznie cache'ować na stałe.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fonty i favicon — długi cache, ale bez `immutable` (nazwy bez hasha).
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"

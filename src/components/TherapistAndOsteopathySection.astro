@@ -2,6 +2,7 @@
 /* @ts-nocheck */
 // Sekcja: O terapeucie + Czym jest osteopatia
 // Wzorowana na załączonej makiecie: dwa bloki jeden po drugim, duże odstępy.
+import { Image } from 'astro:assets';
 import { getLocaleFromUrl, getTranslations, type Locale } from "../utils/i18n";
 import portret1 from '../assets/portret1.jpg';
 import foto1 from '../assets/foto1.jpg';
@@ -14,6 +15,7 @@ const translations = {
   pl: {
     doctor: {
       name: "Dr Jarema Paduszyński",
+      pwz: "Nr PWZ: 1206",
       description: "Posiadam wieloletnie doświadczenie w zakresie praktyki fizjoterapetycznej i osteopatycznej. Prowadzę także działalność dydaktyczno-naukową, zdobyłem tytul doktora z dziedziny fizjoterapii. Specjalizuję się w leczeniu zaburzeń funkcjonalnych całego ciała w ujęciu osteopatycznym."
     },
     osteopathy: {
@@ -25,6 +27,7 @@ const translations = {
   en: {
     doctor: {
       name: "Dr Jarema Paduszyński",
+      pwz: "Medical License No. (PWZ): 1206",
       description: "I have many years of experience in physiotherapy and osteopathic practice. I also conduct educational and scientific activities, and have obtained a PhD in physiotherapy. I specialize in treating functional disorders of the whole body from an osteopathic perspective."
     },
     osteopathy: {
@@ -43,15 +46,25 @@ const content = translations[currentLocale];
     <!-- Blok: O terapeucie -->
     <!-- Zwiększone zdjęcie terapeuty, zachowany owalny kształt -->
     <div class="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start" data-animate="fade-up">
-      <img 
-        src={portret1.src} 
-        alt={content.doctor.name} 
-        class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0 mx-auto md:mx-0" 
+      <!-- Wyświetlane maks. 208x208 px, więc renderujemy 416 px (2x dla ekranów retina) -->
+      <Image
+        src={portret1}
+        alt={content.doctor.name}
+        width={416}
+        height={416}
+        format="webp"
+        quality={82}
+        loading="lazy"
+        decoding="async"
+        class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0 mx-auto md:mx-0"
       />
       <div class="md:pl-6 lg:pl-12">
         <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-400 hover:text-medical-primary text-center md:text-left">
           <span class="font-light">dr</span> Jarema <strong class="font-semibold">Paduszyński</strong>
         </h2>
+        <p class="mt-2 text-medical-primary text-small-mobile md:text-small-desktop font-medium text-center md:text-left">
+          {content.doctor.pwz}
+        </p>
         <p class="mt-3 text-medical-text-light text-body-mobile md:text-body-desktop max-w-2xl text-center md:text-left">
           {content.doctor.description}
         </p>
@@ -64,7 +77,17 @@ const content = translations[currentLocale];
     <!-- Blok: Osteopatia (obraz po lewej, tekst po prawej) -->
     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center" data-animate="fade-up" data-animate-delay="200">
       <div>
-        <img src={foto1.src} alt={content.osteopathy.imageAlt} class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm" />
+        <Image
+          src={foto1}
+          alt={content.osteopathy.imageAlt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          format="webp"
+          quality={82}
+          loading="lazy"
+          decoding="async"
+          class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm"
+        />
       </div>
       <div>
         <h3 class="font-heading text-h3-mobile md:text-h2-desktop text-medical-text tracking-tight transition-colors duration-200 hover:text-medical-primary text-center md:text-left">{content.osteopathy.title}</h3>

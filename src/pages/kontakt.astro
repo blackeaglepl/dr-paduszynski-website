@@ -5,7 +5,7 @@ import HeroSection from '../components/HeroSection.astro';
 import ContactAndWidget from '../components/ContactAndWidget.astro';
 import LocationMap from '../components/LocationMap.astro';
 import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
-import tlo4 from '../assets/tlo4.png';
+import tlo4 from '../assets/tlo4.jpg';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
@@ -64,7 +64,7 @@ const content = translations[currentLocale];
     secondaryCtaHref="https://g.page/r/CeL4hiVNs-NdEBM/review"
     ctaLabel={content.hero.ctaLabel}
     ctaHref="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
-    bgImageSrc={tlo4.src}
+    bgImage={tlo4}
   />
   <ContactAndWidget />
 
