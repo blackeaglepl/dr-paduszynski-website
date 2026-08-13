@@ -42,7 +42,7 @@ export const konsultacjaOsteopatycznaService: Service = {
         "@type": "Service",
         "@id": "#konsultacja-osteopatyczna"
       },
-      "price": "250",
+      "price": "400",
       "priceCurrency": "PLN",
       "availability": "https://schema.org/InStock"
     }
@@ -81,7 +81,7 @@ export const terapiaManualna: Service = {
         "@type": "Service",
         "@id": "#terapia-manualna"
       },
-      "price": "200", 
+      "price": "400", 
       "priceCurrency": "PLN",
       "availability": "https://schema.org/InStock"
     }
@@ -119,7 +119,7 @@ export const fizjoterapiaService: Service = {
         "@type": "Service",
         "@id": "#fizjoterapia"
       },
-      "price": "180",
+      "price": "400",
       "priceCurrency": "PLN", 
       "availability": "https://schema.org/InStock"
     }
@@ -157,7 +157,7 @@ export const osteopatiaKranialna: Service = {
         "@type": "Service",
         "@id": "#osteopatia-kranialna"
       },
-      "price": "280",
+      "price": "400",
       "priceCurrency": "PLN",
       "availability": "https://schema.org/InStock"
     }
@@ -195,7 +195,7 @@ export const osteopatiaWisceralna: Service = {
         "@type": "Service", 
         "@id": "#osteopatia-wisceralna"
       },
-      "price": "260",
+      "price": "400",
       "priceCurrency": "PLN",
       "availability": "https://schema.org/InStock"
     }

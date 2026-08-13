@@ -60,7 +60,7 @@ export const faqSchema: FAQPage = {
       "name": "Ile kosztuje wizyta u osteopaty w Krakowie?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Konsultacja osteopatyczna kosztuje 350 PLN, terapia manualna od 350 PLN, fizjoterapia od 350 PLN.Szczegółowy cennik znajdą Państwo na stronie cennika lub mogą uzyskać informacje telefoniczne."
+        "text": "Konsultacja osteopatyczna kosztuje 400 PLN, terapia manualna 400 PLN, fizjoterapia 400 PLN. Szczegółowy cennik znajdą Państwo na stronie cennika lub mogą uzyskać informacje telefoniczne."
       }
     },
     {
