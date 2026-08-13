@@ -1,0 +1,108 @@
+---
+// Sekcja: Jak przygotować się do wizyty (2 punkty: strój + higiena przy terapii wewnątrzustnej)
+// Układ asymetryczny 4/8: lepki nagłówek po lewej, numerowana lista po prawej.
+import { getLocaleFromUrl, type Locale } from '../utils/i18n';
+
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+
+const translations = {
+  pl: {
+    heading: { strong: 'Jak przygotować się', light: 'do wizyty' },
+    lead: 'Dwie drobne rzeczy po Twojej stronie, dzięki którym terapia jest precyzyjniejsza i wygodniejsza dla Ciebie.',
+    items: [
+      {
+        title: 'Wygodny, luźny strój',
+        body: 'Najlepiej sprawdzają się legginsy, spodenki oraz t-shirt z cienkiego materiału. Grube i sztywne materiały, takie jak jeans, utrudniają wyczucie napięć oraz punktów kostnych, a to ogranicza precyzję pracy manualnej.',
+        note: 'W gabinecie jest miejsce do przebrania się i wieszak na ubrania. Możesz przyjść w swoim ubraniu i wziąć strój na zmianę.',
+      },
+      {
+        title: 'Higiena jamy ustnej przy terapii stawów skroniowo-żuchwowych',
+        body: 'Część technik w terapii SSŻ wykonuję wewnątrz jamy ustnej, w jednorazowych rękawiczkach, tak samo jak podczas wizyty u stomatologa. To standardowa procedura sanitarna, dlatego proszę o umycie zębów przed wizytą lub skorzystanie z płynu do płukania dostępnego na miejscu.',
+        note: 'Jeśli masz aftę, opryszczkę, świeżo usunięty ząb lub inne zmiany w jamie ustnej, powiedz mi o tym przed wizytą. Wtedy pracujemy technikami zewnętrznymi albo przenosimy termin, żeby nie podrażniać gojącej się tkanki.',
+      },
+    ],
+    ctaLabel: 'Umów wizytę',
+  },
+  en: {
+    heading: { strong: 'How to prepare', light: 'for your visit' },
+    lead: 'Two small things on your side that make the therapy more precise and more comfortable for you.',
+    items: [
+      {
+        title: 'Comfortable, loose clothing',
+        body: 'Leggings, shorts and a thin-fabric T-shirt work best. Thick, stiff fabrics such as denim make it harder to feel tension and bony landmarks, which limits the precision of manual work.',
+        note: 'The practice has a changing area and a coat rack. You can arrive in your own clothes and bring something to change into.',
+      },
+      {
+        title: 'Oral hygiene before temporomandibular joint therapy',
+        body: 'Some TMJ techniques are performed inside the mouth, with disposable gloves, exactly as during a dental appointment. This is a standard hygiene procedure, so please brush your teeth before the visit or use the mouthwash available at the practice.',
+        note: 'If you have a canker sore, cold sore, a recently extracted tooth or any other change in your mouth, let me know beforehand. We will then use external techniques or reschedule, so that healing tissue is not irritated.',
+      },
+    ],
+    ctaLabel: 'Book appointment',
+  },
+} as const;
+
+const content = translations[currentLocale];
+const ctaHref = 'https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow';
+---
+
+<section class="py-12 md:py-20" aria-labelledby="przygotowanie-heading">
+  <div class="container mx-auto px-4 md:px-6 max-w-6xl">
+    <div class="rounded-[40px] md:rounded-[56px] bg-medical-bg/60 px-5 py-10 md:px-12 md:py-14 lg:px-16">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
+        <!-- Lewa kolumna: nagłówek (lepki na desktopie) -->
+        <div class="md:col-span-4">
+          <div class="md:sticky md:top-28" data-animate="fade-up">
+            <h2
+              id="przygotowanie-heading"
+              class="font-heading text-medical-text text-h2-mobile md:text-h2-desktop tracking-tight"
+            >
+              <span class="font-semibold">{content.heading.strong}</span>{' '}
+              <span class="font-light">{content.heading.light}</span>
+            </h2>
+            <p class="mt-4 text-medical-text-light text-body-mobile md:text-body-desktop max-w-md">
+              {content.lead}
+            </p>
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-7 flex md:inline-flex w-fit mx-auto md:mx-0 items-center justify-center bg-medical-primary hover:bg-medical-light text-white font-heading font-semibold py-3 px-7 rounded-full text-sm md:text-base transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-medical-primary/50 shadow-sm"
+            >
+              {content.ctaLabel}
+            </a>
+          </div>
+        </div>
+
+        <!-- Prawa kolumna: numerowane punkty rozdzielone cienką linią -->
+        <ol class="md:col-span-8 list-none space-y-8 md:space-y-0">
+          {content.items.map((item, idx) => (
+            <li
+              class={`group grid grid-cols-[auto_1fr] gap-x-4 md:gap-x-7 ${idx > 0 ? 'md:pt-10 md:mt-10 md:border-t md:border-medical-primary/20' : ''}`}
+              data-animate="fade-up"
+              data-animate-delay={100 + idx * 100}
+            >
+              <span
+                class="font-heading font-semibold text-3xl md:text-5xl leading-none text-medical-primary/35 transition-colors duration-300 group-hover:text-medical-primary/70 select-none"
+                aria-hidden="true"
+              >
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3 class="font-heading font-semibold text-medical-text text-h3-mobile md:text-h3-desktop tracking-tight">
+                  {item.title}
+                </h3>
+                <p class="mt-3 text-medical-text-light text-body-mobile md:text-body-desktop max-w-2xl">
+                  {item.body}
+                </p>
+                <p class="mt-5 border-l-2 border-medical-primary/50 pl-4 text-medical-text/80 text-small-mobile md:text-small-desktop max-w-2xl">
+                  {item.note}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
