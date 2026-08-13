@@ -43,6 +43,10 @@
 
 - [x] **[2025-08-27]** Zwiększono odstęp nad sekcją „Certyfikaty i referencje” na desktopie: w `src/components/SpecializationsSection2.astro` zmieniono `md:pb-24` → `md:pb-32 lg:pb-36`.
 
+- [x] **[2026-08-13]** `TreatmentSelector.astro` (mobile): paski postępu zastąpione standardowymi kropkami z odstępem (`gap-4`), usunięto animację wypełniania paska; kropki widoczne teraz na wszystkich szerokościach poniżej `md` (wcześniej dopiero od 370px).
+- [x] **[2026-08-13]** Zmieniono etykietę nawigacji „Cennik” → „Cennik i usługi” (`utils/i18n.ts`, `Footer.astro`); w `Header.astro` zmniejszono odstępy nawigacji w paśmie `md` i dodano `whitespace-nowrap`, aby menu mieściło się w jednej linii.
+- [x] **[2026-08-13]** Dodano komponent `PreparationSection.astro` („Jak przygotować się do wizyty”) i wpięto na dole strony cennika (PL i EN), pod `TreatmentSelector`. Dwa punkty: luźny strój oraz higiena jamy ustnej przy terapii stawów skroniowo-żuchwowych.
+
 ## 🟡 W trakcie
 - [ ] [2025-08-12] Dodanie mocniejszego ease-out (quint) do animacji licznika w `StatsSection.astro`
 - [ ] [2025-08-12] Dopracowanie typowania/lint dla plików `.astro` (fałszywe błędy `class` vs `className` w narzędziu lintera)

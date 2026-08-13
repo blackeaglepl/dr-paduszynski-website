@@ -2,6 +2,7 @@
 // Zgodne z Schema.org Person i Medical professional markup
 
 import type { Person, Organization, EducationalOccupationalCredential } from './types';
+import { SITE_EMAIL } from '../consts';
 
 export const drPaduszynskiSchema: Person = {
   "@context": "https://schema.org",
@@ -27,7 +28,7 @@ export const drPaduszynskiSchema: Person = {
   // Kontakt
   "url": "https://osteopatia-paduszynski.pl",
   "telephone": "+48 667 762 227",
-  "email": "dr.paduszynski@osteopatia-paduszynski.pl",
+  "email": SITE_EMAIL,
   "image": "https://osteopatia-paduszynski.pl/dr-paduszynski-portret.jpg",
   
   // Lokalizacja pracy

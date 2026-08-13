@@ -12,7 +12,7 @@ export const translations = {
   pl: {
     navigation: {
       about: 'O mnie',
-      pricing: 'Cennik',
+      pricing: 'Cennik i usługi',
       blog: 'Blog',
       contact: 'Kontakt',
     },
@@ -24,7 +24,7 @@ export const translations = {
   en: {
     navigation: {
       about: 'About me',
-      pricing: 'Pricing',
+      pricing: 'Pricing and services',
       blog: 'Blog',
       contact: 'Contact',
     },

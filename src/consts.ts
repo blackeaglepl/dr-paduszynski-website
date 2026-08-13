@@ -10,6 +10,7 @@ export const SITE_DESCRIPTION_EN =
   'Osteopathy and physiotherapy in Kraków – dr Jarema Paduszyński, 29 years of experience. Clinic at Jugowicka 35/5. Book online or call +48 667 762 227.';
 
 export const SITE_AUTHOR = 'Dr Jarema Paduszyński';
+export const SITE_EMAIL = 'j.paduszynski@vp.pl';
 export const SITE_KEYWORDS = 'osteopata Kraków, fizjoterapeuta Kraków, fizjoterapia Kraków, terapia manualna, osteopatia, gabinet osteopatii, Dr Paduszyński, fizjoterapia';
 export const SITE_KEYWORDS_EN = 'osteopath Kraków, physiotherapist Kraków, physiotherapy Kraków, manual therapy, osteopathy, osteopathy clinic, Dr Paduszyński';
 export const SITE_IMAGE = '/og-image.jpg';

@@ -4,6 +4,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
 import { getServicesList } from '../utils/services';
 import TreatmentSelector from '../components/TreatmentSelector.astro';
+import PreparationSection from '../components/PreparationSection.astro';
 import ZnanyLekarzWidget from '../components/ZnanyLekarzWidget.astro';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
 import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
@@ -106,5 +107,6 @@ const content = translations[currentLocale];
     </div>
   </section>
   <TreatmentSelector />
+  <PreparationSection />
   <PreFooterLogoSection />
 </MainLayout>

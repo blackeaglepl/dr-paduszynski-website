@@ -1,5 +1,6 @@
 ---
 // Footer component - minimalistyczna stopka zgodna z wymaganiami
+import { SITE_EMAIL } from '../consts';
 import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
@@ -24,7 +25,7 @@ const translations = {
       title: 'Na skróty',
       links: {
         about: 'O mnie',
-        pricing: 'Cennik',
+        pricing: 'Cennik i usługi',
         blog: 'Blog',
         contact: 'Kontakt'
       }
@@ -52,7 +53,7 @@ const translations = {
       title: 'Quick links',
       links: {
         about: 'About me',
-        pricing: 'Pricing',
+        pricing: 'Pricing and services',
         blog: 'Blog',
         contact: 'Contact'
       }
@@ -133,7 +134,7 @@ const content = translations[currentLocale];
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
             </svg>
-            <a href="mailto:kontakt@paduszynski-osteopata.pl" class="hover:text-medical-primary transition-colors duration-200 break-words">kontakt@paduszynski-osteopata.pl</a>
+            <a href={`mailto:${SITE_EMAIL}`} class="hover:text-medical-primary transition-colors duration-200 break-words">{SITE_EMAIL}</a>
           </p>
           <p class="flex items-center gap-2">
             <svg class="w-4 h-4 text-medical-primary" fill="currentColor" viewBox="0 0 20 20">

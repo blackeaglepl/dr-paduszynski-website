@@ -2,6 +2,7 @@
 // Zgodne z Schema.org Organization i MedicalOrganization
 
 import type { MedicalOrganization, PostalAddress, EducationalOccupationalCredential } from './types';
+import { SITE_EMAIL } from '../consts';
 
 export const organizationSchema: MedicalOrganization = {
   "@context": "https://schema.org",
@@ -32,7 +33,7 @@ export const organizationSchema: MedicalOrganization = {
   },
   
   "telephone": "+48 667 762 227",
-  "email": "kontakt@osteopatia-paduszynski.pl",
+  "email": SITE_EMAIL,
   
   // Data założenia
   "foundingDate": "2022-03-15",

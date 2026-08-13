@@ -2,6 +2,7 @@
 // Zgodne z Schema.org MedicalBusiness i LocalBusiness
 
 import type { LocalBusiness, MedicalOrganization } from './types';
+import { SITE_EMAIL } from '../consts';
 
 export const localBusinessSchema: LocalBusiness = {
   "@context": "https://schema.org",
@@ -13,7 +14,7 @@ export const localBusinessSchema: LocalBusiness = {
   // Informacje kontaktowe
   "url": "https://osteopatia-paduszynski.pl",
   "telephone": "+48 667 762 227",
-  "email": "kontakt@osteopatia-paduszynski.pl",
+  "email": SITE_EMAIL,
   
   // Adres kliniki
   "address": {

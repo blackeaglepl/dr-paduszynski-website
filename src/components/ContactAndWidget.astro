@@ -1,5 +1,6 @@
 ---
 // Komponent łączący dane kontaktowe z widgetem ZnanyLekarz w dwóch kolumnach
+import { SITE_EMAIL } from '../consts';
 import { getLocaleFromUrl, getTranslations, type Locale } from '../utils/i18n';
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
@@ -19,6 +20,9 @@ const translations = {
         title: 'Umów wizytę',
         description: 'Przez portal ZnanyLekarz\nlub telefonicznie',
         phone: '+48 667 762 227'
+      },
+      email: {
+        title: 'E-mail'
       },
       hours: {
         title: 'Godziny przyjęć',
@@ -47,6 +51,9 @@ const translations = {
         title: 'Book appointment',
         description: 'Through ZnanyLekarz portal\nor by phone',
         phone: '+48 667 762 227'
+      },
+      email: {
+        title: 'Email'
       },
       hours: {
         title: 'Office hours',
@@ -128,6 +135,28 @@ const content = translations[currentLocale];
                   class="hover:text-medical-primary transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none rounded"
                 >
                   {content.contact.booking.phone}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-[1.25rem_1fr] gap-3 items-start">
+            <div class="w-5 h-5 mt-1 text-medical-primary">
+              <svg viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text font-medium">
+                {content.contact.email.title}
+              </p>
+              <p class="text-body-mobile md:text-body-desktop text-medical-text-light">
+                <a
+                  href={`mailto:${SITE_EMAIL}`}
+                  class="hover:text-medical-primary transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none rounded"
+                >
+                  {SITE_EMAIL}
                 </a>
               </p>
             </div>

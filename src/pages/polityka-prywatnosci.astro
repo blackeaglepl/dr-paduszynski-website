@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { SITE_AUTHOR, SITE_IMAGE } from '../consts';
+import { SITE_AUTHOR, SITE_EMAIL, SITE_IMAGE } from '../consts';
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -51,7 +51,7 @@ const customSchema = {
         <h2>Administrator danych</h2>
         <p>
           Administratorem danych jest <strong>Dr Jarema Paduszyński</strong>, ul. Jugowicka 35/5, 30-443 Kraków, e-mail: 
-          <a href="mailto:kontakt@paduszynski-osteopata.pl">kontakt@paduszynski-osteopata.pl</a>, tel.: 
+          <a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>, tel.: 
           <a href="tel:+48667762227">+48 667 762 227</a>.
         </p>
 
