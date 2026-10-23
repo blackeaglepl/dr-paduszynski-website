@@ -20,7 +20,6 @@ import { SITE_AUTHOR } from '../consts';
 import MainLayout from './MainLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import SchemaMarkup from '../components/SchemaMarkup.astro';
 import PreFooterLogoSection from '../components/PreFooterLogoSection.astro';
 
 const { 
@@ -55,13 +54,44 @@ const categoryInfo = categoryConfig[category] || categoryConfig['porady'];
   canonical={canonical}
   type="article"
   hideHeader={true}
-  schemaType="blog"
+  schemaType="custom"
+  customSchema={{
+    article: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": title,
+      "description": description,
+      "author": {
+        "@type": "Person",
+        "@id": "#jarema-paduszynski",
+        "name": author
+      },
+      "publisher": {
+        "@type": "MedicalOrganization", 
+        "@id": "#gabinet-osteopatii",
+        "name": "Klinika Osteopatii Dr Jarema Paduszyński",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://osteopatia-paduszynski.pl/logo.png"
+        }
+      },
+      "datePublished": pubDate?.toISOString(),
+      "dateModified": (updatedDate || pubDate)?.toISOString(),
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonical
+      },
+      "image": heroImage?.src ? new URL(heroImage.src, Astro.site || Astro.url).href : "https://osteopatia-paduszynski.pl/gabinet-wnetrze.jpg",
+      "articleSection": categoryInfo.label,
+      "keywords": keywords
+    }
+  }}
 >
   <!-- Hero Section -->
   <HeroSection
     title={title}
     ratingStars={0}
-    bgImageSrc={heroImage?.src}
+    bgImage={heroImage}
     extraBottomGradient={true}
   />
 
@@ -135,32 +165,4 @@ const categoryInfo = categoryConfig[category] || categoryConfig['porady'];
   
   <!-- Pre-Footer Logo Section -->
   <PreFooterLogoSection />
-  <!-- Schema Markup dla Artykułu -->
-  <SchemaMarkup 
-    schemaType="custom" 
-    customSchema={{
-      article: {
-        "@type": "Article",
-        "headline": title,
-        "description": description,
-        "author": {
-          "@type": "Person",
-          "name": author
-        },
-        "publisher": {
-          "@type": "Organization", 
-          "name": "Gabinet Osteopatii Dr Jarema Paduszyński"
-        },
-        "datePublished": pubDate?.toISOString(),
-        "dateModified": (updatedDate || pubDate)?.toISOString(),
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": canonical
-        },
-        "image": heroImage?.src,
-        "articleSection": categoryInfo.label,
-        "keywords": keywords
-      }
-    }}
-  />
 </MainLayout>

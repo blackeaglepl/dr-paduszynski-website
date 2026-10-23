@@ -1,5 +1,5 @@
 # robots.txt dla osteopatia-paduszynski.pl
-# Pozwala na indeksację wszystkich stron i wskazuje lokalizację sitemap
+# Pozwala na indeksację wszystkich stron i wskazuje lokalizację sitemap oraz llms.txt
 
 User-agent: *
 Allow: /
@@ -7,4 +7,6 @@ Allow: /
 # Główna mapa witryny generowana przez Astro
 Sitemap: https://osteopatia-paduszynski.pl/sitemap-index.xml
 
-
+# Kontekst dla modeli językowych i agentów AI (https://llmstxt.org/)
+# LLMs-Txt: https://osteopatia-paduszynski.pl/llms.txt
+# LLMs-Full-Txt: https://osteopatia-paduszynski.pl/llms-full.txt

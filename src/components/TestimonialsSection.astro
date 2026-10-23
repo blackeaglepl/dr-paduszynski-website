@@ -19,6 +19,7 @@ const t = getTranslations(currentLocale);
 const translations = {
   pl: {
     heading: { light: 'Co mówią', strong: 'pacjenci' },
+    carouselAriaLabel: 'Karuzela opinii pacjentów',
     navigation: {
       previous: 'Poprzednie opinie',
       next: 'Następne opinie',
@@ -93,6 +94,7 @@ const translations = {
   },
   en: {
     heading: { light: 'What our', strong: 'patients say' },
+    carouselAriaLabel: 'Patient testimonials carousel',
     navigation: {
       previous: 'Previous testimonials',
       next: 'Next testimonials',
@@ -180,24 +182,44 @@ for (let i = 0; i < testimonials.length; i += 3) {
 <section id="opinie" class="relative py-16 md:py-24 overflow-hidden">
   <!-- Ciemnozielony gradient tła spójny z identyfikacją (fallback, gdy Vanta się nie załaduje) -->
   <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-[#0f2d26] via-[#0b241e] to-[#071a15]"></div>
-  <!-- Warstwa na efekt Vanta.js (ładowana leniwie) -->
+  <!-- Warstwa na efekt Vanta.js (ładowana leniwie przy zbliżeniu do sekcji) -->
   <div id="testimonials-vanta" aria-hidden="true" class="absolute inset-0 -z-10"></div>
 
   <div class="relative container mx-auto px-4 md:px-6 max-w-7xl">
     <!-- Eyebrow + Nagłówek minimalistyczny -->
-  
     <h2 class="font-heading text-h1-mobile md:text-h1-desktop text-medical-white tracking-tight text-center">
       <span class="font-light">{content.heading.light}</span> <span class="font-semibold">{content.heading.strong}</span>
     </h2>
 
     <!-- Karuzela z opiniami -->
-    <div id="testimonials-carousel" class="relative mt-8 md:mt-10 select-none" aria-roledescription="carousel" tabindex="0">
+    <div
+      id="testimonials-carousel"
+      class="relative mt-8 md:mt-10 select-none"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={content.carouselAriaLabel}
+      tabindex="0"
+    >
       <!-- Przyciski nawigacji -->
       <button type="button" aria-label={content.navigation.previous} data-action="prev" class="hidden md:flex items-center justify-center absolute -left-10 lg:-left-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt={content.navigation.prevAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 rotate-180 invert" />
+        <img
+          src={arrow.src}
+          width={arrow.width}
+          height={arrow.height}
+          alt={content.navigation.prevAlt}
+          aria-hidden="true"
+          class="h-5 w-5 md:h-6 md:w-6 rotate-180 invert"
+        />
       </button>
       <button type="button" aria-label={content.navigation.next} data-action="next" class="hidden md:flex items-center justify-center absolute -right-10 lg:-right-14 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/0 text-white ring-1 ring-white/30 backdrop-blur-sm hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-medical-primary/50">
-        <img src={arrow.src} alt={content.navigation.nextAlt} aria-hidden="true" class="h-5 w-5 md:h-6 md:w-6 invert" />
+        <img
+          src={arrow.src}
+          width={arrow.width}
+          height={arrow.height}
+          alt={content.navigation.nextAlt}
+          aria-hidden="true"
+          class="h-5 w-5 md:h-6 md:w-6 invert"
+        />
       </button>
 
       <!-- Okno widoku -->
@@ -316,7 +338,7 @@ for (let i = 0; i < testimonials.length; i += 3) {
     }
   </script>
 
-  <!-- Naprawione ładowanie Vanta.js Waves -->
+  <!-- Leniwe ładowanie Vanta.js Waves dopiero po zbliżeniu do sekcji opinii (IntersectionObserver) -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const vantaTarget = document.getElementById('testimonials-vanta');
@@ -326,8 +348,8 @@ for (let i = 0; i < testimonials.length; i += 3) {
       if (prefersReducedMotion) return;
       
       let vantaInstance = null;
+      let isLoading = false;
       
-      // Funkcja do ładowania skryptów sekwencyjnie
       const loadScriptSequential = (src) => {
         return new Promise((resolve, reject) => {
           const existingScript = document.querySelector(`script[src="${src}"]`);
@@ -338,31 +360,24 @@ for (let i = 0; i < testimonials.length; i += 3) {
           
           const script = document.createElement('script');
           script.src = src;
+          script.async = true;
           script.onload = () => resolve();
           script.onerror = () => reject(new Error(`Failed to load ${src}`));
           document.head.appendChild(script);
         });
       };
       
-      // Inicjalizacja Vanta
       const initVanta = async () => {
+        if (isLoading || vantaInstance) return;
+        isLoading = true;
         try {
-          console.log('Loading Three.js...');
           await loadScriptSequential('https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js');
-          
-          console.log('Loading Vanta Waves...');
           await loadScriptSequential('https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.waves.min.js');
           
-          // Sprawdź czy biblioteki są dostępne
-          if (typeof window.THREE === 'undefined') {
-            throw new Error('Three.js not loaded');
+          if (typeof window.THREE === 'undefined' || !window.VANTA || !window.VANTA.WAVES) {
+            return;
           }
           
-          if (!window.VANTA || !window.VANTA.WAVES) {
-            throw new Error('Vanta Waves not loaded');
-          }
-          
-          console.log('Initializing Vanta Waves...');
           vantaInstance = window.VANTA.WAVES({
             el: vantaTarget,
             THREE: window.THREE,
@@ -379,18 +394,29 @@ for (let i = 0; i < testimonials.length; i += 3) {
             waveSpeed: 0.8,
             zoom: 1.1
           });
-          
-          console.log('Vanta.js Waves initialized successfully!');
-          
         } catch (error) {
-          console.warn('Failed to initialize Vanta.js:', error);
+          // Cichy fallback do gradientu CSS
         }
       };
       
-      // Spróbuj załadować natychmiast
-      initVanta();
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                obs.disconnect();
+                initVanta();
+                break;
+              }
+            }
+          },
+          { rootMargin: '250px 0px' }
+        );
+        observer.observe(vantaTarget);
+      } else {
+        initVanta();
+      }
       
-      // Cleanup przy opuszczeniu strony
       window.addEventListener('beforeunload', () => {
         if (vantaInstance && vantaInstance.destroy) {
           vantaInstance.destroy();
@@ -399,5 +425,3 @@ for (let i = 0; i < testimonials.length; i += 3) {
     });
   </script>
 </section>
-
-

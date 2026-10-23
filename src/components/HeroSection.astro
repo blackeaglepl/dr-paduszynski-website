@@ -3,7 +3,7 @@
 // Krótki opis: Sekcja hero z tłem (obraz/kolor), opcjonalnym paskiem nawigacji na overlay,
 // nagłówkiem, blokiem opinii/oceny oraz przyciskiem CTA.
 // Użycie: <HeroSection title="..." subtitle="..." ctaLabel="..." ctaHref="#" />
-import { getImage } from 'astro:assets';
+import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import logo from '../assets/logo_osteopatia.svg';
 import { getLocaleFromUrl, getTranslations, getLocalizedPath, type Locale } from '../utils/i18n';
@@ -23,7 +23,7 @@ export interface HeroProps {
   ratingText?: string;
   bgImageSrc?: string; // gotowy URL tła (bez optymalizacji) — wariant zapasowy
   // Preferowany sposób podania tła: zaimportowany obraz. Przechodzi przez
-  // astro:assets, dzięki czemu trafia do przeglądarki jako WebP.
+  // astro:assets, dzięki czemu trafia do przeglądarki jako responsywny WebP z fetchpriority="high".
   bgImage?: ImageMetadata;
   withOverlayNav?: boolean; // włącz/wyłącz nawigację na overlay
   languageLabel?: string; // etykieta języka (prawy znacznik)
@@ -57,26 +57,37 @@ const {
 
 const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
 const t = getTranslations(currentLocale);
-
-// Tło hero jest elementem LCP, więc przepuszczamy je przez astro:assets (WebP).
-// `bgImageSrc` obsługujemy nadal, gdy ktoś poda gotowy URL.
-// Bez `width` — tła mają natywnie 1376x768, a wymuszanie większej szerokości
-// tylko je rozciągało i powiększało plik.
-// quality 60 wybrane pomiarowo: przy 78 WebP wychodził większy od źródłowego
-// JPEG-a. Tło jest przykryte ciemnym gradientem, więc strata jest niewidoczna.
-const optimizedBg = bgImage
-  ? (await getImage({ src: bgImage, format: 'webp', quality: 60 })).src
-  : undefined;
-const bgUrl = optimizedBg ?? bgImageSrc;
 ---
 
 <!-- Sekcja HERO: kontener zewnętrzny -->
 <section class="pt-3 md:pt-4 pb-0">
   <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-8">
     <div class="relative rounded-6xl overflow-hidden min-h-[50vh] md:min-h-[62vh]" data-mobile-optimized>
-      <!-- Tło: obraz (jeśli podano) lub semantyczny kolor medyczny jako fallback -->
-      {bgUrl ? (
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style={`background-image: url(${bgUrl})`}></div>
+      <!-- Tło: natywny obraz <img> (dla natychmiastowego odkrycia LCP i fetchpriority="high") lub kolor fallback -->
+      {bgImage ? (
+        <Image
+          src={bgImage}
+          alt=""
+          aria-hidden="true"
+          widths={[480, 768, 1100, bgImage.width]}
+          sizes="(max-width: 768px) 100vw, 1376px"
+          format="webp"
+          quality={60}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-center rounded-none pointer-events-none select-none"
+        />
+      ) : bgImageSrc ? (
+        <img
+          src={bgImageSrc}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-center rounded-none pointer-events-none select-none"
+        />
       ) : (
         <div class="absolute inset-0 bg-medical-bg"></div>
       )}
@@ -92,7 +103,13 @@ const bgUrl = optimizedBg ?? bgImageSrc;
           <div class="relative">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <img src={logo.src} alt="Dr Jarema Paduszyński Osteopata" class="h-12 md:h-20 lg:h-22 rounded-none" />
+                <img
+                  src={logo.src}
+                  width={logo.width}
+                  height={logo.height}
+                  alt="Dr Jarema Paduszyński Osteopata"
+                  class="h-12 md:h-20 lg:h-22 w-auto rounded-none"
+                />
               </div>
               <div class="flex items-center gap-4">
                 <!-- Desktop Navigation -->

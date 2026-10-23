@@ -85,7 +85,9 @@ const content = translations[currentLocale];
   <div
     id="clinic-carousel"
     class="relative mt-6 md:mt-10 select-none"
+    role="region"
     aria-roledescription="carousel"
+    aria-label={content.srOnly}
     tabindex="0"
     data-animate="fade-up"
     data-animate-delay="100"
@@ -99,6 +101,8 @@ const content = translations[currentLocale];
     >
       <img
         src={arrow.src}
+        width={arrow.width}
+        height={arrow.height}
         alt={content.navigation.prevAlt}
         aria-hidden="true"
         class="h-5 w-5 md:h-6 md:w-6 rotate-180"
@@ -112,6 +116,8 @@ const content = translations[currentLocale];
     >
       <img
         src={arrow.src}
+        width={arrow.width}
+        height={arrow.height}
         alt={content.navigation.nextAlt}
         aria-hidden="true"
         class="h-5 w-5 md:h-6 md:w-6"
@@ -131,10 +137,10 @@ const content = translations[currentLocale];
             <Image
               src={foto1}
               alt={content.images.slide1[0]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={68}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -142,10 +148,10 @@ const content = translations[currentLocale];
             <Image
               src={foto2}
               alt={content.images.slide1[1]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={68}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -158,10 +164,10 @@ const content = translations[currentLocale];
             <Image
               src={foto3}
               alt={content.images.slide2[0]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={65}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -169,10 +175,10 @@ const content = translations[currentLocale];
             <Image
               src={foto4}
               alt={content.images.slide2[1]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={68}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -185,10 +191,10 @@ const content = translations[currentLocale];
             <Image
               src={foto5}
               alt={content.images.slide3[0]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={68}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -196,10 +202,10 @@ const content = translations[currentLocale];
             <Image
               src={foto6}
               alt={content.images.slide3[1]}
-              widths={[480, 800, 1100]}
-              sizes="(min-width: 768px) 50vw, 100vw"
+              widths={[380, 560, 760, 1080]}
+              sizes="(min-width: 768px) 540px, 220px"
               format="webp"
-              quality={80}
+              quality={68}
               loading="lazy"
               decoding="async"
               class="w-full h-full object-cover rounded-3xl md:rounded-4xl shadow-sm"
@@ -218,7 +224,13 @@ const content = translations[currentLocale];
   >
     <div class="md:col-span-1">
       <div class="flex items-center gap-3 justify-center md:justify-start">
-        <img src={geopin.src} alt={content.location.cityAlt} class="h-6 w-6" />
+        <img
+          src={geopin.src}
+          width={geopin.width}
+          height={geopin.height}
+          alt={content.location.cityAlt}
+          class="h-6 w-6"
+        />
         <span class="font-heading text-medical-text text-base md:text-lg"
           >{content.location.city}</span
         >

@@ -10,7 +10,8 @@ export default defineConfig({
   site: 'https://osteopatia-paduszynski.pl/',
   build: {
     format: 'directory',
-    assets: '_astro'
+    assets: '_astro',
+    inlineStylesheets: 'always'
   },
   server: {
     // Headers for development server SSL compatibility

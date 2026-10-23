@@ -46,6 +46,9 @@
 - [x] **[2026-08-13]** `TreatmentSelector.astro` (mobile): paski postępu zastąpione standardowymi kropkami z odstępem (`gap-4`), usunięto animację wypełniania paska; kropki widoczne teraz na wszystkich szerokościach poniżej `md` (wcześniej dopiero od 370px).
 - [x] **[2026-08-13]** Zmieniono etykietę nawigacji „Cennik” → „Cennik i usługi” (`utils/i18n.ts`, `Footer.astro`); w `Header.astro` zmniejszono odstępy nawigacji w paśmie `md` i dodano `whitespace-nowrap`, aby menu mieściło się w jednej linii.
 - [x] **[2026-08-13]** Dodano komponent `PreparationSection.astro` („Jak przygotować się do wizyty”) i wpięto na dole strony cennika (PL i EN), pod `TreatmentSelector`. Dwa punkty: luźny strój oraz higiena jamy ustnej przy terapii stawów skroniowo-żuchwowych.
+- [x] **[2026-10-23]** Kompleksowa optymalizacja wydajności mobilnej (PageSpeed Insights / Core Web Vitals): self-hosting czcionek zmiennych `Inter` i `Quicksand` z `preload`, usunięcie podwójnego Google Fonts, inlining arkuszy CSS (`inlineStylesheets: 'always'`), przepisanie tła Hero LCP na `<Image>` z `fetchpriority="high"` i `loading="eager"`, dostrojenie `widths`/`sizes`/`quality` dla galerii, portretu, dyplomów i `TreatmentSelector`, leniwe ładowanie `Three.js`/`Vanta.js` oraz widgetu ZnanyLekarz przez `IntersectionObserver`, uzupełnienie jawnych wymiarów `width`/`height` we wszystkich tagach `<img>`, poprawki ARIA (`role="region"` + `aria-label` na karuzelach, `inert` + `aria-hidden` na zamkniętym menu mobilnym), poprawa kontrastu `medical-text-light` (`#5A6B6C`), naprawa `public/sw.js` i spójności NAP.
+- [x] **[2026-10-23]** Wdrożenie standardu `llms.txt` oraz `llms-full.txt` zgodnie ze specyfikacją llmstxt.org: utworzono dynamiczne endpointy SSG (`src/pages/llms.txt.ts` oraz `src/pages/llms-full.txt.ts`), które podczas builda automatycznie agregują dane kontaktowe (NAP, PWZ: 1206), cennik usług (`src/utils/services.ts`), FAQ (`src/schemas/faq.ts`) i artykuły z kolekcji bloga (`getCollection('blog')`), a także podlinkowano je w `BaseHead.astro`, `public/robots.txt` oraz skonfigurowano nagłówki `Content-Type: text/plain; charset=utf-8` w `netlify.toml`.
+- [x] **[2026-10-23]** Poprawki techniczne SEO, E-E-A-T i wdrożenie sekcji FAQ: naprawa linków 404 w `Footer.astro` (`/en/cennik/`, `/en/kontakt/`) oraz `rss.xml.js` (`post.slug`), usunięcie duplikatu `<SchemaMarkup>` z `<body>` na blogu (`src/pages/blog/index.astro`, `src/layouts/BlogPost.astro`), dodanie `BreadcrumbList` JSON-LD w `SchemaMarkup.astro`, pełna aktualizacja danych w `src/schemas/` (kod pocztowy `30-443`, PWZ 1206, 29+ lat doświadczenia, 11 zabiegów, prawdziwe opinie pacjentów) oraz utworzenie widocznego komponentu akordeonu `FaqSection.astro` zsynchronizowanego z `FAQPage` schema i wpięcie go na stronie głównej PL i EN.
 
 ## 🟡 W trakcie
 - [ ] [2025-08-12] Dodanie mocniejszego ease-out (quint) do animacji licznika w `StatsSection.astro`
@@ -78,7 +81,7 @@
 - [ ] Sekcja "Zabiegi Overview" (card-based)
 - [ ] Sekcja "Opinie Pacjentów" (dark section)
 - [x] [2025-08-13] Sekcja "Opinie Pacjentów" – dodano komponent `TestimonialsSection.astro` (ciemna sekcja, karuzela 3-kolumnowa z auto-rotacją, klawiatura i gesty)
-- [ ] FAQ (accordion style)
+- [x] **[2026-10-23]** FAQ (accordion style) – dodano `FaqSection.astro` (natywne `<details>`/`<summary>`, PL i EN) i wpięto do `index.astro` oraz `en/index.astro`
  - [x] [2025-08-13] Final CTA z widget ZnanyLekarz – dodano komponent `ZnanyLekarzWidget.astro` z lazy loading i wpięto do `index.astro`
  - [x] [2025-08-13] Sekcja "Zalety osteopatii" – dodano `BenefitsSection.astro` i wpięto do `index.astro`
 
@@ -152,11 +155,11 @@ Wykonane:
 Do zrobienia:
 
 - [ ] **Po wdrożeniu:** sprawdzić konsolę przeglądarki na `/kontakt/` i `/cennik/` pod kątem raportów CSP. Gdy brak naruszeń — zamienić `Content-Security-Policy-Report-Only` na `Content-Security-Policy` i podnieść HSTS `max-age` do 31536000.
-- [ ] **Optymalizacja obrazów** — `tlo4.png` waży 2,6 MB, `portret1.jpg` 1,4 MB. 27 tagów `<img>` w komponentach omija `astro:assets` (brak WebP/AVIF i `srcset`), żaden nie ma `loading="lazy"`, tylko jeden ma `width`/`height` (ryzyko CLS).
+- [x] **[2026-10-23]** **Optymalizacja obrazów** — wszystkie obrazy i tła przepuszczone przez `astro:assets` (WebP, responsywne `srcset`/`sizes` dopasowane pod mobile DPR, jawne `width`/`height`).
 - [ ] **Numery telefonu nieklikalne** — na `/kontakt/` numer występuje 4 razy, ale tylko raz jako `<a href="tel:">`. Meta `format-detection: telephone=no` blokuje automatyczne wykrywanie pozostałych.
-- [ ] **Rozbieżny numer telefonu** — meta description PL podaje `12 346 55 44`, a stopka i całe schema `+48 667 762 227`. Ujednolicić (NAP).
-- [ ] Self-hosting fontów Inter/Quicksand zamiast render-blocking z `fonts.googleapis.com`.
-- [ ] `NODE_VERSION = "18"` w `netlify.toml` — Node 18 po EOL (kwiecień 2025), podnieść do 20/22.
+- [x] **[2026-10-23]** **Rozbieżny numer telefonu** — ujednolicono w `src/consts.ts` na `+48 667 762 227` (spójność NAP).
+- [x] **[2026-10-23]** Self-hosting fontów Inter/Quicksand zamiast render-blocking z `fonts.googleapis.com`.
+- [x] **[2026-10-23]** `NODE_VERSION = "18"` w `netlify.toml` — podniesiono do `"20"`.
 - [ ] **Pilne/bezpieczeństwo:** token GitHub zapisany jawnie w URL-u `git remote` (`.git/config`) — unieważnić i przejść na SSH lub credential manager.
 
 ---

@@ -5,7 +5,6 @@ import tlo3 from '../../assets/tlo3.jpg';
 import MainLayout from '../../layouts/MainLayout.astro';
 import HeroSection from '../../components/HeroSection.astro';
 import BlogCard from '../../components/BlogCard.astro';
-import SchemaMarkup from '../../components/SchemaMarkup.astro';
 import PreFooterLogoSection from '../../components/PreFooterLogoSection.astro';
 
 // Pobierz wszystkie artykuły (bez draft)
@@ -36,6 +35,26 @@ const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
   image={SITE_IMAGE}
   type="website"
   hideHeader={true}
+  schemaType="custom"
+  customSchema={{
+    blog: {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Blog o Osteopatii - Dr Jarema Paduszyński",
+      "description": "Artykuły edukacyjne o osteopatii, fizjoterapii i zdrowiu kręgosłupa",
+      "url": Astro.url.href,
+      "author": {
+        "@type": "Person",
+        "@id": "#jarema-paduszynski",
+        "name": "dr Jarema Paduszyński"
+      },
+      "publisher": {
+        "@type": "MedicalOrganization",
+        "@id": "#gabinet-osteopatii",
+        "name": "Klinika Osteopatii Dr Jarema Paduszyński"
+      }
+    }
+  }}
 >
   <!-- Hero Section -->
   <HeroSection
@@ -101,27 +120,6 @@ const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
       </div>
     </div>
   </section>
-
-  <!-- Schema Markup dla Blog -->
-  <SchemaMarkup 
-    schemaType="custom" 
-    customSchema={{
-      blog: {
-        "@type": "Blog",
-        "name": "Blog o Osteopatii - Dr Jarema Paduszyński",
-        "description": "Artykuły edukacyjne o osteopatii, fizjoterapii i zdrowiu kręgosłupa",
-        "url": Astro.url.href,
-        "author": {
-          "@type": "Person", 
-          "name": "Dr Jarema Paduszyński"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Gabinet Osteopatii Dr Jarema Paduszyński"
-        }
-      }
-    }}
-  />
   
   <!-- Pre-Footer Logo Section -->
   <PreFooterLogoSection />
@@ -129,24 +127,15 @@ const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
 
 <!-- Category Filter JavaScript -->
 <script is:inline>
-  // Dodajemy console.log dla debugowania
-  console.log('Blog filter script loaded');
-  
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing filters');
-    
     const filterButtons = document.querySelectorAll('.category-filter');
     const articles = document.querySelectorAll('.article-card');
     const noResults = document.getElementById('no-results');
-    
-    console.log('Found buttons:', filterButtons.length);
-    console.log('Found articles:', articles.length);
 
-    filterButtons.forEach((button, index) => {
+    filterButtons.forEach((button) => {
       button.addEventListener('click', function(e) {
         e.preventDefault();
         const category = this.dataset.category;
-        console.log('Clicked category:', category);
         
         // Update active state
         filterButtons.forEach(btn => {
@@ -161,7 +150,6 @@ const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
         let visibleCount = 0;
         articles.forEach(article => {
           const articleCategory = article.dataset.category;
-          console.log('Article category:', articleCategory, 'Filter:', category);
           
           if (category === 'all' || articleCategory === category) {
             article.style.display = 'block';
@@ -170,8 +158,6 @@ const categoryLabels: Record<'porady' | 'aktualnosci', string> = {
             article.style.display = 'none';
           }
         });
-        
-        console.log('Visible articles:', visibleCount);
         
         // Show/hide no results message
         if (visibleCount === 0) {

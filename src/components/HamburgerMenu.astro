@@ -26,13 +26,16 @@ const t = getTranslations(currentLocale);
   </button>
 </div>
 
-<!-- Menu mobilne (overlay) -->
+<!-- Menu mobilne (overlay) — domyślnie ukryte z drzewa dostępności (aria-hidden + inert + invisible),
+     aby zamknięty dialog z aria-modal="true" nie blokował drzewa dostępności na mobile -->
 <div
   id="mobile-menu"
-  class="mobile-menu fixed inset-0 z-50 md:hidden translate-x-full transition-transform duration-300 ease-in-out"
-  style="background-color: rgba(0,0,0,0.5); z-index: 9999;"
+  class="mobile-menu fixed inset-0 z-50 md:hidden translate-x-full invisible transition-transform duration-300 ease-in-out"
+  style="background-color: rgba(0,0,0,0.5); z-index: 9999; visibility: hidden;"
   role="dialog"
   aria-modal="true"
+  aria-hidden="true"
+  inert
   aria-labelledby="mobile-menu-title"
 >
   <!-- Tło overlay -->
@@ -103,8 +106,10 @@ const t = getTranslations(currentLocale);
     <div class="p-14 flex justify-center">
       <img
         src={logoSzare.src}
+        width={logoSzare.width}
+        height={logoSzare.height}
         alt="Dr Jarema Paduszyński – Osteopata"
-        class="w-32 opacity-80 transition-opacity duration-200 hover:opacity-80"
+        class="w-32 h-auto opacity-80 transition-opacity duration-200 hover:opacity-80"
         loading="lazy"
         decoding="async"
       />
@@ -124,35 +129,21 @@ const t = getTranslations(currentLocale);
 
 
 <script>
-  console.log('HamburgerMenu script loaded');
-
-  // Prosta funkcja inicjalizacji menu hamburger
+  // Funkcja inicjalizacji menu hamburger z obsługą drzewa dostępności (aria-hidden + inert)
   function initHamburgerMenu() {
-    console.log('Initializing hamburger menu');
-    
     const hamburgerButton = document.getElementById('hamburger-button');
     const closeButton = document.getElementById('close-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileMenuBackdrop = document.querySelector('.mobile-menu-backdrop');
     const navLinks = document.querySelectorAll('.mobile-nav-link');
-    
-    console.log('Elements found:', {
-      hamburgerButton: !!hamburgerButton,
-      closeButton: !!closeButton,
-      mobileMenu: !!mobileMenu,
-      mobileMenuBackdrop: !!mobileMenuBackdrop,
-      navLinksCount: navLinks.length
-    });
 
     if (!hamburgerButton || !mobileMenu) {
-      console.error('Required elements not found');
       return;
     }
 
     let isOpen = false;
 
     function openMenu() {
-      console.log('Opening menu');
       isOpen = true;
       if (hamburgerButton) {
         hamburgerButton.classList.add('active');
@@ -160,33 +151,23 @@ const t = getTranslations(currentLocale);
       }
       
       if (mobileMenu) {
-        // Force show menu with inline styles for debugging
+        mobileMenu.removeAttribute('inert');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        mobileMenu.classList.remove('invisible', 'translate-x-full');
+        mobileMenu.classList.add('translate-x-0');
         (mobileMenu as HTMLElement).style.transform = 'translateX(0)';
         (mobileMenu as HTMLElement).style.visibility = 'visible';
         (mobileMenu as HTMLElement).style.opacity = '1';
-        mobileMenu.classList.remove('translate-x-full');
-        mobileMenu.classList.add('translate-x-0');
         document.body.style.overflow = 'hidden';
         
-        console.log('Menu styles applied:', {
-          transform: (mobileMenu as HTMLElement).style.transform,
-          visibility: (mobileMenu as HTMLElement).style.visibility,
-          opacity: (mobileMenu as HTMLElement).style.opacity
-        });
-        
-        // Pokaz panel
         const panel = mobileMenu.querySelector('.mobile-menu-panel') as HTMLElement;
         if (panel) {
           panel.style.transform = 'translateX(0)';
           panel.classList.remove('translate-x-full');
           panel.classList.add('translate-x-0');
-          console.log('Panel found and styles applied');
-        } else {
-          console.error('Panel not found!');
         }
       }
       
-      // Pokaz backdrop
       if (mobileMenuBackdrop) {
         mobileMenuBackdrop.classList.remove('opacity-0');
         mobileMenuBackdrop.classList.add('opacity-100');
@@ -194,7 +175,6 @@ const t = getTranslations(currentLocale);
     }
 
     function closeMenu() {
-      console.log('Closing menu');
       isOpen = false;
       if (hamburgerButton) {
         hamburgerButton.classList.remove('active');
@@ -202,33 +182,23 @@ const t = getTranslations(currentLocale);
       }
       
       if (mobileMenu) {
-        // Force hide menu with inline styles for debugging
+        mobileMenu.setAttribute('inert', '');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileMenu.classList.remove('translate-x-0');
+        mobileMenu.classList.add('translate-x-full', 'invisible');
         (mobileMenu as HTMLElement).style.transform = 'translateX(100%)';
         (mobileMenu as HTMLElement).style.visibility = 'hidden';
         (mobileMenu as HTMLElement).style.opacity = '0';
-        mobileMenu.classList.remove('translate-x-0');
-        mobileMenu.classList.add('translate-x-full');
         document.body.style.overflow = '';
         
-        console.log('Menu close styles applied:', {
-          transform: (mobileMenu as HTMLElement).style.transform,
-          visibility: (mobileMenu as HTMLElement).style.visibility,
-          opacity: (mobileMenu as HTMLElement).style.opacity
-        });
-        
-        // Ukryj panel
         const panel = mobileMenu.querySelector('.mobile-menu-panel') as HTMLElement;
         if (panel) {
           panel.style.transform = 'translateX(100%)';
           panel.classList.remove('translate-x-0');
           panel.classList.add('translate-x-full');
-          console.log('Panel hidden');
-        } else {
-          console.error('Panel not found when closing!');
         }
       }
       
-      // Ukryj backdrop
       if (mobileMenuBackdrop) {
         mobileMenuBackdrop.classList.remove('opacity-100');
         mobileMenuBackdrop.classList.add('opacity-0');
@@ -236,7 +206,6 @@ const t = getTranslations(currentLocale);
     }
 
     function toggleMenu() {
-      console.log('Toggle menu, current state:', isOpen);
       if (isOpen) {
         closeMenu();
       } else {
@@ -244,53 +213,32 @@ const t = getTranslations(currentLocale);
       }
     }
 
-    // Event listeners
     hamburgerButton.addEventListener('click', toggleMenu);
-    console.log('Hamburger button event listener added');
+    if (closeButton) closeButton.addEventListener('click', closeMenu);
+    if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', closeMenu);
     
-    if (closeButton) {
-      closeButton.addEventListener('click', closeMenu);
-      console.log('Close button event listener added');
-    } else {
-      console.error('Close button not found!');
-    }
-    
-    if (mobileMenuBackdrop) {
-      mobileMenuBackdrop.addEventListener('click', closeMenu);
-      console.log('Backdrop event listener added');
-    } else {
-      console.error('Backdrop not found!');
-    }
-    
-    // Zamknij menu po kliknięciu w link nawigacyjny
     navLinks.forEach(link => {
       link.addEventListener('click', closeMenu);
     });
 
-    // Escape key
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && isOpen) {
         closeMenu();
       }
     });
 
-    // Resize
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 768 && isOpen) {
         closeMenu();
       }
     });
-    
-    console.log('Hamburger menu initialized successfully');
   }
 
-  // Inicjalizacja
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHamburgerMenu);
   } else {
     initHamburgerMenu();
   }
 
-  // Reinicjalizacja dla Astro View Transitions
   document.addEventListener('astro:page-load', initHamburgerMenu);
 </script>

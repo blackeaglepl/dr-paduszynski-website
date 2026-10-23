@@ -15,7 +15,9 @@ export {
 
 // Eksport schematów opinii oraz FAQ
 export { 
-  faqSchema 
+  faqSchema,
+  faqItems,
+  getFaqSchema
 } from './faq';
 
 export { 
@@ -35,16 +37,16 @@ import { drPaduszynskiSchema } from './person';
 import { organizationSchema } from './organization';
 import { organizationWithReviews, patientReviews } from './reviews';
 import { allServices } from './services';
-import { faqSchema } from './faq';
+import { getFaqSchema } from './faq';
 
 // Funkcja do generowania pełnego JSON-LD dla strony głównej
-export function generateHomePageSchema() {
+export function generateHomePageSchema(locale: 'pl' | 'en' = 'pl') {
   return {
     localBusiness: localBusinessSchema,
     person: drPaduszynskiSchema,
     organization: organizationWithReviews,
     services: allServices,
-    faq: faqSchema,
+    faq: getFaqSchema(locale),
     reviews: patientReviews
   };
 }

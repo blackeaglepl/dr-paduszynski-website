@@ -3,7 +3,7 @@
   command = "npm run build"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 # ---------------------------------------------------------------------------
 # Nagłówki bezpieczeństwa
@@ -56,3 +56,10 @@
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
+
+# Pliki llms.txt dla agentów AI — jawne kodowanie UTF-8 dla polskich znaków.
+[[headers]]
+  for = "/llms*.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"

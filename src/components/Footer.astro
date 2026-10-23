@@ -81,7 +81,7 @@ const content = translations[currentLocale];
       </p>
       <div class="flex items-center gap-3">
         <a
-          href="https://www.znanylekarz.pl/jarema-paduszynski/fizjoterapeuta-osteopata/krakow"
+          href="https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-block bg-transparent border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white font-heading font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-medical-primary/50 focus:outline-none"
@@ -117,11 +117,11 @@ const content = translations[currentLocale];
         <h3 class="font-heading font-semibold text-medical-text mb-4">{content.navigation.title}</h3>
         <nav class="space-y-2 md:space-y-8">
           <a href={currentLocale === 'en' ? '/en/' : '/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.about}</a>
-          <a href={currentLocale === 'en' ? '/en/pricing/' : '/cennik/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.pricing}</a>
+          <a href={currentLocale === 'en' ? '/en/cennik/' : '/cennik/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.pricing}</a>
           {currentLocale === 'en' ? null : (
             <a href="/blog/" class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.blog}</a>
           )}
-          <a href={currentLocale === 'en' ? '/en/contact/' : '/kontakt/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.contact}</a>
+          <a href={currentLocale === 'en' ? '/en/kontakt/' : '/kontakt/'} class="block text-medical-text-light hover:text-medical-primary transition-colors duration-200">{content.navigation.links.contact}</a>
         </nav>
       </div>
 

@@ -1,13 +1,13 @@
 // Service Worker dla lepszego zarządzania cache - SSL PROTOCOL ERROR fix
-const CACHE_NAME = 'osteopatia-paduszynski-v1.4-ssl-protocol-fix';
+const CACHE_NAME = 'osteopatia-paduszynski-v1.5-perf-opt';
 const STATIC_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 godziny w milisekundach
 
-// Pliki do cache'owania
+// Pliki do cache'owania (wyłącznie istniejące w public/)
 const STATIC_ASSETS = [
   '/favicon.svg',
-  '/favicon.ico',
-  '/apple-touch-icon.png',
-  '/logo_ico.ico'
+  '/logo_ico.ico',
+  '/fonts/quicksand-var.woff2',
+  '/fonts/inter-var.woff2'
 ];
 
 // Instalacja SW

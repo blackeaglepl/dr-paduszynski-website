@@ -46,14 +46,16 @@ const content = translations[currentLocale];
     <!-- Blok: O terapeucie -->
     <!-- Zwiększone zdjęcie terapeuty, zachowany owalny kształt -->
     <div class="grid md:grid-cols-[auto_1fr] gap-6 md:gap-10 items-start" data-animate="fade-up">
-      <!-- Wyświetlane maks. 208x208 px, więc renderujemy 416 px (2x dla ekranów retina) -->
+      <!-- Na mobile wyświetlane jako 144x144 (h-36 w-36), na desktopie 208x208 (md:h-52 md:w-52) -->
       <Image
         src={portret1}
         alt={content.doctor.name}
         width={416}
         height={416}
+        widths={[144, 208, 288, 416]}
+        sizes="(min-width: 768px) 208px, 84px"
         format="webp"
-        quality={82}
+        quality={72}
         loading="lazy"
         decoding="async"
         class="h-36 w-36 md:h-52 md:w-52 rounded-full object-cover shrink-0 mx-auto md:mx-0"
@@ -80,10 +82,10 @@ const content = translations[currentLocale];
         <Image
           src={foto1}
           alt={content.osteopathy.imageAlt}
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 768px) 50vw, 100vw"
+          widths={[380, 560, 760, 1080]}
+          sizes="(min-width: 768px) 540px, 220px"
           format="webp"
-          quality={82}
+          quality={70}
           loading="lazy"
           decoding="async"
           class="w-full rounded-3xl md:rounded-4xl object-cover shadow-sm"
@@ -98,6 +100,3 @@ const content = translations[currentLocale];
     </div>
   </div>
 </section>
-
-
-

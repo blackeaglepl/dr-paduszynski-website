@@ -3,7 +3,7 @@
 
 export const SITE_TITLE = 'Dr Jarema Paduszyński – Osteopata Kraków | Profesjonalna Terapia Manualna';
 export const SITE_DESCRIPTION =
-  'Osteopatia i fizjoterapia w Krakowie – dr Jarema Paduszyński, 29 lat doświadczenia. Gabinet przy ul. Jugowickiej 35/5. Umów wizytę online lub tel. 12 346 55 44.';
+  'Osteopatia i fizjoterapia w Krakowie – dr Jarema Paduszyński, 29 lat doświadczenia. Gabinet przy ul. Jugowickiej 35/5. Umów wizytę online lub tel. +48 667 762 227.';
 
 export const SITE_TITLE_EN = 'Dr Jarema Paduszyński – Osteopath in Kraków | Manual Therapy';
 export const SITE_DESCRIPTION_EN =

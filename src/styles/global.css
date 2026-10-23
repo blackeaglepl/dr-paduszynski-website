@@ -1,4 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/quicksand-var.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +26,7 @@
   --medical-white: #ffffff;
   --medical-cream: #fffaf5;
   --medical-text: #243648;
-  --medical-text-light: #7f8c8d;
+  --medical-text-light: #5a6b6c;
 }
 
 /* Glassmorphism card for testimonials and similar UI */

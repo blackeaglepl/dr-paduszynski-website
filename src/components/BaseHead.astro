@@ -1,5 +1,5 @@
 ---
-import { getHreflangAlternates } from '../utils/i18n';
+import { getHreflangAlternates, getLocaleFromUrl, type Locale } from '../utils/i18n';
 
 export interface Props {
   title?: string;
@@ -12,6 +12,8 @@ export interface Props {
   robots?: string;
 }
 
+const currentLocale = getLocaleFromUrl(Astro.url) as Locale;
+
 // Destrukturyzacja props z domyślnymi wartościami dla meta tagów
 const { 
   title = 'dr Jarema Paduszyński – Osteopata Kraków | Profesjonalna Terapia Manualna',
@@ -21,7 +23,7 @@ const {
   keywords = 'osteopata Kraków, fizjoterapeuta Kraków, terapia manualna, osteopatia, gabinet osteopatii, dr Jarema Paduszyński, fizjoterapia',
   author = 'Dr Jarema Paduszyński',
   canonical = Astro.url.href,
-  robots = 'index, follow'
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 } = Astro.props as Props;
 
 // Generuj URL dla obrazka
@@ -39,7 +41,7 @@ const hreflangAlternates = getHreflangAlternates(Astro.url, Astro.site);
 <meta name="keywords" content={keywords} />
 <meta name="author" content={author} />
 <meta name="robots" content={robots} />
-<meta name="language" content="pl" />
+<meta name="language" content={currentLocale} />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonical} />
@@ -51,6 +53,9 @@ const hreflangAlternates = getHreflangAlternates(Astro.url, Astro.site);
 
 <!-- Sitemap dla Search Console -->
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
+
+<!-- Standard llms.txt dla agentów AI i modeli językowych (llmstxt.org) -->
+<link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -72,8 +77,8 @@ const hreflangAlternates = getHreflangAlternates(Astro.url, Astro.site);
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content="dr Jarema Paduszyński - Osteopata" />
-<meta property="og:locale" content="pl_PL" />
-<meta property="og:locale:alternate" content="en_US" />
+<meta property="og:locale" content={currentLocale === 'en' ? 'en_US' : 'pl_PL'} />
+<meta property="og:locale:alternate" content={currentLocale === 'en' ? 'pl_PL' : 'en_US'} />
 
 <!-- WhatsApp specific meta tags -->
 <meta property="og:rich_attachment" content="true" />
@@ -102,10 +107,6 @@ const hreflangAlternates = getHreflangAlternates(Astro.url, Astro.site);
 <!-- Basic Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 
-<!-- Preconnect for Performance -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
-
+<!-- Preload lokalnych czcionek (self-hosted WOFF2) dla eliminacji blokowania renderowania -->
+<link rel="preload" href="/fonts/quicksand-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />

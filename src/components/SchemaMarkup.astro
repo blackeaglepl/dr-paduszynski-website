@@ -5,23 +5,29 @@
 interface Props {
   schemaType: 'home' | 'pricing' | 'contact' | 'blog' | 'custom';
   customSchema?: any;
+  title?: string;
 }
 
-const { schemaType, customSchema } = Astro.props;
+const { schemaType, customSchema, title } = Astro.props;
 
 // Importy schema
 import { 
   generateHomePageSchema,
   generatePricingPageSchema, 
-  generateContactPageSchema
+  generateContactPageSchema,
+  organizationSchema,
+  drPaduszynskiSchema
 } from '../schemas/index';
 
 let schemaData: any = {};
+const siteOrigin = (Astro.site ? Astro.site.toString() : 'https://osteopatia-paduszynski.pl').replace(/\/$/, '');
+const pathname = Astro.url.pathname;
+const isEn = pathname === '/en' || pathname.startsWith('/en/');
 
 // Wybór odpowiedniego schema na podstawie typu strony
 switch (schemaType) {
   case 'home':
-    schemaData = generateHomePageSchema();
+    schemaData = generateHomePageSchema(isEn ? 'en' : 'pl');
     break;
   case 'pricing':
     schemaData = generatePricingPageSchema();
@@ -30,15 +36,104 @@ switch (schemaType) {
     schemaData = generateContactPageSchema();
     break;
   case 'custom':
-    schemaData = customSchema || {};
+    schemaData = {
+      organization: organizationSchema,
+      person: drPaduszynskiSchema,
+      ...(customSchema || {})
+    };
     break;
   default:
     // Domyślne schema dla pozostałych stron
     schemaData = {
-      organization: (await import('../schemas/organization')).organizationSchema,
-      person: (await import('../schemas/person')).drPaduszynskiSchema
+      organization: organizationSchema,
+      person: drPaduszynskiSchema
     };
 }
+
+// Generowanie BreadcrumbList na podstawie bieżącej ścieżki URL
+const breadcrumbItems: Array<{ "@type": "ListItem"; position: number; name: string; item: string }> = [
+  {
+    "@type": "ListItem",
+    position: 1,
+    name: isEn ? "Home" : "Strona główna",
+    item: isEn ? `${siteOrigin}/en/` : `${siteOrigin}/`
+  }
+];
+
+if (isEn) {
+  if (pathname.startsWith('/en/cennik')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Pricing and services",
+      item: `${siteOrigin}/en/cennik/`
+    });
+  } else if (pathname.startsWith('/en/kontakt')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+      item: `${siteOrigin}/en/kontakt/`
+    });
+  } else if (pathname.startsWith('/en/privacy-policy')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Privacy Policy",
+      item: `${siteOrigin}/en/privacy-policy/`
+    });
+  }
+} else {
+  if (pathname.startsWith('/cennik')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Cennik i usługi",
+      item: `${siteOrigin}/cennik/`
+    });
+  } else if (pathname.startsWith('/kontakt')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Kontakt",
+      item: `${siteOrigin}/kontakt/`
+    });
+  } else if (pathname.startsWith('/polityka-prywatnosci')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Polityka prywatności",
+      item: `${siteOrigin}/polityka-prywatnosci/`
+    });
+  } else if (pathname === '/blog' || pathname === '/blog/') {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: `${siteOrigin}/blog/`
+    });
+  } else if (pathname.startsWith('/blog/')) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: `${siteOrigin}/blog/`
+    });
+    const cleanTitle = (title || 'Artykuł').replace(/\s*[–-]\s*Blog o Osteopatii.*$/i, '');
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 3,
+      name: cleanTitle,
+      item: `${siteOrigin}${pathname.endsWith('/') ? pathname : `${pathname}/`}`
+    });
+  }
+}
+
+schemaData.breadcrumbs = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems
+};
 
 // Funkcja do bezpiecznego stringifikowania JSON
 function safeStringify(obj: any): string {
@@ -56,9 +151,7 @@ function safeStringify(obj: any): string {
   <script type="application/ld+json" set:html={safeStringify(schema)} />
 ))}
 
-<!-- Dodatkowe meta tagi dla SEO medycznego -->
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-<meta name="author" content="Dr Jarema Paduszyński" />
+<!-- Dodatkowe meta tagi dla SEO medycznego (robots i author emitowane przez BaseHead.astro) -->
 <meta name="geo.region" content="PL-MA" />
 <meta name="geo.placename" content="Kraków" />
 <meta name="geo.position" content="50.00768529121014;19.93402742451952" />

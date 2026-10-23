@@ -4,6 +4,7 @@
 // Wymagania: 3 przyciski po prawej przewijane jak karuzela, logo w lewym górnym rogu, stałe tło,
 // półprzezroczysty kontener z rozmyciem (backdrop-filter: blur(30px)) i zaokrągleniem 56px.
 
+import { Image } from 'astro:assets';
 import logo from '../assets/logo_osteopatia.svg';
 import placeholderBg from '../assets/tlo1.jpg';
 import { getServicesList, type ServiceItem } from '../utils/services';
@@ -24,12 +25,14 @@ const translations = {
   pl: {
     ctaLabel: 'Zapisz się',
     logoAlt: 'Logo Dr Jarema Paduszyński Osteopata',
-    defaultServiceName: 'Zabieg'
+    defaultServiceName: 'Zabieg',
+    carouselAriaLabel: 'Karuzela wyboru zabiegu'
   },
   en: {
     ctaLabel: 'Book appointment',
     logoAlt: 'Dr Jarema Paduszyński Osteopath Logo',
-    defaultServiceName: 'Treatment'
+    defaultServiceName: 'Treatment',
+    carouselAriaLabel: 'Treatment selection carousel'
   }
 } as const;
 
@@ -50,12 +53,30 @@ const servicesClient = services;
 <section class="py-10 md:pt-16 md:pb-28" data-animate="fade-up">
   <div class="container mx-auto px-4 md:px-6 max-w-6xl">
     <div class="relative overflow-hidden rounded-[72px] min-h-[760px] md:min-h-[680px]">
-      <!-- Tło: stały obraz -->
-      <div
-        class="absolute inset-0 bg-cover bg-center"
-        style={`background-image: url(${bgImageSrc ?? placeholderBg.src});`}
-        aria-hidden="true"
-      ></div>
+      <!-- Tło: zoptymalizowany obraz WebP ładowany leniwie -->
+      {bgImageSrc ? (
+        <img
+          src={bgImageSrc}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-center rounded-none pointer-events-none select-none"
+        />
+      ) : (
+        <Image
+          src={placeholderBg}
+          alt=""
+          aria-hidden="true"
+          widths={[480, 768, 1152]}
+          sizes="(max-width: 768px) calc(100vw - 32px), 1152px"
+          format="webp"
+          quality={60}
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-center rounded-none pointer-events-none select-none"
+        />
+      )}
 
       <!-- Półprzezroczysty, rozmyty panel główny -->
       <div
@@ -69,7 +90,13 @@ const servicesClient = services;
           <!-- Lewa kolumna: logo + tytuł + opis + cena + CTA -->
           <div class="md:col-span-3 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
             <div class="flex items-center gap-3 mb-6">
-              <img src={logo.src} alt={content.logoAlt} class="h-10 md:h-12" />
+              <img
+                src={logo.src}
+                width={logo.width}
+                height={logo.height}
+                alt={content.logoAlt}
+                class="h-10 md:h-12 w-auto rounded-none"
+              />
             </div>
 
             <h2 class="font-heading text-h2-mobile md:text-h2-desktop text-white tracking-tight js-title text-center md:text-left">
@@ -93,7 +120,13 @@ const servicesClient = services;
 
           <!-- Prawa kolumna: karuzela 3 przycisków wyboru -->
           <div class="md:col-span-2 flex flex-col h-full pb-6 md:pb-8 lg:pb-10">
-            <div id="service-carousel" class="relative w-full flex-1" aria-roledescription="carousel">
+            <div
+              id="service-carousel"
+              class="relative w-full flex-1"
+              role="region"
+              aria-roledescription="carousel"
+              aria-label={content.carouselAriaLabel}
+            >
               <!-- Tor slajdów (każdy zawiera 3 przyciski) - stała wysokość -->
               <div class="overflow-hidden h-[252px] md:h-[300px]">
                 <div class="transition-transform duration-500 ease-out will-change-transform js-track h-full">
@@ -198,8 +231,6 @@ const servicesClient = services;
       const slides = document.querySelectorAll('.treatment-slide');
       const dots = document.querySelectorAll('.dot-btn');
       const progressBars = document.querySelectorAll('.progress-btn');
-      
-      console.log('TreatmentSelector init:', { slides: slides.length, dots: dots.length, progressBars: progressBars.length });
       
       // Funkcja przełączania slajdów
       /** @param {number} slideIndex */
@@ -374,5 +405,3 @@ const servicesClient = services;
     }
   </style>
 </section>
-
-

@@ -1,34 +1,18 @@
-// Review Schema dla opinii pacjentów z integracji ZnanyLekarz
-// Zgodne z Schema.org Review i AggregateRating
+// Review Schema dla opinii pacjentów z integracji ZnanyLekarz i Google
+// Zgodne z Schema.org Review i AggregateRating – zsynchronizowane z TestimonialsSection.astro
 
 import type { Review, AggregateRating, Person, Organization } from './types';
 
-// Przykładowe opinie pacjentów (będą pobierane z ZnanyLekarz API)
+const reviewedClinic: Organization = {
+  "@type": "MedicalOrganization",
+  "@id": "#gabinet-osteopatii",
+  "name": "Klinika Osteopatii Dr Jarema Paduszyński"
+};
+
+// Autentyczne opinie pacjentów wyświetlane w sekcji TestimonialsSection.astro
 export const patientReviews: Review[] = [
   {
     "@context": "https://schema.org",
-    "@type": "Review", 
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": 5,
-      "bestRating": 5,
-      "worstRating": 1
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Anna K."
-    },
-    "datePublished": "2024-07-15",
-    "reviewBody": "Fantastyczny osteopata! Dr Paduszyński szybko zdiagnozował przyczynę moich bólów kręgosłupa i dzięki jego terapii mogę znowu normalnie funkcjonować. Profesjonalizm na najwyższym poziomie.",
-    // Poprawka: itemReviewed jako Organization z wymaganym polem name
-    "itemReviewed": {
-      "@type": "Organization",
-      "@id": "#Klinika-osteopatii",
-      "name": "Klinika Osteopatii dr Jarema Paduszyński"
-    }
-  },
-  {
-    "@context": "https://schema.org", 
     "@type": "Review",
     "reviewRating": {
       "@type": "Rating",
@@ -38,58 +22,11 @@ export const patientReviews: Review[] = [
     },
     "author": {
       "@type": "Person",
-      "name": "Marcin W."
+      "name": "Rodzice niemowlęcia"
     },
-    "datePublished": "2024-06-28",
-    "reviewBody": "Po latach problemów z dyskiem, w końcu trafiłem do prawdziwego fachowca. Dr Paduszyński nie tylko pomógł mi pozbyć się bólu, ale także nauczył jak dbać o kręgosłup na co dzień.",
-    "itemReviewed": {
-      "@type": "Organization",
-      "@id": "#klinika-osteopatii",
-      "name": "Klinika Osteopatii dr Jarema Paduszyński"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": 5,
-      "bestRating": 5, 
-      "worstRating": 1
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Katarzyna M."
-    },
-    "datePublished": "2024-08-03",
-    "reviewBody": "Serdecznie polecam! Doktor bardzo dokładnie zbadał przyczynę moich bólów głowy i dzięki osteopatii kranialnej problem się rozwiązał. Miła atmosfera w gabinecie.",
-    // Poprawka: itemReviewed jako Organization z wymaganym polem name
-    "itemReviewed": {
-      "@type": "Organization",
-      "@id": "#klinika-osteopatii",
-      "name": "Klinika Osteopatii dr Jarema Paduszyński"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "reviewRating": {
-      "@type": "Rating", 
-      "ratingValue": 4,
-      "bestRating": 5,
-      "worstRating": 1
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Tomasz R."
-    },
-    "datePublished": "2024-05-12",
-    "reviewBody": "Bardzo kompetentny osteopata. Pomógł mi wrócić do formy po kontuzji sportowej. Jedynym minusem są terminy - czasem trzeba trochę poczekać, ale warto.",
-    "itemReviewed": {
-      "@type": "Organization",
-      "@id": "#klinika-osteopatii",
-      "name": "Klinika Osteopatii dr Jarema Paduszyński"
-    }
+    "datePublished": "2025-02-25",
+    "reviewBody": "Pan doktor Jarema pomógł naszemu synkowi (niemowlakowi). Na każdej wizycie otrzymywaliśmy szczegółowe wyjaśnienia dotyczące problemów oraz zakresu działań. Wizyty przebiegały w przyjaznej atmosferze dla naszego maleństwa. Efekty pracy Pana Doktora są widoczne gołym okiem. Szczerze polecam.",
+    "itemReviewed": reviewedClinic
   },
   {
     "@context": "https://schema.org",
@@ -102,23 +39,87 @@ export const patientReviews: Review[] = [
     },
     "author": {
       "@type": "Person",
-      "name": "Ewa S."
+      "name": "Pacjentka"
     },
-    "datePublished": "2024-07-22",
-    "reviewBody": "Rewelacyjne podejście do pacjenta! Dr Paduszyński poświęca dużo czasu na wyjaśnienie problemu i jest bardzo cierpliwy. Polecam każdemu, kto szuka prawdziwego specjalisty.",
-    "itemReviewed": {
-      "@type": "MedicalOrganization",
-      "@id": "#gabinet-osteopatii",
-      "name": "Klinika Osteopatii dr Jarema Paduszyński"
-    }
+    "datePublished": "2025-02-22",
+    "reviewBody": "Miałam przyjemność skorzystać z usług Pana Jaremy i jestem pod ogromnym wrażeniem jego profesjonalizmu oraz wiedzy. Już po pierwszej wizycie zauważyłam znaczną poprawę – szumy w uchu oraz bóle głowy ustąpiły. Odbyłam także terapię wisceralną. Podejście niezwykle empatyczne – czułam się w pełni zaopiekowana. Gorąco polecam.",
+    "itemReviewed": reviewedClinic
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": 5,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Gabriela"
+    },
+    "datePublished": "2024-12-28",
+    "reviewBody": "Jestem bardzo wdzięczna za wizytę u Doktora Jaremy. Doktor bardzo profesjonalnie podszedł do wizyt, poświęcił należytą ilość czasu, żeby przeanalizować mój problem, dociec jego przyczyny i go wyleczyć. Terapia stawów skroniowo-żuchwowych została wykonana bardzo dokładnie przy holistycznym podejściu, doktor posiada obszerną wiedzę i praktyczne umiejętności leczenia. Po 2 wizytach wychodzę z wielką ulgą po bólu i dawką wiedzy jak o to jakże cenne zdrowie na codzień dbać i takim bólom zapobiegać.",
+    "itemReviewed": reviewedClinic
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": 5,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Agnieszka"
+    },
+    "datePublished": "2025-02-18",
+    "reviewBody": "Serdecznie polecam Pana Doktora. Z dużym zaangażowaniem podchodzi do pacjenta, wszystko szczegółowo wyjaśnia. Po wizycie ból minął.",
+    "itemReviewed": reviewedClinic
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": 5,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Anna"
+    },
+    "datePublished": "2024-11-19",
+    "reviewBody": "Pan Jarema to bardzo empatyczny człowiek z ogromnym doświadczeniem i świetnym podejściem do dzieci. Wszystko nam objaśnił i odpowiadał na każde pytanie. Córeczka była zachwycona. Bardzo polecam.",
+    "itemReviewed": reviewedClinic
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": 5,
+      "bestRating": 5,
+      "worstRating": 1
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Małgorzata"
+    },
+    "datePublished": "2024-10-23",
+    "reviewBody": "Gorąco polecam – trzy wizyty wystarczyły, aby bóle, z którymi borykałam się od lat i po wielu konsultacjach, ustąpiły.",
+    "itemReviewed": reviewedClinic
   }
 ];
 
-// Zagregowana ocena na podstawie opinii
+// Zagregowana ocena (150+ pozytywnych opinii pacjentów na ZnanyLekarz i Google)
 export const aggregateRating: AggregateRating = {
   "@type": "AggregateRating",
-  "ratingValue": 4.8,
-  "reviewCount": 127,
+  "ratingValue": 5.0,
+  "reviewCount": 150,
   "bestRating": 5,
   "worstRating": 1
 };
@@ -127,53 +128,38 @@ export const aggregateRating: AggregateRating = {
 export const organizationWithReviews: Organization = {
   "@context": "https://schema.org",
   "@type": "MedicalOrganization",
-  "@id": "#gabinet-osteopatii-with-reviews",
-  
+  "@id": "#gabinet-osteopatii",
+
   "name": "Klinika Osteopatii Dr Jarema Paduszyński",
   "url": "https://osteopatia-paduszynski.pl",
-  // UWAGA: Właściwość "aggregateRating" nie jest oficjalnie wspierana przez typ Organization w Schema.org,
-  // ale Google ją akceptuje dla MedicalOrganization w kontekście opinii lokalnych.
-  // Dodajemy ją celowo dla SEO lokalnego (rich snippets).
   "aggregateRating": aggregateRating,
 
-  // Link do profilu ZnanyLekarz
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow",
+    "https://g.page/r/CeL4hiVNs-NdEBM/review"
   ]
 };
 
 // Schema dla osoby z opiniami
 export const personWithReviews: Person = {
-  "@context": "https://schema.org", 
+  "@context": "https://schema.org",
   "@type": "Person",
-  "@id": "#jarema-paduszynski-with-reviews",
-  
-  "name": "Dr Jarema Paduszyński",
+  "@id": "#jarema-paduszynski",
+
+  "name": "dr Jarema Paduszyński",
   "jobTitle": ["Osteopata", "Fizjoterapeuta"],
   "url": "https://osteopatia-paduszynski.pl",
-  
-  // Zagregowana ocena
-  //"aggregateRating": aggregateRating, // Niektóre crawlery mogą nie wspierać AggregateRating dla Person
-  
-  // Link do profilu ZnanyLekarz
+
   "sameAs": [
-    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow"
+    "https://www.znanylekarz.pl/jarema-paduszynski/osteopata-fizjoterapeuta/krakow",
+    "https://g.page/r/CeL4hiVNs-NdEBM/review"
   ]
 };
 
-// Funkcja do dynamicznego ładowania opinii z ZnanyLekarz API
 export async function fetchZnanyLekarzReviews(): Promise<Review[]> {
-  try {
-    // Implementacja będzie dodana po uzyskaniu dostępu do API ZnanyLekarz
-    // Na razie zwracamy statyczne opinie
-    return patientReviews;
-  } catch (error) {
-    console.error('Błąd podczas pobierania opinii z ZnanyLekarz:', error);
-    return patientReviews; // Fallback do statycznych opinii
-  }
+  return patientReviews;
 }
 
-// Funkcja do obliczania zagregowanej oceny
 export function calculateAggregateRating(reviews: Review[]): AggregateRating {
   if (reviews.length === 0) {
     return {
@@ -185,16 +171,13 @@ export function calculateAggregateRating(reviews: Review[]): AggregateRating {
     };
   }
 
-  const totalRating = reviews.reduce((sum, review) => {
-    return sum + review.reviewRating.ratingValue;
-  }, 0);
-
+  const totalRating = reviews.reduce((sum, review) => sum + review.reviewRating.ratingValue, 0);
   const averageRating = Math.round((totalRating / reviews.length) * 10) / 10;
 
   return {
     "@type": "AggregateRating",
     "ratingValue": averageRating,
-    "reviewCount": reviews.length, 
+    "reviewCount": reviews.length,
     "bestRating": 5,
     "worstRating": 1
   };

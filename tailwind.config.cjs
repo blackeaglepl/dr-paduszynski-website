@@ -48,7 +48,7 @@ module.exports = {
         'medical-white': '#FFFFFF', // Tło główne
         'medical-cream': '#FFFAF5', // Elementy wypukłe
         'medical-text': '#243648', // Tekst główny
-        'medical-text-light': '#7F8C8D', // Tekst pomocniczy
+        'medical-text-light': '#5A6B6C', // Tekst pomocniczy (przyciemniony pod WCAG AA >= 4.5:1)
       },
       fontFamily: {
         heading: ['Quicksand', 'sans-serif'],
@@ -80,15 +80,15 @@ module.exports = {
           css: {
             '--tw-prose-body': '#243648',
             '--tw-prose-headings': '#243648',
-            '--tw-prose-lead': '#7F8C8D',
+            '--tw-prose-lead': '#5A6B6C',
             '--tw-prose-links': '#4ECDC4',
             '--tw-prose-bold': '#243648',
             '--tw-prose-counters': '#4ECDC4',
             '--tw-prose-bullets': '#4ECDC4',
             '--tw-prose-hr': '#E8F8F5',
-            '--tw-prose-quotes': '#7F8C8D',
+            '--tw-prose-quotes': '#5A6B6C',
             '--tw-prose-quote-borders': '#4ECDC4',
-            '--tw-prose-captions': '#7F8C8D',
+            '--tw-prose-captions': '#5A6B6C',
             '--tw-prose-code': '#243648',
             '--tw-prose-pre-code': '#243648',
             '--tw-prose-pre-bg': '#E8F8F5',
@@ -174,7 +174,7 @@ module.exports = {
               marginTop: '2rem',
               marginBottom: '2rem',
               fontSize: '1.125rem',
-              color: '#7F8C8D',
+              color: '#5A6B6C',
               backgroundColor: '#E8F8F5',
               padding: '1.5rem',
               borderRadius: '0.5rem',
@@ -220,7 +220,7 @@ module.exports = {
             // Emphasis
             em: {
               fontStyle: 'italic',
-              color: '#7F8C8D',
+              color: '#5A6B6C',
             },
           },
         },
